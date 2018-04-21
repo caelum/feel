@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="/css/reset.css ">
+    <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css ">
+</head>
+<body>
+<main class="main">
+    <article class="content-area bg-light shadow rounded">
+
+        <h3>Feedback Caelum</h3>
+
+
+        <p>
+            Olá! <br><br>
+
+            Começamos agora nossa segunda rodada de ciclo de feedback!
+            (primeira para o Rio, sejam bem vindos! :D) <br><br>
+
+
+            Segue o mesmo esquema: 6 perguntas, 1 por semana e depois divulgamos os resultados.
+            Por favor, não deixem de responder! (carinha do gatinho do Shrek aqui)
+            As respostas são anônimas, então sintam-se livres para dizer o que pensam.
+        </p>
+
+        <form>
+            <div class="form-group">
+                <label class="font-weight-bold" for="time">Em que time da caelum você trabalha?</label>
+                <select id="time" class="form-control" name="time" required>
+                    <option selected disabled>Escolha um time...</option>
+                    <option value="DEV">Dev</option>
+                    <option value="ALURA">Alura</option>
+                </select>
+            </div>
+
+            <hr/>
+
+            <p class="bg-secondary text-light p-2 rounded font-weight-bold">
+                O quanto você concorda com a afirmação abaixo?
+            </p>
+
+            <p class="font-weight-bold">
+                Eu sinto que nos últimos 30 dias tive tempo suficiente para desempenhar as minhas tarefas
+            </p>
+
+            <div class="row d-flex justify-content-center">
+
+                <div class="col-md-2">
+                    <p class="text-center">Nunca tenho tempo suficiente</p>
+                </div>
+                <div class="col-md-4 d-flex flex-row justify-content-between">
+
+                    <div class="flex-column">
+                        <label class="form-check-label px-1" for="value_1">1</label>
+                        <input id="value_1" type="radio" name="answer" class="form-check-input m-0" required/>
+                    </div>
+                    <div class="flex-column">
+                        <label class="form-check-label px-1" for="value_2">2</label>
+                        <input id="value_2" type="radio" name="answer" class="form-check-input m-0" required/>
+                    </div>
+                    <div class="flex-column">
+                        <label class="form-check-label px-1" for="value_3">3</label>
+                        <input id="value_3" type="radio" name="answer" class="form-check-input m-0" required/>
+                    </div>
+                    <div class="flex-column">
+                        <label class="form-check-label px-1" for="value_4">4</label>
+                        <input id="value_4" type="radio" name="answer" class="form-check-input m-0" required/>
+                    </div>
+                    <div class="flex-column">
+                        <label class="form-check-label px-1" for="value_5">5</label>
+                        <input id="value_5" type="radio" name="answer" class="form-check-input m-0" required/>
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <p class="text-center">Sempre tenho tempo suficiente</p>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="form-group">
+                <label class="font-weight-bold">Deixe um complemento ou comentário caso ache necessário</label>
+                <input type="text" class="form-control" placeholder="Sua resposta">
+            </div>
+            <hr/>
+
+            <div class="form-group">
+                <button class="btn-info btn-lg btn-block rounded">Enviar</button>
+            </div>
+        </form>
+    </article>
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.content-area {
+    width: 50%;
+    padding: 2em;
+    margin-top: 1em;
+    background-color: white;
+}
+
+.rounded{
+    border-radius: 10px;
+}
+
+
+.shadow {
+    box-shadow: 0 3px 15px gray;
+}
+
+input[type='radio'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 100%;
+    border: 2px solid #bbbbbb;
+    display: inline-flex;
+    width: 1.2em;
+    height: 1.2em;
+
+    transition: background-color 300ms ease-out;
+}
+
+input[type='radio']:checked{
+    background-color: #17a2b8;
+}
