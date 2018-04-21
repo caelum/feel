@@ -1,4 +1,4 @@
-package br.com.caelum.feel.feedback.controllers;
+package br.com.caelum.feel.feedback.controllers.questions;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +12,6 @@ public class QuestionsController {
 
     @GetMapping("new")
     public String form(){
-        return "feedback/form";
+        return "questions/form";
     }
 }
