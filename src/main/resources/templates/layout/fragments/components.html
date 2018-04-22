@@ -1,0 +1,23 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="pagination" class="d-flex flex-row justify-content-center my-2">
+
+    <div class="rounded px-2" th:classappend="${currentPage == page.number? 'shadow': ''}" th:each="currentPage : ${#numbers.sequence(0, page.totalPages - 1)}">
+        <a class="text-info"
+           th:href="${baseURL + '?page=' + currentPage}"
+           th:text="${currentPage + 1}">1</a>
+    </div>
+
+</div>
+
+
+<!--Success component-->
+<div th:fragment="sucess" th:if="${#request.getAttribute(attribute) != null}"
+     class="alert alert-success alert-dismissible fade show">
+
+    <span th:text="${#request.getAttribute(attribute)}">Success</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>
