@@ -28,15 +28,24 @@ public class AdminCompanyTeamsController {
     }
 
 
-    @GetMapping(value = {"", "{optionalId}"})
-    public ModelAndView form(@PathVariable Optional<Long> optionalId, Optional<Integer> page, TeamForm form){
+    @GetMapping
+    public ModelAndView list(Optional<Integer> page){
         var view = new ModelAndView("admin/company-teams/list");
         var pageRequest = PageRequest.of(page.orElse(0), 5);
+
+        view.addObject("teams", teams.findAll(pageRequest));
+
+        return view;
+
+    }
+
+    @GetMapping(value = {"new", "{optionalId}"})
+    public ModelAndView form(@PathVariable Optional<Long> optionalId, TeamForm form){
+        var view = new ModelAndView("admin/company-teams/form");
 
         optionalId.flatMap(teams::findById).ifPresent(form::fillFrom);
 
         view.addObject("teamForm", form);
-        view.addObject("teams", teams.findAll(pageRequest));
 
         return view;
     }
@@ -47,12 +56,12 @@ public class AdminCompanyTeamsController {
         var view = new ModelAndView("redirect:/admin/company-teams");
 
         if (result.hasErrors()) {
-            return form(empty(), empty(), form);
+            return form(empty(), form);
         }
 
         teams.save(form.toEntity());
 
-        redirect.addFlashAttribute("msg", "Time salvo com sucesso!");
+        redirect.addFlashAttribute("msg", String.format("Time %s salvo com sucesso!", form.getName()));
 
         return view;
     }
