@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Teams</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <form th:action="@{/admin/company-teams}" th:object="${teamForm}" method="post">
+        <div class="d-flex flex-row my-2">
+            <input id="team-name" class="form-control" placeholder="Nome do Time" th:field="*{name}" th:errorclass="is-invalid">
+            <button class="btn btn-info mx-3 px-5">Salvar</button>
+        </div>
+        <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+        <div th:replace="layout/fragments/components :: sucess(attribute='msg')">
+            Success
+        </div>
+
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+        <th>Nome</th>
+        <th class="text-center">Ações</th>
+        </thead>
+        <tbody>
+        <tr th:each="team : ${teams}" th:id="'team_' + ${team.id}">
+            <td class="col-md-5" th:text="${team.name}">
+                Nome
+            </td>
+            <td class="d-flex flex-row justify-content-around">
+                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/company-teams/{id}(id=${team.id})}"/>
+                <a class="text-danger far fa-trash-alt" th:onclick="'remove('+${team.id}+')'" href="#"/>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <div th:replace="~{layout/fragments/components :: pagination(baseURL=@{/admin/company-teams},page=${teams})}">
+        Pagination
+    </div>
+
+</section>
+
+<script layout:fragment="scripts">
+    function remove(id){
+        let url = "/admin/company-teams/" + id;
+
+        fetch(url, {'method': 'DELETE'})
+            .then( response => {
+                if (response.ok){
+                    $("#team_" + id).remove();
+                }
+            });
+    }
+</script>
+</body>
+</html>
