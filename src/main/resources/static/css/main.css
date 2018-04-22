@@ -1,6 +1,56 @@
 .main {
     display: flex;
     justify-content: center;
+    box-sizing: content-box;
+}
+
+.header {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    background-color: #f8f9fa;
+    box-sizing: content-box;
+}
+
+.nav-area {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.nav-links {
+    display: flex;
+    list-style-type: none;
+}
+
+
+.nav-item {
+    width: 7em;
+    text-align: center;
+    margin: 1em 1em;
+
+}
+
+.nav-link {
+    border: 1px solid #17a2b8;
+    border-radius: 10px;
+    color: #17a2b8;
+}
+
+
+.nav-link:hover {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.logout {
+    border: 1px solid #f08080;
+    color: #f08080;
+}
+
+.logout:hover {
+    color: white;
+    background-color: #f08080;
 }
 
 .content-area {
@@ -35,3 +85,11 @@ input[type='radio'] {
 input[type='radio']:checked{
     background-color: #17a2b8;
 }
+
+#logo {
+    background-color: transparent;
+    margin: 0;
+    width: 6em;
+    height: 5em;
+}
+
