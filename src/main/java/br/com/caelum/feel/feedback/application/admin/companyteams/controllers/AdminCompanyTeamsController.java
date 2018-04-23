@@ -1,8 +1,8 @@
-package br.com.caelum.feel.feedback.controllers.admin.companyteams;
+package br.com.caelum.feel.feedback.application.admin.companyteams.controllers;
 
+import br.com.caelum.feel.feedback.application.admin.companyteams.forms.TeamForm;
 import br.com.caelum.feel.feedback.domain.companyteams.models.CompanyTeam;
 import br.com.caelum.feel.feedback.domain.companyteams.repositories.Teams;
-import br.com.caelum.feel.feedback.forms.TeamForm;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

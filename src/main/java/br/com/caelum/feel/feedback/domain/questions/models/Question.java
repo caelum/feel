@@ -1,7 +1,7 @@
 package br.com.caelum.feel.feedback.domain.questions.models;
 
+import br.com.caelum.feel.feedback.application.admin.questions.forms.QuestionForm;
 import br.com.caelum.feel.feedback.domain.questions.models.vo.Affirmation;
-import br.com.caelum.feel.feedback.forms.QuestionForm;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;

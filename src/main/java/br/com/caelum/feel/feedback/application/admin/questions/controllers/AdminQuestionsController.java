@@ -1,7 +1,7 @@
-package br.com.caelum.feel.feedback.controllers.admin.questions;
+package br.com.caelum.feel.feedback.application.admin.questions.controllers;
 
+import br.com.caelum.feel.feedback.application.admin.questions.forms.QuestionForm;
 import br.com.caelum.feel.feedback.domain.questions.respositories.Questions;
-import br.com.caelum.feel.feedback.forms.QuestionForm;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

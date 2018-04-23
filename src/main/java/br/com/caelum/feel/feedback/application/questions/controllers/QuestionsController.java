@@ -1,4 +1,4 @@
-package br.com.caelum.feel.feedback.controllers.questions;
+package br.com.caelum.feel.feedback.application.questions.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

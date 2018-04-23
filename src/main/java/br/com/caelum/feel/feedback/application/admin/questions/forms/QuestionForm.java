@@ -1,4 +1,4 @@
-package br.com.caelum.feel.feedback.forms;
+package br.com.caelum.feel.feedback.application.admin.questions.forms;
 
 import br.com.caelum.feel.feedback.domain.questions.models.Question;
 import br.com.caelum.feel.feedback.domain.questions.models.vo.Affirmation;

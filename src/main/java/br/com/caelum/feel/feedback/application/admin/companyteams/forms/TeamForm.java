@@ -1,4 +1,4 @@
-package br.com.caelum.feel.feedback.forms;
+package br.com.caelum.feel.feedback.application.admin.companyteams.forms;
 
 import br.com.caelum.feel.feedback.domain.companyteams.models.CompanyTeam;
 
