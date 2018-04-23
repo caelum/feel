@@ -47,6 +47,6 @@ public class TeamForm {
     }
 
     public CompanyTeam toEntity() {
-        return new CompanyTeam(id, name, totalExpectedPeople);
+        return new CompanyTeam(name, totalExpectedPeople);
     }
 }

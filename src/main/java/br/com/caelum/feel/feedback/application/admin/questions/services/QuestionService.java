@@ -28,9 +28,10 @@ public class QuestionService {
 
         var id = form.getId();
         var optionalQuestion = ofNullable(id).flatMap(questions::findById);
-        var question = optionalQuestion.orElseGet(form::toQuestion);
 
-        question.updateFromForm(form);
+        optionalQuestion.ifPresent(question -> question.updateFromForm(form));
+
+        var question = optionalQuestion.orElseGet(form::toQuestion);
 
         questions.save(question);
 

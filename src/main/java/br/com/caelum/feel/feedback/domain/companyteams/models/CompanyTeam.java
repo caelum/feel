@@ -1,5 +1,6 @@
 package br.com.caelum.feel.feedback.domain.companyteams.models;
 
+import br.com.caelum.feel.feedback.application.admin.companyteams.forms.TeamForm;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -29,12 +30,11 @@ public class CompanyTeam {
     @Deprecated(since = "1.0.0")
     CompanyTeam(){}
 
-    public CompanyTeam(Long id, String name, Integer totalExpectedPeople){
+    public CompanyTeam(String name, Integer totalExpectedPeople){
         Assert.hasText(name, "Name required");
         Assert.notNull(totalExpectedPeople, "Total expected people required");
         Assert.isTrue(totalExpectedPeople > 0, "Total expected people should be positive");
 
-        this.id = id;
         this.name = name;
         this.totalExpectedPeople = totalExpectedPeople;
     }
@@ -62,5 +62,10 @@ public class CompanyTeam {
 
     public Integer getTotalExpectedPeople() {
         return totalExpectedPeople;
+    }
+
+    public void updateFromForm(TeamForm form) {
+        name = form.getName();
+        totalExpectedPeople = form.getTotalExpectedPeople();
     }
 }

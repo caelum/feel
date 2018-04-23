@@ -1,9 +1,8 @@
 package br.com.caelum.feel.feedback.application.admin.companyteams.controllers;
 
 import br.com.caelum.feel.feedback.application.admin.companyteams.forms.TeamForm;
+import br.com.caelum.feel.feedback.application.admin.companyteams.services.SaveTeamService;
 import br.com.caelum.feel.feedback.domain.companyteams.models.CompanyTeam;
-import br.com.caelum.feel.feedback.domain.companyteams.repositories.Teams;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,26 +13,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.Optional;
 
-import static java.util.Optional.*;
+import static java.util.Optional.empty;
 
 @Controller
 @RequestMapping("admin/company-teams")
 public class AdminCompanyTeamsController {
 
 
-    private final Teams teams;
+    private final SaveTeamService service;
 
-    public AdminCompanyTeamsController(Teams teams) {
-        this.teams = teams;
+    public AdminCompanyTeamsController(SaveTeamService service) {
+        this.service = service;
     }
 
 
     @GetMapping
     public ModelAndView list(Optional<Integer> page){
         var view = new ModelAndView("admin/company-teams/list");
-        var pageRequest = PageRequest.of(page.orElse(0), 5);
+        var currentPage = page.orElse(0);
 
-        view.addObject("teams", teams.findAll(pageRequest));
+        view.addObject("teams", service.getAllPaged(currentPage));
 
         return view;
 
@@ -43,7 +42,7 @@ public class AdminCompanyTeamsController {
     public ModelAndView form(@PathVariable Optional<Long> optionalId, TeamForm form){
         var view = new ModelAndView("admin/company-teams/form");
 
-        optionalId.flatMap(teams::findById).ifPresent(form::fillFrom);
+        service.fillFormOnlyWhenIdIsPresent(optionalId, form);
 
         view.addObject("teamForm", form);
 
@@ -59,7 +58,7 @@ public class AdminCompanyTeamsController {
             return form(empty(), form);
         }
 
-        teams.save(form.toEntity());
+        service.saveByForm(form);
 
         redirect.addFlashAttribute("msg", String.format("Time %s salvo com sucesso!", form.getName()));
 
@@ -70,10 +69,7 @@ public class AdminCompanyTeamsController {
     @DeleteMapping("{id}")
     @ResponseBody
     public ResponseEntity<CompanyTeam> delete(@PathVariable Long id){
-        var team = teams.findById(id);
-
-        team.ifPresent(teams::delete);
-
-        return team.map(ResponseEntity.accepted()::body).orElseGet(ResponseEntity.noContent()::build);
+        var removedTeam = service.removeById(id);
+        return removedTeam.map(ResponseEntity.accepted()::body).orElseGet(ResponseEntity.noContent()::build);
     }
 }
