@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static java.util.Optional.ofNullable;
 
 @Service
@@ -19,19 +21,34 @@ public class QuestionService {
     }
 
     public Page<Question> getAllPaged(Integer currentPage) {
-        return questions.findAll(PageRequest.of(currentPage, 10));
+        return questions.findAll(PageRequest.of(currentPage, 5));
     }
 
     public void saveBy(QuestionForm form) {
 
         var id = form.getId();
         var optionalQuestion = ofNullable(id).flatMap(questions::findById);
-
-        optionalQuestion.ifPresent(question -> question.updateFromForm(form));
-
         var question = optionalQuestion.orElseGet(form::toQuestion);
 
+        question.updateFromForm(form);
+
         questions.save(question);
+
+    }
+
+    public void fillFormOnlyWhenIdIsPresent(Optional<Long> optionalId, QuestionForm form) {
+        optionalId
+                .flatMap(questions::findById)
+                    .ifPresent(form::fromQuestion);
+    }
+
+    public Optional<Question> removeById(Long id) {
+
+        var question = questions.findById(id);
+
+        question.ifPresent(questions::delete);
+
+        return question;
 
     }
 }

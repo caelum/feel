@@ -2,16 +2,19 @@ package br.com.caelum.feel.feedback.application.admin.questions.controllers;
 
 import br.com.caelum.feel.feedback.application.admin.questions.forms.QuestionForm;
 import br.com.caelum.feel.feedback.application.admin.questions.services.QuestionService;
+import br.com.caelum.feel.feedback.domain.companyteams.models.CompanyTeam;
+import br.com.caelum.feel.feedback.domain.questions.models.Question;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static java.util.Optional.*;
 
 @Controller
 @RequestMapping("admin/questions")
@@ -34,9 +37,11 @@ public class AdminQuestionsController {
         return view;
     }
 
-    @GetMapping("new")
-    public ModelAndView form(QuestionForm form){
+    @GetMapping({"new", "{optionalId}"})
+    public ModelAndView form(@PathVariable Optional<Long> optionalId, QuestionForm form){
         var view = new ModelAndView("admin/questions/form");
+
+        service.fillFormOnlyWhenIdIsPresent(optionalId, form);
 
         view.addObject("questionForm", form);
 
@@ -48,7 +53,7 @@ public class AdminQuestionsController {
     public ModelAndView save(@Valid QuestionForm form, BindingResult result, RedirectAttributes redirect){
 
         if (result.hasErrors()){
-            return form(form);
+            return form(empty(),form);
         }
 
         service.saveBy(form);
@@ -57,5 +62,15 @@ public class AdminQuestionsController {
 
         return new ModelAndView("redirect:/admin/questions");
 
+    }
+
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public ResponseEntity<Question> delete(@PathVariable Long id){
+
+        var removedQuestion = service.removeById(id);
+
+        return removedQuestion.map(ResponseEntity.accepted()::body).orElseGet(ResponseEntity.noContent()::build);
     }
 }

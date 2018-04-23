@@ -8,28 +8,31 @@
 <body>
 <section layout:fragment="content">
     <form th:action="@{/admin/questions}" th:object="${questionForm}" method="post">
+
+        <input th:if="${questionForm.id != null}" type="hidden" th:field="*{id}">
+
         <div class="form-group">
-            <textarea class="form-control" th:field="*{explanation}" placeholder="Texto explicativo sobre o formato" rows="5"></textarea>
+            <textarea th:errorclass="is-invalid" class="form-control" th:field="*{explanation}" placeholder="Texto explicativo sobre o formato" rows="5"></textarea>
             <span class="text-danger" th:if="${#fields.hasErrors('explanation')}" th:errors="*{explanation}"></span>
         </div>
 
         <div class="form-group">
-            <input class="form-control" th:field="*{statement}" placeholder="Afirmação em questão" type="text">
+            <input th:errorclass="is-invalid" class="form-control" th:field="*{statement}" placeholder="Afirmação em questão" type="text">
             <span class="text-danger" th:if="${#fields.hasErrors('statement')}" th:errors="*{statement}"></span>
         </div>
 
         <div class="form-group">
-            <input class="form-control" th:field="*{descriptionOfLowerValue}" placeholder="Significado para menor valor" type="text">
+            <input th:errorclass="is-invalid" class="form-control" th:field="*{descriptionOfLowerValue}" placeholder="Significado para menor valor" type="text">
             <span class="text-danger" th:if="${#fields.hasErrors('descriptionOfLowerValue')}" th:errors="*{descriptionOfLowerValue}"></span>
         </div>
 
         <div class="form-group">
-            <input class="form-control" th:field="*{descriptionOfHighestValue}" placeholder="Significado para maior valor" type="text">
+            <input th:errorclass="is-invalid" class="form-control" th:field="*{descriptionOfHighestValue}" placeholder="Significado para maior valor" type="text">
             <span class="text-danger" th:if="${#fields.hasErrors('descriptionOfHighestValue')}" th:errors="*{descriptionOfHighestValue}"></span>
         </div>
 
         <div class="form-group">
-            <input pattern="dd/MM/yyyy" class="form-control" th:field="*{dueDate}" onfocus="(this.type='date')" onblur="(this.value === ''? this.type='text': '')"  placeholder="Data de validade da pergunta">
+            <input th:errorclass="is-invalid" pattern="dd/MM/yyyy" class="form-control" th:field="*{dueDate}" onfocus="(this.type='date')" onblur="(this.value === ''? this.type='text': '')"  placeholder="Data de validade da pergunta">
             <span class="text-danger" th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"></span>
         </div>
 

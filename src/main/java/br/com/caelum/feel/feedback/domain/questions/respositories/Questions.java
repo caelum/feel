@@ -14,4 +14,6 @@ public interface Questions extends Repository<Question, Long> {
     void save(Question question);
 
     Page<Question> findAll(Pageable pageable);
+
+    void delete(Question question);
 }

@@ -79,6 +79,15 @@ public class QuestionForm {
         return id;
     }
 
+    public void fromQuestion(Question question){
+        id = question.getId();
+        explanation = question.getExplanation();
+        statement = question.getStatement();
+        descriptionOfLowerValue = question.getDescriptionOfLowerValue();
+        descriptionOfHighestValue = question.getDescriptionOfHighestValue();
+        dueDate = question.getDueDate();
+    }
+
     public Question toQuestion() {
         var affirmation = createAffirmation();
         return new Question(explanation, affirmation, dueDate);

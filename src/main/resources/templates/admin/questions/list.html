@@ -18,14 +18,35 @@
         <thead>
         <th>Afirmação</th>
         <th>Data para expiração</th>
+        <th>Ações</th>
         </thead>
         <tbody>
-        <tr th:each="question : ${questions}">
+        <tr th:each="question : ${questions}" th:id="'question_' + ${question.id}">
             <td th:text="${question.statement}">Statement</td>
             <td th:text="${#temporals.format(question.dueDate, 'dd/MM/yyyy')}"></td>
+            <td class="d-flex flex-row justify-content-around">
+                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/questions/{id}(id=${question.id})}"/>
+                <a class="text-danger far fa-trash-alt" th:onclick="'remove('+${question.id}+')'" href="#"/>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <div th:replace="~{layout/fragments/components :: pagination(baseURL=@{/admin/questions},page=${questions})}">
+        Pagination
+    </div>
 </section>
+<script layout:fragment="scripts">
+    function remove(id){
+        let url = "/admin/questions/" + id;
+
+        fetch(url, {'method': 'DELETE'})
+            .then( response => {
+                if (response.ok){
+                    $("#question_" + id).remove();
+                }
+            });
+    }
+</script>
 </body>
 </html>
