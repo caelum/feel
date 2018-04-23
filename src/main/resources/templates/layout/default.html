@@ -41,8 +41,12 @@
     </section>
 </main>
 <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
-<script src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
-
+<script src="/webjars/bootstrap/4.0.0-2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 <script layout:fragment="scripts"></script>
 </body>
 </html>

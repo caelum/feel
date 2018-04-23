@@ -22,11 +22,12 @@
         </thead>
         <tbody>
         <tr th:each="question : ${questions}" th:id="'question_' + ${question.id}">
-            <td th:text="${question.statement}">Statement</td>
+            <td style="width: 22em" th:text="${question.statement}">Statement</td>
             <td th:text="${#temporals.format(question.dueDate, 'dd/MM/yyyy')}"></td>
-            <td class="d-flex flex-row justify-content-around">
-                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/questions/{id}(id=${question.id})}"/>
-                <a class="text-danger far fa-trash-alt" th:onclick="'remove('+${question.id}+')'" href="#"/>
+            <td class="d-flex flex-row justify-content-between">
+                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/questions/{id}(id=${question.id})}" data-toggle="tooltip" data-placement="bottom" title="Editar"></a>
+                <a class="text-danger far fa-trash-alt" th:onclick="'remove('+${question.id}+')'" href="#" data-toggle="tooltip" data-placement="bottom"  title="Remover"></a>
+                <a class="text-primary fas fa-external-link-alt" href="#" data-toggle="tooltip" data-placement="bottom" title="Ir para pergunta"></a>
             </td>
         </tr>
         </tbody>

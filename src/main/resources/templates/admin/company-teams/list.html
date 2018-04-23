@@ -22,15 +22,15 @@
         </thead>
         <tbody>
         <tr th:each="team : ${teams}" th:id="'team_' + ${team.id}">
-            <td style="min-width: 22em" th:text="${team.name}">
+            <td style="width: 22em" th:text="${team.name}">
                 Nome
             </td>
             <td th:text="${team.totalExpectedPeople}">
                 10
             </td>
             <td class="d-flex flex-row justify-content-around">
-                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/company-teams/{id}(id=${team.id})}"/>
-                <a class="text-danger far fa-trash-alt" th:onclick="'remove('+${team.id}+')'" href="#"/>
+                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/company-teams/{id}(id=${team.id})}" data-toggle="tooltip" data-placement="bottom"  title="Editar"></a>
+                <a class="text-danger far fa-trash-alt" th:onclick="'remove('+${team.id}+')'" href="#" data-toggle="tooltip" data-placement="bottom"  title="Remover"></a>
             </td>
         </tr>
         </tbody>
