@@ -15,7 +15,7 @@ class CompanyTeamTest {
     class Creation {
 
         @Test
-        @DisplayName("A company name should not instantiate with a null name")
+        @DisplayName("A company team should not instantiate with a null name")
         void nameCantBeNull(){
             var nullName = assertThrows(IllegalArgumentException.class, () -> new CompanyTeam(1L, null, 1));
 
@@ -23,7 +23,7 @@ class CompanyTeamTest {
         }
 
         @Test
-        @DisplayName("A company name should not instantiate with a empty name")
+        @DisplayName("A company team should not instantiate with a empty name")
         void nameCantBeEmpty(){
             var nullName = assertThrows(IllegalArgumentException.class, () -> new CompanyTeam(1L, "", 1));
 
