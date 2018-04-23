@@ -2,12 +2,30 @@ package br.com.caelum.feel.feedback.domain.questions.models.vo;
 
 import org.springframework.util.Assert;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
+@Embeddable
 public class Affirmation {
-    private final String statement;
-    private final String descriptionOfLowerValue;
-    private final String descriptionOfHighestValue;
+
+    @NotEmpty
+    private String statement;
+
+    @NotEmpty
+    @Column(name = "description_of_lower_value")
+    private String descriptionOfLowerValue;
+
+    @NotEmpty
+    @Column(name = "description_of_highest_value")
+    private String descriptionOfHighestValue;
+
+    /**
+     * @deprecated frameworks only
+     */
+    @Deprecated(since = "1.0.0")
+    Affirmation(){}
 
     public Affirmation(String statement, String descriptionOfLowerValue, String descriptionOfHighestValue) {
         Assert.hasText(statement, "Statement required");

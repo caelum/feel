@@ -1,6 +1,7 @@
 package br.com.caelum.feel.feedback.domain.questions.models;
 
 import br.com.caelum.feel.feedback.domain.questions.models.vo.Affirmation;
+import br.com.caelum.feel.feedback.forms.QuestionForm;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -10,12 +11,30 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity(name = "questions")
 public class Question {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Lob
+    @NotEmpty
     private String explanation;
 
+    @NotNull
     private Affirmation affirmation;
+
+    @Future
+    @NotNull
+    @Column(name = "due_date")
     private LocalDate dueDate;
+
+    /**
+     * @deprecated frameworks only
+     */
+    @Deprecated(since = "1.0.0")
+    Question(){}
 
     public Question(String explanation, Affirmation affirmation, LocalDate dueDate) {
         Assert.hasText(explanation, "Explanation required");
@@ -48,6 +67,9 @@ public class Question {
         return dueDate;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,5 +82,11 @@ public class Question {
     @Override
     public int hashCode() {
         return Objects.hash(affirmation);
+    }
+
+    public void updateFromForm(QuestionForm form) {
+        explanation = form.getExplanation();
+        dueDate = form.getDueDate();
+        affirmation = form.getAffirmation();
     }
 }
