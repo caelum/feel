@@ -1,8 +1,7 @@
 package br.com.caelum.feel.feedback.application.admin.questions.controllers;
 
 import br.com.caelum.feel.feedback.application.admin.questions.forms.QuestionForm;
-import br.com.caelum.feel.feedback.domain.questions.respositories.Questions;
-import org.springframework.data.domain.PageRequest;
+import br.com.caelum.feel.feedback.application.admin.questions.services.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +18,10 @@ import java.util.Optional;
 public class AdminQuestionsController {
 
 
-    private final Questions questions;
+    private final QuestionService service;
 
-    public AdminQuestionsController(Questions questions) {
-        this.questions = questions;
+    public AdminQuestionsController(QuestionService service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -30,7 +29,7 @@ public class AdminQuestionsController {
         var view = new ModelAndView("admin/questions/list");
 
         var currentPage = page.orElse(0);
-        view.addObject("questions", questions.findAll(PageRequest.of(currentPage, 10)));
+        view.addObject("questions", service.getAllPaged(currentPage));
 
         return view;
     }
@@ -52,13 +51,7 @@ public class AdminQuestionsController {
             return form(form);
         }
 
-        var optionalQuestion = Optional.ofNullable(form.getId()).flatMap(questions::findById);
-
-        optionalQuestion.ifPresent(question -> question.updateFromForm(form));
-
-        var question = optionalQuestion.orElseGet(form::toQuestion);
-
-        questions.save(question);
+        service.saveBy(form);
 
         redirect.addFlashAttribute("msg", "Questão salva com sucesso!");
 
