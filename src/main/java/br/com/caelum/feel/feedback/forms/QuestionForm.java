@@ -1,5 +1,7 @@
 package br.com.caelum.feel.feedback.forms;
 
+import br.com.caelum.feel.feedback.domain.questions.models.Question;
+import br.com.caelum.feel.feedback.domain.questions.models.vo.Affirmation;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
@@ -8,6 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class QuestionForm {
+
+    private Long id;
 
     @NotEmpty
     private String explanation;
@@ -65,4 +69,27 @@ public class QuestionForm {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Question toQuestion() {
+        var affirmation = createAffirmation();
+        return new Question(explanation, affirmation, dueDate);
+    }
+
+    public Affirmation getAffirmation(){
+        return createAffirmation();
+    }
+
+    private Affirmation createAffirmation(){
+        return new Affirmation(statement, descriptionOfLowerValue, descriptionOfHighestValue);
+    }
+
 }

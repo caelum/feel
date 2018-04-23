@@ -8,8 +8,24 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <div th:replace="layout/fragments/components :: sucess(attribute='msg')">
+        Success
+    </div>
+
     <a class="btn btn-outline-info mb-5" href="/admin/questions/new">Novo</a>
 
+    <table class="table table-hover">
+        <thead>
+        <th>Afirmação</th>
+        <th>Data para expiração</th>
+        </thead>
+        <tbody>
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.statement}">Statement</td>
+            <td th:text="${#temporals.format(question.dueDate, 'dd/MM/yyyy')}"></td>
+        </tr>
+        </tbody>
+    </table>
 </section>
 </body>
 </html>
