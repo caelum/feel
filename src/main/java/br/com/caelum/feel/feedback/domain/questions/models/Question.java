@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity(name = "questions")
 public class Question {
@@ -24,6 +25,9 @@ public class Question {
 
     @NotNull
     private Affirmation affirmation;
+
+    @NotEmpty
+    private String hash;
 
     @Future
     @NotNull
@@ -45,6 +49,7 @@ public class Question {
         this.explanation = explanation;
         this.affirmation = affirmation;
         this.dueDate = dueDate;
+        this.hash = UUID.randomUUID().toString();
     }
 
     public String getStatement() {
@@ -69,6 +74,10 @@ public class Question {
 
     public Long getId() {
         return id;
+    }
+
+    public String getHash() {
+        return hash;
     }
 
     @Override
