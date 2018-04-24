@@ -16,4 +16,6 @@ public interface Questions extends Repository<Question, Long> {
     Page<Question> findAll(Pageable pageable);
 
     void delete(Question question);
+
+    Optional<Question> findByHash(String hash);
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface Teams extends Repository<CompanyTeam, Long> {
@@ -15,4 +16,6 @@ public interface Teams extends Repository<CompanyTeam, Long> {
     void save(CompanyTeam companyTeam);
 
     void delete(CompanyTeam team);
+
+    List<Teams> findAll();
 }

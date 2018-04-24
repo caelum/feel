@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Feedback</title>
@@ -14,7 +14,7 @@
         <h3>Feedback Caelum</h3>
 
 
-        <p>
+        <p th:text="${question.explanation}">
             Olá! <br><br>
 
             Começamos agora nossa segunda rodada de ciclo de feedback!
@@ -26,14 +26,14 @@
             As respostas são anônimas, então sintam-se livres para dizer o que pensam.
         </p>
 
-        <form>
+        <form th:object="${answerForm}" th:action="@{/questions}" method="post">
             <div class="form-group">
                 <label class="font-weight-bold" for="time">Em que time da caelum você trabalha?</label>
-                <select id="time" class="form-control" name="time" required>
-                    <option selected disabled>Escolha um time...</option>
-                    <option value="DEV">Dev</option>
-                    <option value="ALURA">Alura</option>
+                <select th:errorclass="is-invalid" id="time" class="form-control" name="time" th:field="*{teamId}" required>
+                    <option value="" selected disabled>Escolha um time...</option>
+                    <option th:each="team : ${allTeams}" th:value="${team.id}" th:text="${team.name}">Dev</option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="*{teamId}"></span>
             </div>
 
             <hr/>
@@ -42,48 +42,49 @@
                 O quanto você concorda com a afirmação abaixo?
             </p>
 
-            <p class="font-weight-bold">
+            <p th:text="${question.statement}" class="font-weight-bold">
                 Eu sinto que nos últimos 30 dias tive tempo suficiente para desempenhar as minhas tarefas
             </p>
 
             <div class="row d-flex justify-content-center">
 
                 <div class="col-md-2">
-                    <p class="text-center">Nunca tenho tempo suficiente</p>
+                    <p th:text="${question.descriptionOfLowerValue}" class="text-center">Nunca tenho tempo suficiente</p>
                 </div>
                 <div class="col-md-4 d-flex flex-row justify-content-between">
 
                     <div class="flex-column">
                         <label class="form-check-label px-1" for="value_1">1</label>
-                        <input id="value_1" type="radio" name="answer" class="form-check-input m-0" required/>
+                        <input th:errorclass="is-invalid" th:field="*{value}" value="1" id="value_1" type="radio" name="answer" class="form-check-input m-0" required/>
                     </div>
                     <div class="flex-column">
                         <label class="form-check-label px-1" for="value_2">2</label>
-                        <input id="value_2" type="radio" name="answer" class="form-check-input m-0" required/>
+                        <input th:errorclass="is-invalid" th:field="*{value}" value="2" id="value_2" type="radio" name="answer" class="form-check-input m-0" required/>
                     </div>
                     <div class="flex-column">
                         <label class="form-check-label px-1" for="value_3">3</label>
-                        <input id="value_3" type="radio" name="answer" class="form-check-input m-0" required/>
+                        <input th:errorclass="is-invalid" th:field="*{value}" value="3" id="value_3" type="radio" name="answer" class="form-check-input m-0" required/>
                     </div>
                     <div class="flex-column">
                         <label class="form-check-label px-1" for="value_4">4</label>
-                        <input id="value_4" type="radio" name="answer" class="form-check-input m-0" required/>
+                        <input th:errorclass="is-invalid" th:field="*{value}" value="4" id="value_4" type="radio" name="answer" class="form-check-input m-0" required/>
                     </div>
                     <div class="flex-column">
                         <label class="form-check-label px-1" for="value_5">5</label>
-                        <input id="value_5" type="radio" name="answer" class="form-check-input m-0" required/>
+                        <input th:errorclass="is-invalid" th:field="*{value}" value="5" id="value_5" type="radio" class="form-check-input m-0" required/>
                     </div>
-
                 </div>
                 <div class="col-md-2">
-                    <p class="text-center">Sempre tenho tempo suficiente</p>
+                    <p th:text="${question.descriptionOfHighestValue}" class="text-center">Sempre tenho tempo suficiente</p>
                 </div>
             </div>
+
+            <span class="text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></span>
 
             <hr/>
             <div class="form-group">
                 <label class="font-weight-bold">Deixe um complemento ou comentário caso ache necessário</label>
-                <input type="text" class="form-control" placeholder="Sua resposta">
+                <input th:field="*{comments}" type="text" class="form-control" placeholder="Sua resposta">
             </div>
             <hr/>
 
