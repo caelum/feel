@@ -2,12 +2,9 @@ package br.com.caelum.feel.feedback.questions.application.forms;
 
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
-import org.springframework.format.annotation.DateTimeFormat;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 public class QuestionForm {
 
@@ -24,11 +21,6 @@ public class QuestionForm {
 
     @NotEmpty
     private String descriptionOfHighestValue;
-
-    @NotNull
-    @Future
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dueDate;
 
     public String getExplanation() {
         return explanation;
@@ -62,15 +54,6 @@ public class QuestionForm {
         this.descriptionOfHighestValue = descriptionOfHighestValue;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
-
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -85,12 +68,11 @@ public class QuestionForm {
         statement = question.getStatement();
         descriptionOfLowerValue = question.getDescriptionOfLowerValue();
         descriptionOfHighestValue = question.getDescriptionOfHighestValue();
-        dueDate = question.getDueDate();
     }
 
     public Question toQuestion() {
         var affirmation = createAffirmation();
-        return new Question(explanation, affirmation, dueDate);
+        return new Question(explanation, affirmation, QuestionState.OPEN);
     }
 
     public Affirmation getAffirmation(){

@@ -2,13 +2,12 @@ package br.com.caelum.feel.feedback.questions.domain.models;
 
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,10 +28,9 @@ public class Question {
     @NotEmpty
     private String hash;
 
-    @Future
-    @NotNull
-    @Column(name = "due_date")
-    private LocalDate dueDate;
+    @Column(name = "state")
+    @Enumerated(EnumType.STRING)
+    private QuestionState currentState;
 
     /**
      * @deprecated frameworks only
@@ -40,16 +38,15 @@ public class Question {
     @Deprecated(since = "1.0.0")
     Question(){}
 
-    public Question(String explanation, Affirmation affirmation, LocalDate dueDate) {
+    public Question(String explanation, Affirmation affirmation, QuestionState state) {
         Assert.hasText(explanation, "Explanation required");
         Assert.notNull(affirmation, "Affirmation required");
-        Assert.notNull(dueDate, "Due date required");
-        Assert.isTrue(dueDate.isAfter(LocalDate.now()), "Due date should be in the future");
+        Assert.notNull(state, "Initial state required");
 
         this.explanation = explanation;
         this.affirmation = affirmation;
-        this.dueDate = dueDate;
         this.hash = UUID.randomUUID().toString();
+        this.currentState = state;
     }
 
     public String getStatement() {
@@ -66,10 +63,6 @@ public class Question {
 
     public String getExplanation() {
         return explanation;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
     }
 
     public Long getId() {
@@ -95,7 +88,28 @@ public class Question {
 
     public void updateFromForm(QuestionForm form) {
         explanation = form.getExplanation();
-        dueDate = form.getDueDate();
         affirmation = form.getAffirmation();
+    }
+
+    public QuestionState getCurrentState() {
+        return currentState;
+    }
+
+
+    public void open(){
+        if (currentState.isOpen()){
+            throw new IllegalStateException("Question is already open");
+        }
+
+        this.currentState = QuestionState.OPEN;
+    }
+
+
+    public void close(){
+        if (currentState.isClosed()){
+            throw new IllegalStateException("Question is already closed");
+        }
+
+        this.currentState = QuestionState.CLOSE;
     }
 }
