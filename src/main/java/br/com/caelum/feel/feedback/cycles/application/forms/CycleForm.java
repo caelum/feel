@@ -1,8 +1,8 @@
-package br.com.caelum.feel.feedback.companyteams.application.forms;
+package br.com.caelum.feel.feedback.cycles.application.forms;
 
 import javax.validation.constraints.NotBlank;
 
-import br.com.caelum.feel.feedback.companyteams.domain.models.Cycle;
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 
 public class CycleForm {
 

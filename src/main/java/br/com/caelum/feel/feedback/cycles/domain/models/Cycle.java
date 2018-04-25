@@ -1,4 +1,4 @@
-package br.com.caelum.feel.feedback.companyteams.domain.models;
+package br.com.caelum.feel.feedback.cycles.domain.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

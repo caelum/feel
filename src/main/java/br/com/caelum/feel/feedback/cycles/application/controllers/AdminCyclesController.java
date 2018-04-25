@@ -1,4 +1,4 @@
-package br.com.caelum.feel.feedback.companyteams.application.controllers;
+package br.com.caelum.feel.feedback.cycles.application.controllers;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.caelum.feel.feedback.companyteams.application.forms.CycleForm;
-import br.com.caelum.feel.feedback.companyteams.domain.models.Cycle;
-import br.com.caelum.feel.feedback.companyteams.domain.repositories.CycleRepository;
+import br.com.caelum.feel.feedback.cycles.application.forms.CycleForm;
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 
 @Controller
 public class AdminCyclesController {
