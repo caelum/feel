@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
     <title>Feedback</title>
-    <link rel="stylesheet" href="/css/reset.css ">
-    <link rel="stylesheet" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/main.css ">
 </head>
 <body>
 <main class="main">
-    <section class="content-area bg-light shadow rounded">
+    <section layout:fragment="content">
+
+
+        <div th:if="${question.currentState.isClosed()}" id="myModal" class="modal modal-open fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Questão fechada</h5>
+                    </div>
+                    <div class="modal-body">
+                        Essa questão já foi encerrada!
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <h3>Feedback Caelum</h3>
 
@@ -94,5 +105,8 @@
         </form>
     </section>
 </main>
+<script th:if="${question.currentState.isClosed()}" layout:fragment="scripts">
+    $('#myModal').modal()
+</script>
 </body>
 </html>

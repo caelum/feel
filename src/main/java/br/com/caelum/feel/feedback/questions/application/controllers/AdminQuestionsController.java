@@ -1,8 +1,11 @@
 package br.com.caelum.feel.feedback.questions.application.controllers;
 
+import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -71,5 +74,20 @@ public class AdminQuestionsController {
         var removedQuestion = service.removeById(id);
 
         return removedQuestion.map(ResponseEntity.accepted()::body).orElseGet(ResponseEntity.noContent()::build);
+    }
+
+    @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> changeState(@PathVariable Long id, @RequestBody OpenCloseStateForm form){
+        var targetState = form.getState();
+
+        try {
+            return
+            service.tryTransitState(id, targetState)
+                            .map(ResponseEntity::ok)
+                                .orElseGet(ResponseEntity.noContent()::build);
+        }catch (IllegalStateException e){
+            return ResponseEntity.status(HttpStatus.GONE).body(e.getMessage());
+        }
     }
 }

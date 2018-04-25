@@ -1,12 +1,15 @@
 package br.com.caelum.feel.feedback.questions.application.services;
 
+import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.nio.channels.FileChannel;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
@@ -51,5 +54,21 @@ public class QuestionService {
 
         return question;
 
+    }
+
+    public Optional<Question> tryTransitState(Long id, QuestionState targetState) {
+
+        var optionalQuestion = questions.findById(id);
+
+        optionalQuestion.ifPresent(question -> {
+            if (targetState.isOpen())
+                question.open();
+            else
+                question.close();
+
+            questions.save(question);
+        });
+
+        return optionalQuestion;
     }
 }

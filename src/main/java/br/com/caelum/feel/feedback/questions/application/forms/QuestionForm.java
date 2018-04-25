@@ -2,6 +2,7 @@ package br.com.caelum.feel.feedback.questions.application.forms;
 
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
@@ -90,7 +91,7 @@ public class QuestionForm {
 
     public Question toQuestion() {
         var affirmation = createAffirmation();
-        return new Question(explanation, affirmation, dueDate);
+        return new Question(explanation, affirmation, dueDate, QuestionState.OPEN);
     }
 
     public Affirmation getAffirmation(){
