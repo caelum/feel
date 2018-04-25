@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.caelum.feel.feedback.companyteams.application.forms.EditCycleForm;
-import br.com.caelum.feel.feedback.companyteams.application.forms.NewCycleForm;
+import br.com.caelum.feel.feedback.companyteams.application.forms.CycleForm;
 import br.com.caelum.feel.feedback.companyteams.domain.models.Cycle;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.CycleRepository;
 
@@ -24,12 +23,12 @@ public class AdminCyclesController {
 	private CycleRepository cycleRepository;
 
 	@GetMapping("/admin/cycles/form")
-	public String newForm(Model model, NewCycleForm form) {
+	public String newForm(Model model, CycleForm form) {
 		return "admin/cycles/new-form";
 	}
 
 	@PostMapping("/admin/cycles")
-	public String save(Model model, @Valid NewCycleForm form, BindingResult bindingResult,
+	public String save(Model model, @Valid CycleForm form, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			return newForm(model, form);
@@ -48,7 +47,7 @@ public class AdminCyclesController {
 	}
 
 	@GetMapping("/admin/cycles/{id}")
-	public String updateForm(Model model, EditCycleForm form, @PathVariable("id") Integer id) {
+	public String updateForm(Model model, CycleForm form, @PathVariable("id") Integer id) {
 		Cycle cycle = cycleRepository.findById(id).get();
 		form.fill(cycle);
 		return "admin/cycles/update-form";
@@ -56,7 +55,7 @@ public class AdminCyclesController {
 
 	@PostMapping("/admin/cycles/{id}")
 	@Transactional
-	public String update(Model model, @Valid EditCycleForm form, BindingResult bindingResult,
+	public String update(Model model, @Valid CycleForm form, BindingResult bindingResult,
 			@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			form.dirty();
