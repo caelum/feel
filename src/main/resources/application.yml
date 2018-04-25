@@ -1,10 +1,24 @@
 spring:
   datasource:
     username: root
-    url: jdbc:mysql://${DATABASE_URL:localhost}/feel_dev?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost/feel_dev?createDatabaseIfNotExist=true
+    driver-class-name: org.gjt.mm.mysql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
+spring:
+  profiles: production
+  datasource:
+    username: root
+    url: jdbc:mysql://${DATABASE_URL}/feel
     driver-class-name: org.gjt.mm.mysql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
   flyway:
     encoding: UTF-8
+  devtools:
+    livereload:
+      enabled: false
