@@ -31,7 +31,6 @@ public class AdminCompanyTeamsController {
     public ModelAndView list(Optional<Integer> page){
         var view = new ModelAndView("admin/company-teams/list");
         var currentPage = page.orElse(0);
-
         view.addObject("teams", service.getAllPaged(currentPage));
 
         return view;

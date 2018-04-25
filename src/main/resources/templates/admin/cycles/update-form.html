@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo ciclo</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <form th:action="@{/admin/cycles/{id}(id=${id})}" th:object="${cycleForm}" method="post">
+
+        <div class="form-group">
+            <input id="name" class="form-control" placeholder="Nome do ciclo" th:field="*{name}"
+                   th:errorclass="is-invalid">
+            <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+        </div>
+
+        <div class="form-group">
+            <textarea th:errorclass="is-invalid" class="form-control" th:field="*{welcomeText}" placeholder="Texto explicativo sobre o novo ciclo" rows="5"></textarea>
+            <span class="text-danger" th:if="${#fields.hasErrors('*{welcomeText}')}" th:errors="*{welcomeText}"></span>
+        </div>
+        
+        <div class="form-group">
+            <textarea th:errorclass="is-invalid" class="form-control" th:field="*{closingText}" placeholder="Texto explicativo sobre o fim do ciclo" rows="5"></textarea>
+            <span class="text-danger" th:if="${#fields.hasErrors('*{closingText}')}" th:errors="*{closingText}"></span>
+        </div>        
+
+        <div>
+            <button class="btn btn-info btn-block">Alterar</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

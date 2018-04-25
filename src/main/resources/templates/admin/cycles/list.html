@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ciclos</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div th:replace="layout/fragments/components :: sucess(attribute='msg')">
+        Success
+    </div>
+
+    <a class="btn btn-outline-info mb-5" href="/admin/cycles/form">Novo</a>
+
+    <table class="table table-hover">
+        <thead>
+        <th>Nome</th>
+        <th class="text-center">Ações</th>
+        </thead>
+        <tbody>
+        <tr th:each="cycle : ${cycleList}">
+            <td style="width: 22em" th:text="${cycle.name}">
+                Nome
+            </td>
+            <td class="d-flex flex-row justify-content-around">
+                <a class="text-info fas fa-pencil-alt" th:href="@{/admin/cycles/{id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Editar"></a>                
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</section>
+</body>
+</html>
