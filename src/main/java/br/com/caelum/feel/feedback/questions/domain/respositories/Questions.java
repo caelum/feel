@@ -18,7 +18,7 @@ public interface Questions extends Repository<Question, Long> {
 
     void delete(Question question);
 
-    Optional<Question> findByHash(String hash);
+    Question findByHash(String hash);
 
-	Optional<Question> findByLastOneAndCycleId(boolean b, Integer cycleId);
+	Optional<Question> findByLastOneAndCycleId(boolean lastOne, Integer cycleId);
 }

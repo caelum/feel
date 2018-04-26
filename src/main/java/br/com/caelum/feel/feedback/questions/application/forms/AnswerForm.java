@@ -2,6 +2,10 @@ package br.com.caelum.feel.feedback.questions.application.forms;
 
 import org.hibernate.validator.constraints.Range;
 
+import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
+import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
+import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
+
 import javax.validation.constraints.NotNull;
 
 public class AnswerForm {
@@ -48,5 +52,10 @@ public class AnswerForm {
                 ", comments='" + comments + '\'' +
                 '}';
     }
+
+	public FeedbackAnswer toAnswer(LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository) {		
+		LastCompanyTeamVersion lastVersionOfTeam = lastCompanyTeamVersionRepository.findByLastVersion(teamId);		
+		return new FeedbackAnswer(value,comments,lastVersionOfTeam);
+	}
 
 }
