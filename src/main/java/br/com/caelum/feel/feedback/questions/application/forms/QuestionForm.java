@@ -114,7 +114,6 @@ public class QuestionForm {
 
 	public Question toQuestion(CycleRepository cycleRepository) {
 		var affirmation = createAffirmation();
-		System.out.println("ldhjfkjhsdfd=="+this.lastOne);
 		Question question = new Question(explanation, affirmation, dueDate, QuestionState.OPEN,
 				cycleRepository.findById(this.cycleId).get(),lastOne);
 		

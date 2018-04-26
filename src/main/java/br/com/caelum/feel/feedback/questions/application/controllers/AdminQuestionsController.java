@@ -4,6 +4,7 @@ import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
+import br.com.caelum.feel.feedback.questions.application.validators.JustOneLastQuestionValidator;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -36,6 +38,11 @@ public class AdminQuestionsController {
         this.service = service;
 		this.cycleRepository = cycleRepository;
 		this.questions = questions;
+    }
+    
+    @InitBinder(value="questionForm")
+    public void init(WebDataBinder binder) {
+    	binder.addValidators(new JustOneLastQuestionValidator(questions));
     }
 
     @GetMapping
@@ -66,13 +73,7 @@ public class AdminQuestionsController {
         if (result.hasErrors()){
             return form(empty(),form);
         }
-        
-        Optional<Question> possibleQuestion = questions.findByLastOneAndCycleId(true,form.getCycleId());
-        if(possibleQuestion.isPresent()) {
-        	result.rejectValue("lastOne", "", "A questão "+possibleQuestion.get().getStatement()+" já está marcada como última");
-        	return form(empty(),form);
-        }
-
+       
         service.saveBy(form);
 
         redirect.addFlashAttribute("msg", "Questão salva com sucesso!");
