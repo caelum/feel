@@ -48,6 +48,10 @@ public class QuestionService {
         	Question question = optionalQuestion.get();
 			question.updateFromForm(formQuestion);
         } else {        	        	
+        	/*
+        	 * alberto: para mim isso aqui merecia uma classe separada. Só que eu não posso passar a question e 
+        	 * chamar o addTeams nesse outro lugar. É má prática... achei mais ok deixar aqui mesmo. 
+        	 */
         	Set<LastCompanyTeamVersion> lastVersionOfTeams = lastCompanyTeamVersionRepository.listLastVersions();
 			formQuestion.addTeams(lastVersionOfTeams);
         	questions.save(formQuestion);        	
