@@ -37,14 +37,15 @@
         </div>
         
         <div class="form-group">
+        	<label class="font-weight-bold" for="time">Última afirmação do ciclo?</label>
             <input th:errorclass="is-invalid" class="form-control" th:field="*{lastOne}" placeholder="É a última pergunta do ciclo" type="checkbox">            
         </div>        
         
         <div class="form-group">
             <label class="font-weight-bold" for="time">Pertence a qual ciclo?</label>
-            <select th:errorclass="is-invalid" id="cycleId" class="form-control" name="cycleId" th:field="cycleId" required>
+            <select th:errorclass="is-invalid" id="cycleId" class="form-control" name="cycleId" th:field="*{cycleId}" required>
                 <option value="" selected disabled>Escolha um ciclo...</option>
-                <option th:each="cycles : ${cycles}" th:value="${cycle.id}" th:text="${cycle.name}"/>
+                <option th:each="cycle : ${cycleList}" th:value="${cycle.id}" th:text="${cycle.name}"/>
             </select>
             <span class="text-danger" th:if="${#fields.hasErrors('cycleId')}" th:errors="cycleId"></span>
         </div>        

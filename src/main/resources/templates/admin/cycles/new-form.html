@@ -7,7 +7,7 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <form th:action="@{/admin/cycles}" th:object="${newCycleForm}" method="post">
+    <form th:action="@{/admin/cycles}" th:object="${cycleForm}" method="post">
 
         <div class="form-group">
             <input id="name" class="form-control" placeholder="Nome do ciclo" th:field="*{name}"

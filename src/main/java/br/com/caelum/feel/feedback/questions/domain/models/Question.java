@@ -1,17 +1,27 @@
 package br.com.caelum.feel.feedback.questions.domain.models;
 
-import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
-import org.springframework.util.Assert;
-
-import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.util.Assert;
+
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 
 @Entity(name = "questions")
 public class Question {
@@ -38,6 +48,12 @@ public class Question {
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private QuestionState currentState;
+    
+    @ManyToOne
+    @NotNull
+    private Cycle cycle;
+    
+    private boolean lastOne;
 
     /**
      * @deprecated frameworks only
@@ -45,19 +61,30 @@ public class Question {
     @Deprecated(since = "1.0.0")
     Question(){}
 
-    public Question(String explanation, Affirmation affirmation, LocalDate dueDate, QuestionState state) {
-        Assert.hasText(explanation, "Explanation required");
+    public Question(String explanation, Affirmation affirmation, LocalDate dueDate, QuestionState state,Cycle cycle, boolean lastOne) {        
+		Assert.hasText(explanation, "Explanation required");
         Assert.notNull(affirmation, "Affirmation required");
         Assert.notNull(dueDate, "Due date required");
         Assert.isTrue(dueDate.isAfter(LocalDate.now()), "Due date should be in the future");
         Assert.notNull(state, "Initial state required");
+        Assert.notNull(cycle, "Cycle é obrigatório");
 
         this.explanation = explanation;
         this.affirmation = affirmation;
         this.dueDate = dueDate;
         this.hash = UUID.randomUUID().toString();
         this.currentState = state;
+        this.cycle = cycle;
+        this.lastOne = lastOne;
     }
+    
+    public boolean isLastOne() {
+		return lastOne;
+	}
+    
+    public Cycle getCycle() {
+		return cycle;
+	}        
 
     public String getStatement() {
         return affirmation.getStatement();
@@ -100,9 +127,12 @@ public class Question {
         return Objects.hash(affirmation);
     }
 
-    public void updateFromForm(QuestionForm form) {
-        explanation = form.getExplanation();
-        affirmation = form.getAffirmation();
+    public void updateFromForm(Question otherQuestion) {
+        explanation = otherQuestion.explanation;
+        affirmation = otherQuestion.affirmation;
+        cycle = otherQuestion.cycle;
+        lastOne = otherQuestion.lastOne;        
+        dueDate = otherQuestion.dueDate;
     }
 
     public QuestionState getCurrentState() {

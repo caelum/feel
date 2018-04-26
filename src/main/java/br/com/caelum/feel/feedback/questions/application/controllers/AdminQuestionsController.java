@@ -1,5 +1,6 @@
 package br.com.caelum.feel.feedback.questions.application.controllers;
 
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
@@ -23,10 +24,12 @@ import static java.util.Optional.empty;
 public class AdminQuestionsController {
 
 
-    private final QuestionService service;
+    private final QuestionService service;    
+    private CycleRepository cycleRepository;
 
-    public AdminQuestionsController(QuestionService service) {
+    public AdminQuestionsController(QuestionService service,CycleRepository cycleRepository) {
         this.service = service;
+		this.cycleRepository = cycleRepository;
     }
 
     @GetMapping
@@ -42,7 +45,7 @@ public class AdminQuestionsController {
     @GetMapping({"new", "{optionalId}"})
     public ModelAndView form(@PathVariable Optional<Long> optionalId, QuestionForm form){
         var view = new ModelAndView("admin/questions/form");
-
+        view.addObject("cycleList", cycleRepository.findAll());
         service.fillFormOnlyWhenIdIsPresent(optionalId, form);
 
         view.addObject("questionForm", form);

@@ -1,5 +1,6 @@
 package br.com.caelum.feel.feedback.questions.application.services;
 
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
@@ -12,31 +13,42 @@ import org.springframework.stereotype.Service;
 import java.nio.channels.FileChannel;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import static java.util.Optional.ofNullable;
 
 @Service
 public class QuestionService {
 
     private final Questions questions;
+    private CycleRepository cycleRepository;
 
-    public QuestionService(Questions questions) {
+    public QuestionService(Questions questions,CycleRepository cycleRepository) {
         this.questions = questions;
+		this.cycleRepository = cycleRepository;
     }
 
     public Page<Question> getAllPaged(Integer currentPage) {
         return questions.findAll(PageRequest.of(currentPage, 5));
     }
 
+    @Transactional
     public void saveBy(QuestionForm form) {
 
         var id = form.getId();
         var optionalQuestion = ofNullable(id).flatMap(questions::findById);
+        
+        var formQuestion = form.toQuestion(cycleRepository);
 
-        optionalQuestion.ifPresent(question -> question.updateFromForm(form));
+        if(optionalQuestion.isPresent()) {
+        	optionalQuestion.get().updateFromForm(formQuestion);
+        } else {        	
+        	questions.save(formQuestion);
+        }
+        
 
-        var question = optionalQuestion.orElseGet(form::toQuestion);
+        
 
-        questions.save(question);
 
     }
 

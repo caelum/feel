@@ -1,5 +1,6 @@
 package br.com.caelum.feel.feedback.questions.application.forms;
 
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
@@ -12,94 +13,120 @@ import java.time.LocalDate;
 
 public class QuestionForm {
 
-    private Long id;
+	private Long id;
 
-    @NotEmpty
-    private String explanation;
+	@NotEmpty
+	private String explanation;
 
-    @NotEmpty
-    private String statement;
+	@NotEmpty
+	private String statement;
 
-    @NotEmpty
-    private String descriptionOfLowerValue;
+	@NotEmpty
+	private String descriptionOfLowerValue;
 
-    @NotEmpty
-    private String descriptionOfHighestValue;
+	@NotEmpty
+	private String descriptionOfHighestValue;
 
-    @NotNull
-    @Future
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dueDate;
+	@NotNull
+	@Future
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dueDate;
 
-    public String getExplanation() {
-        return explanation;
-    }
+	private boolean lastOne;
 
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
+	@NotNull
+	private Integer cycleId;
 
-    public String getStatement() {
-        return statement;
-    }
+	public boolean isLastOne() {
+		return lastOne;
+	}
 
-    public void setStatement(String statement) {
-        this.statement = statement;
-    }
+	public void setLastOne(boolean lastOne) {
+		this.lastOne = lastOne;
+	}
 
-    public String getDescriptionOfLowerValue() {
-        return descriptionOfLowerValue;
-    }
+	public Integer getCycleId() {
+		return cycleId;
+	}
 
-    public void setDescriptionOfLowerValue(String descriptionOfLowerValue) {
-        this.descriptionOfLowerValue = descriptionOfLowerValue;
-    }
+	public void setCycleId(Integer cycleId) {
+		this.cycleId = cycleId;
+	}
 
-    public String getDescriptionOfHighestValue() {
-        return descriptionOfHighestValue;
-    }
+	public String getExplanation() {
+		return explanation;
+	}
 
-    public void setDescriptionOfHighestValue(String descriptionOfHighestValue) {
-        this.descriptionOfHighestValue = descriptionOfHighestValue;
-    }
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
+	}
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
+	public String getStatement() {
+		return statement;
+	}
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
+	public void setStatement(String statement) {
+		this.statement = statement;
+	}
 
+	public String getDescriptionOfLowerValue() {
+		return descriptionOfLowerValue;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setDescriptionOfLowerValue(String descriptionOfLowerValue) {
+		this.descriptionOfLowerValue = descriptionOfLowerValue;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getDescriptionOfHighestValue() {
+		return descriptionOfHighestValue;
+	}
 
-    public void fromQuestion(Question question){
-        id = question.getId();
-        explanation = question.getExplanation();
-        statement = question.getStatement();
-        descriptionOfLowerValue = question.getDescriptionOfLowerValue();
-        descriptionOfHighestValue = question.getDescriptionOfHighestValue();
-        dueDate = question.getDueDate();
-    }
+	public void setDescriptionOfHighestValue(String descriptionOfHighestValue) {
+		this.descriptionOfHighestValue = descriptionOfHighestValue;
+	}
 
-    public Question toQuestion() {
-        var affirmation = createAffirmation();
-        return new Question(explanation, affirmation, dueDate, QuestionState.OPEN);
-    }
+	public LocalDate getDueDate() {
+		return dueDate;
+	}
 
-    public Affirmation getAffirmation(){
-        return createAffirmation();
-    }
+	public void setDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
+	}
 
-    private Affirmation createAffirmation(){
-        return new Affirmation(statement, descriptionOfLowerValue, descriptionOfHighestValue);
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void fromQuestion(Question question) {
+		id = question.getId();
+		explanation = question.getExplanation();
+		statement = question.getStatement();
+		descriptionOfLowerValue = question.getDescriptionOfLowerValue();
+		descriptionOfHighestValue = question.getDescriptionOfHighestValue();
+		dueDate = question.getDueDate();
+		cycleId = question.getCycle().getId();
+		lastOne = question.isLastOne();
+	}
+
+	public Question toQuestion(CycleRepository cycleRepository) {
+		var affirmation = createAffirmation();
+		System.out.println("ldhjfkjhsdfd=="+this.lastOne);
+		Question question = new Question(explanation, affirmation, dueDate, QuestionState.OPEN,
+				cycleRepository.findById(this.cycleId).get(),lastOne);
+		
+		return question;
+	}
+
+	public Affirmation getAffirmation() {
+		return createAffirmation();
+	}
+
+	private Affirmation createAffirmation() {
+		return new Affirmation(statement, descriptionOfLowerValue, descriptionOfHighestValue);
+	}
 
 }
