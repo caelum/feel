@@ -8,6 +8,8 @@
 <main class="main">
     <section layout:fragment="content">
 
+		<div th:replace="layout/fragments/components :: sucess(attribute='msg')">
+		</div>        	
 
         <div th:if="${question.currentState.isClosed()}" id="myModal" class="modal modal-open fade" role="dialog" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered" role="document">

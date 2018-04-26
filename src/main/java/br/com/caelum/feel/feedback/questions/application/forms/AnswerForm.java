@@ -18,8 +18,7 @@ public class AnswerForm {
     private Integer value;
 
     private String comments;
-
-
+    
     public Long getTeamId() {
         return teamId;
     }
