@@ -1,10 +1,6 @@
 package br.com.caelum.feel.feedback.cycles.domain.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -23,11 +19,10 @@ public class Cycle {
 	private String closingText;
 	
 	/**
-	 * @deprecated
+	 * @deprecated frameworks only
 	 */
-	public Cycle() {
-
-	}
+	@Deprecated(since = "1.0.0")
+	Cycle() {}
 
 	public Cycle(String name, String welcomeText, String closingText) {
 		this.name = name;

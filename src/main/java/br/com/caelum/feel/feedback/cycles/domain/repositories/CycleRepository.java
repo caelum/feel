@@ -1,14 +1,16 @@
 package br.com.caelum.feel.feedback.cycles.domain.repositories;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
 import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
+import org.springframework.data.repository.Repository;
 
-@Repository
-public interface CycleRepository extends CrudRepository<Cycle, Integer>{
-	
+import java.util.List;
+import java.util.Optional;
 
+public interface CycleRepository extends Repository<Cycle, Integer> {
+
+    List<Cycle> findAll();
+
+    Optional<Cycle> findById(Integer cycleId);
+
+    void save(Cycle cycle);
 }

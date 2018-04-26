@@ -1,8 +1,8 @@
 package br.com.caelum.feel.feedback.cycles.application.controllers;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
+import br.com.caelum.feel.feedback.cycles.application.forms.CycleForm;
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.caelum.feel.feedback.cycles.application.forms.CycleForm;
-import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
-import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Controller
 public class AdminCyclesController {
@@ -23,15 +22,15 @@ public class AdminCyclesController {
 	private CycleRepository cycleRepository;
 
 	@GetMapping("/admin/cycles/form")
-	public String newForm(Model model, CycleForm form) {
+	public String newForm(CycleForm form) {
 		return "admin/cycles/new-form";
 	}
 
 	@PostMapping("/admin/cycles")
-	public String save(Model model, @Valid CycleForm form, BindingResult bindingResult,
+	public String save(@Valid CycleForm form, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			return newForm(model, form);
+			return newForm(form);
 		}
 
 		cycleRepository.save(form.build());
@@ -47,7 +46,7 @@ public class AdminCyclesController {
 	}
 
 	@GetMapping("/admin/cycles/{id}")
-	public String updateForm(Model model, CycleForm form, @PathVariable("id") Integer id) {
+	public String updateForm(CycleForm form, @PathVariable("id") Integer id) {
 		Cycle cycle = cycleRepository.findById(id).get();
 		form.fill(cycle);
 		return "admin/cycles/update-form";
@@ -55,11 +54,11 @@ public class AdminCyclesController {
 
 	@PostMapping("/admin/cycles/{id}")
 	@Transactional
-	public String update(Model model, @Valid CycleForm form, BindingResult bindingResult,
+	public String update(@Valid CycleForm form, BindingResult bindingResult,
 			@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			form.dirty();
-			return updateForm(model, form, id);
+			return updateForm(form, id);
 		}
 		
 		Cycle updatedCycle = form.build();
