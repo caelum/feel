@@ -1,15 +1,23 @@
 package br.com.caelum.feel.feedback.companyteams.domain.models;
 
-import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
-import org.springframework.util.Assert;
+import java.util.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+
+import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
+
+import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
 
 @Entity(name = "teams")
+@Audited
 public class CompanyTeam {
 
     @Id

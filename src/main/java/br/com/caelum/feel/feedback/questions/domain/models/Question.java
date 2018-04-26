@@ -1,7 +1,9 @@
 package br.com.caelum.feel.feedback.questions.domain.models;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -12,13 +14,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
+import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
 import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
@@ -54,6 +59,9 @@ public class Question {
     private Cycle cycle;
     
     private boolean lastOne;
+
+    @ManyToMany
+	private Set<LastCompanyTeamVersion> teams = new HashSet<>();
 
     /**
      * @deprecated frameworks only
@@ -156,4 +164,8 @@ public class Question {
 
         this.currentState = QuestionState.CLOSE;
     }
+
+	public void addTeams(Set<LastCompanyTeamVersion> lastVersionOfTeams) {
+		this.teams.addAll(lastVersionOfTeams);
+	}
 }

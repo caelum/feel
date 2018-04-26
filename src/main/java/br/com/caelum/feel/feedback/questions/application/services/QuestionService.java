@@ -1,31 +1,35 @@
 package br.com.caelum.feel.feedback.questions.application.services;
 
-import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
-import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
-import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
-import br.com.caelum.feel.feedback.questions.domain.models.Question;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
-import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
+import static java.util.Optional.ofNullable;
+
+import java.util.Optional;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.nio.channels.FileChannel;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import static java.util.Optional.ofNullable;
+import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
+import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
+import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
+import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
+import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 
 @Service
 public class QuestionService {
 
     private final Questions questions;
     private CycleRepository cycleRepository;
+    private LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository;
 
-    public QuestionService(Questions questions,CycleRepository cycleRepository) {
+    public QuestionService(Questions questions,CycleRepository cycleRepository,LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository) {
         this.questions = questions;
 		this.cycleRepository = cycleRepository;
+		this.lastCompanyTeamVersionRepository = lastCompanyTeamVersionRepository;
     }
 
     public Page<Question> getAllPaged(Integer currentPage) {
@@ -41,9 +45,12 @@ public class QuestionService {
         var formQuestion = form.toQuestion(cycleRepository);
 
         if(optionalQuestion.isPresent()) {
-        	optionalQuestion.get().updateFromForm(formQuestion);
-        } else {        	
-        	questions.save(formQuestion);
+        	Question question = optionalQuestion.get();
+			question.updateFromForm(formQuestion);
+        } else {        	        	
+        	Set<LastCompanyTeamVersion> lastVersionOfTeams = lastCompanyTeamVersionRepository.bla();
+			formQuestion.addTeams(lastVersionOfTeams);
+        	questions.save(formQuestion);        	
         }
         
 
