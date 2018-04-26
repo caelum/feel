@@ -48,7 +48,7 @@ public class QuestionService {
         	Question question = optionalQuestion.get();
 			question.updateFromForm(formQuestion);
         } else {        	        	
-        	Set<LastCompanyTeamVersion> lastVersionOfTeams = lastCompanyTeamVersionRepository.bla();
+        	Set<LastCompanyTeamVersion> lastVersionOfTeams = lastCompanyTeamVersionRepository.listLastVersions();
 			formQuestion.addTeams(lastVersionOfTeams);
         	questions.save(formQuestion);        	
         }

@@ -11,7 +11,7 @@ import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVer
 public interface LastCompanyTeamVersionRepository extends org.springframework.data.repository.Repository<LastCompanyTeamVersion, Integer>{
 
 	@Query("select team from LastCompanyTeamVersion team where team.rev = (select max(team2.rev) from LastCompanyTeamVersion team2 where team2.team.id = team.team.id)")
-	Set<LastCompanyTeamVersion> bla();
+	Set<LastCompanyTeamVersion> listLastVersions();
 
 	
 }
