@@ -38,7 +38,8 @@
         
         <div class="form-group">
         	<label class="font-weight-bold" for="time">Última afirmação do ciclo?</label>
-            <input th:errorclass="is-invalid" class="form-control" th:field="*{lastOne}" placeholder="É a última pergunta do ciclo" type="checkbox">            
+            <input th:errorclass="is-invalid" class="form-control" th:field="*{lastOne}" placeholder="É a última pergunta do ciclo" type="checkbox">
+            <span class="text-danger" th:if="${#fields.hasErrors('lastOne')}" th:errors="*{lastOne}"></span>            
         </div>        
         
         <div class="form-group">

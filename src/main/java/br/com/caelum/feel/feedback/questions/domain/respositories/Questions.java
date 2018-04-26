@@ -1,11 +1,12 @@
 package br.com.caelum.feel.feedback.questions.domain.respositories;
 
-import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
-import java.util.Optional;
+import br.com.caelum.feel.feedback.questions.domain.models.Question;
 
 public interface Questions extends Repository<Question, Long> {
 
@@ -18,4 +19,6 @@ public interface Questions extends Repository<Question, Long> {
     void delete(Question question);
 
     Optional<Question> findByHash(String hash);
+
+	Optional<Question> findByLastOneAndCycleId(boolean b, Integer cycleId);
 }

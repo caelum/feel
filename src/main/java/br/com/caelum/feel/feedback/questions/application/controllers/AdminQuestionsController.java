@@ -5,6 +5,8 @@ import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateFor
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("admin/questions")
 public class AdminQuestionsController {
@@ -26,10 +30,12 @@ public class AdminQuestionsController {
 
     private final QuestionService service;    
     private CycleRepository cycleRepository;
+    private Questions questions;
 
-    public AdminQuestionsController(QuestionService service,CycleRepository cycleRepository) {
+    public AdminQuestionsController(QuestionService service,CycleRepository cycleRepository,Questions questions) {
         this.service = service;
 		this.cycleRepository = cycleRepository;
+		this.questions = questions;
     }
 
     @GetMapping
@@ -59,6 +65,12 @@ public class AdminQuestionsController {
 
         if (result.hasErrors()){
             return form(empty(),form);
+        }
+        
+        Optional<Question> possibleQuestion = questions.findByLastOneAndCycleId(true,form.getCycleId());
+        if(possibleQuestion.isPresent()) {
+        	result.rejectValue("lastOne", "", "A questão "+possibleQuestion.get().getStatement()+" já está marcada como última");
+        	return form(empty(),form);
         }
 
         service.saveBy(form);
