@@ -13,6 +13,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
 
 @Entity
@@ -27,15 +28,15 @@ public class FeedbackAnswer {
 	@Lob
 	private String comments;
 	@ManyToOne
-	private LastCompanyTeamVersion lastVersionOfTeam;
+	private CompanyTeam team;
 	@NotBlank
 	@Column(unique=true)
 	private String hash;
 
-	public FeedbackAnswer(int value, String comments,LastCompanyTeamVersion lastVersionOfTeam) {
+	public FeedbackAnswer(int value, String comments,CompanyTeam team) {
 		this.value = value;
 		this.comments = comments;
-		this.lastVersionOfTeam = lastVersionOfTeam;
+		this.team = team;
 		this.hash = UUID.randomUUID().toString();
 	}
 

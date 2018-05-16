@@ -14,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.application.forms.AnswerForm;
+import br.com.caelum.feel.feedback.questions.application.validators.ClosedQuestionValidator;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
+import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 
@@ -24,15 +26,12 @@ public class QuestionsController {
 
 	private final Questions questions;
 	private final Teams teams;
-	private final LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository;
 	private final FeedbackAnswerRepository feedbackAnswerRepository;
 
 	public QuestionsController(Questions questions, Teams teams,
-			LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository,
 			FeedbackAnswerRepository feedbackAnswerRepository) {
 		this.questions = questions;
 		this.teams = teams;
-		this.lastCompanyTeamVersionRepository = lastCompanyTeamVersionRepository;
 		this.feedbackAnswerRepository = feedbackAnswerRepository;
 	}
 
@@ -55,9 +54,13 @@ public class QuestionsController {
 		if (bindingResult.hasErrors()) {
 			return form(model, uuid, form);
 		}
-
-		feedbackAnswerRepository.save(form.toAnswer(lastCompanyTeamVersionRepository));
 		
+		if(!new ClosedQuestionValidator(questions).validate(uuid, bindingResult)) {
+			return form(model, uuid, form);
+		}
+		
+		feedbackAnswerRepository.save(form.toAnswer(teams));
+
 		redirectAttributes.addFlashAttribute("msg",
 				"Resposta salva com sucesso! Obrigado por participar");
 		return "redirect:/questions/" + uuid;

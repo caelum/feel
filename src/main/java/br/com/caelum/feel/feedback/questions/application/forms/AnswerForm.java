@@ -1,12 +1,12 @@
 package br.com.caelum.feel.feedback.questions.application.forms;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Range;
 
-import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
-import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
+import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
+import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
-
-import javax.validation.constraints.NotNull;
 
 public class AnswerForm {
 
@@ -52,9 +52,9 @@ public class AnswerForm {
                 '}';
     }
 
-	public FeedbackAnswer toAnswer(LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository) {		
-		LastCompanyTeamVersion lastVersionOfTeam = lastCompanyTeamVersionRepository.findByLastVersion(teamId);		
-		return new FeedbackAnswer(value,comments,lastVersionOfTeam);
+	public FeedbackAnswer toAnswer(Teams teamRepository) {		
+		CompanyTeam team = teamRepository.findById(this.teamId).get();		
+		return new FeedbackAnswer(value,comments,team);
 	}
 
 }
