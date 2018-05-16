@@ -3,50 +3,63 @@ package br.com.caelum.feel.feedback.companyteams.application.forms;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class TeamForm {
-    private Long id;
+	private Long id;
 
-    @NotEmpty
-    private String name;
+	@NotEmpty
+	private String name;
 
-    @NotNull
-    @Min(1)
-    private Integer totalExpectedPeople;
+	@NotNull
+	@Min(1)
+	private Integer totalExpectedPeople;
 
-    public Long getId() {
-        return id;
-    }
+	@NotBlank
+	private String leaderName;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getLeaderName() {
+		return leaderName;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setLeaderName(String leaderName) {
+		this.leaderName = leaderName;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Integer getTotalExpectedPeople() {
-        return totalExpectedPeople;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setTotalExpectedPeople(Integer totalExpectedPeople) {
-        this.totalExpectedPeople = totalExpectedPeople;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void fillFrom(CompanyTeam companyTeam) {
-        id = companyTeam.getId();
-        name = companyTeam.getName();
-        totalExpectedPeople = companyTeam.getTotalExpectedPeople();
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public CompanyTeam toEntity() {
-        return new CompanyTeam(name, totalExpectedPeople);
-    }
+	public Integer getTotalExpectedPeople() {
+		return totalExpectedPeople;
+	}
+
+	public void setTotalExpectedPeople(Integer totalExpectedPeople) {
+		this.totalExpectedPeople = totalExpectedPeople;
+	}
+
+	public void fillFrom(CompanyTeam companyTeam) {
+		id = companyTeam.getId();
+		name = companyTeam.getName();
+		leaderName = companyTeam.getLeaderName();
+		totalExpectedPeople = companyTeam.getTotalExpectedPeople();
+	}
+
+	public CompanyTeam toEntity() {
+		return new CompanyTeam(name,leaderName,totalExpectedPeople);
+	}
 }

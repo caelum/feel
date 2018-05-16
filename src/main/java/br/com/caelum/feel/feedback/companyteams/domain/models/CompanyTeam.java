@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -32,14 +33,19 @@ public class CompanyTeam {
     @Column(name = "total_expected_people")
     private Integer totalExpectedPeople;
 
+    @NotBlank
+	private String leaderName;
+
     /**
      * @deprecated frameworks only
      */
     @Deprecated(since = "1.0.0")
     CompanyTeam(){}
 
-    public CompanyTeam(String name, Integer totalExpectedPeople){
-        Assert.hasText(name, "Name required");
+    public CompanyTeam(String name, String leaderName, Integer totalExpectedPeople){
+        this.leaderName = leaderName;
+		Assert.hasText(name, "Name required");
+        Assert.hasText(leaderName, "Leader name required");
         Assert.notNull(totalExpectedPeople, "Total expected people required");
         Assert.isTrue(totalExpectedPeople > 0, "Total expected people should be positive");
 
@@ -75,5 +81,10 @@ public class CompanyTeam {
     public void updateFromForm(TeamForm form) {
         name = form.getName();
         totalExpectedPeople = form.getTotalExpectedPeople();
+        leaderName = form.getLeaderName();
     }
+
+	public String getLeaderName() {
+		return leaderName;
+	}
 }
