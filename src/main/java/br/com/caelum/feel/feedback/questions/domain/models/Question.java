@@ -135,12 +135,16 @@ public class Question {
         return Objects.hash(affirmation);
     }
 
+    //TODO testes :P
     public void updateFromForm(Question otherQuestion) {
         explanation = otherQuestion.explanation;
         affirmation = otherQuestion.affirmation;
         cycle = otherQuestion.cycle;
         lastOne = otherQuestion.lastOne;        
         dueDate = otherQuestion.dueDate;
+        
+        teams.clear();
+        addTeams(otherQuestion.teams);
     }
 
     public QuestionState getCurrentState() {
