@@ -17,7 +17,7 @@ public class ClosedQuestionValidator {
 	public boolean validate(String uuid,Errors errors) {
 		Question question = questions.findByHash(uuid);
 		
-		if(question.getCurrentState().isClosed()) {
+		if(question.isClosed()) {
 			errors.rejectValue("teamId","","Essa questão já está fechada");
 			return false;
 		}		

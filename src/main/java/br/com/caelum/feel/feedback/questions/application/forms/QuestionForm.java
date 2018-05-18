@@ -1,22 +1,21 @@
 package br.com.caelum.feel.feedback.questions.application.forms;
 
-import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
-import br.com.caelum.feel.feedback.questions.domain.models.Question;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
+import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
+import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 
 public class QuestionForm {
 
 	private Long id;
-
-	@NotEmpty
-	private String explanation;
 
 	@NotEmpty
 	private String statement;
@@ -51,14 +50,6 @@ public class QuestionForm {
 
 	public void setCycleId(Integer cycleId) {
 		this.cycleId = cycleId;
-	}
-
-	public String getExplanation() {
-		return explanation;
-	}
-
-	public void setExplanation(String explanation) {
-		this.explanation = explanation;
 	}
 
 	public String getStatement() {
@@ -103,7 +94,6 @@ public class QuestionForm {
 
 	public void fromQuestion(Question question) {
 		id = question.getId();
-		explanation = question.getExplanation();
 		statement = question.getStatement();
 		descriptionOfLowerValue = question.getDescriptionOfLowerValue();
 		descriptionOfHighestValue = question.getDescriptionOfHighestValue();
@@ -114,7 +104,7 @@ public class QuestionForm {
 
 	public Question toQuestion(CycleRepository cycleRepository) {
 		var affirmation = createAffirmation();
-		Question question = new Question(explanation, affirmation, dueDate, QuestionState.OPEN,
+		Question question = new Question(affirmation, dueDate, QuestionState.OPEN,
 				cycleRepository.findById(this.cycleId).get(),lastOne);
 		
 		return question;

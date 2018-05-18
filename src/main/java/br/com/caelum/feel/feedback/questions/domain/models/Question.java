@@ -28,16 +28,12 @@ import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 
-@Entity(name = "questions")
+@Entity
 public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Lob
-    @NotEmpty
-    private String explanation;
 
     @NotNull
     private Affirmation affirmation;
@@ -69,15 +65,13 @@ public class Question {
     @Deprecated(since = "1.0.0")
     Question(){}
 
-    public Question(String explanation, Affirmation affirmation, LocalDate dueDate, QuestionState state,Cycle cycle, boolean lastOne) {        
-		Assert.hasText(explanation, "Explanation required");
+    public Question(Affirmation affirmation, LocalDate dueDate, QuestionState state,Cycle cycle, boolean lastOne) {        
         Assert.notNull(affirmation, "Affirmation required");
         Assert.notNull(dueDate, "Due date required");
         Assert.isTrue(dueDate.isAfter(LocalDate.now()), "Due date should be in the future");
         Assert.notNull(state, "Initial state required");
         Assert.notNull(cycle, "Cycle é obrigatório");
 
-        this.explanation = explanation;
         this.affirmation = affirmation;
         this.dueDate = dueDate;
         this.hash = UUID.randomUUID().toString();
@@ -104,10 +98,6 @@ public class Question {
 
     public String getDescriptionOfHighestValue() {
         return affirmation.getDescriptionOfHighestValue();
-    }
-
-    public String getExplanation() {
-        return explanation;
     }
 
     public LocalDate getDueDate() {
@@ -137,7 +127,6 @@ public class Question {
 
     //TODO testes :P
     public void updateFromForm(Question otherQuestion) {
-        explanation = otherQuestion.explanation;
         affirmation = otherQuestion.affirmation;
         cycle = otherQuestion.cycle;
         lastOne = otherQuestion.lastOne;        
@@ -147,8 +136,12 @@ public class Question {
         addTeams(otherQuestion.teams);
     }
 
-    public QuestionState getCurrentState() {
-        return currentState;
+    public boolean isClosed() {
+        return currentState.isClosed() || LocalDate.now().compareTo(dueDate) > 0;
+    }
+    
+    public boolean isOpen() {
+    	return !isClosed();
     }
 
 
@@ -172,4 +165,9 @@ public class Question {
 	public void addTeams(Set<LastCompanyTeamVersion> lastVersionOfTeams) {
 		this.teams.addAll(lastVersionOfTeams);
 	}
+	
+	public boolean isFirst() {
+		return cycle.isFirstQuestion(this);
+	}
+	
 }

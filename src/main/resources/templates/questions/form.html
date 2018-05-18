@@ -11,7 +11,7 @@
 		<div th:replace="layout/fragments/components :: sucess(attribute='msg')">
 		</div>        	
 
-        <div th:if="${question.currentState.isClosed()}" id="myModal" class="modal modal-open fade" role="dialog" data-backdrop="static">
+        <div th:if="${question.isClosed()}" id="myModal" class="modal modal-open fade" role="dialog" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -27,7 +27,19 @@
         <h3>Feedback Caelum</h3>
 
 
-        <p th:text="${question.explanation}">
+        <p th:if="${question.isFirst()}" th:text="${question.cycle.welcomeText}">
+            Olá! <br><br>
+
+            Começamos agora nossa segunda rodada de ciclo de feedback!
+            (primeira para o Rio, sejam bem vindos! :D) <br><br>
+
+
+            Segue o mesmo esquema: 6 perguntas, 1 por semana e depois divulgamos os resultados.
+            Por favor, não deixem de responder! (carinha do gatinho do Shrek aqui)
+            As respostas são anônimas, então sintam-se livres para dizer o que pensam.
+        </p>
+        
+        <p th:if="${question.isLastOne()}" th:text="${question.cycle.closingText}">
             Olá! <br><br>
 
             Começamos agora nossa segunda rodada de ciclo de feedback!
@@ -107,7 +119,7 @@
         </form>
     </section>
 </main>
-<script th:if="${question.currentState.isClosed()}" layout:fragment="scripts">
+<script th:if="${question.isClosed()}" layout:fragment="scripts">
     $('#myModal').modal()
 </script>
 </body>

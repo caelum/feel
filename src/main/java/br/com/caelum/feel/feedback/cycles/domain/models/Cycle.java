@@ -3,6 +3,13 @@ package br.com.caelum.feel.feedback.cycles.domain.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+
+import br.com.caelum.feel.feedback.questions.domain.models.Question;
+import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
+import br.com.caelum.feel.infra.ApplicationContextHolder;
+
 @Entity
 public class Cycle {
 
@@ -17,6 +24,9 @@ public class Cycle {
 	@NotBlank
 	@Lob
 	private String closingText;
+	
+	@Autowired
+	private transient Questions questionRepository;
 	
 	/**
 	 * @deprecated frameworks only
@@ -51,6 +61,13 @@ public class Cycle {
 		this.name = updatedCycle.name;
 		this.welcomeText = updatedCycle.welcomeText;
 		this.closingText = updatedCycle.closingText;
+	}
+
+	public boolean isFirstQuestion(Question question) {
+		ApplicationContextHolder.autorwire(this);		
+		Question first = questionRepository.listQuestions(this.id,PageRequest.of(0, 1)).get(0);
+		
+		return first.equals(question);
 	}
 	
 	

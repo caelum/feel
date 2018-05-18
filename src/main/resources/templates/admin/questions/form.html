@@ -12,11 +12,6 @@
         <input th:if="${questionForm.id != null}" type="hidden" th:field="*{id}">
 
         <div class="form-group">
-            <textarea th:errorclass="is-invalid" class="form-control" th:field="*{explanation}" placeholder="Texto explicativo sobre o formato" rows="5"></textarea>
-            <span class="text-danger" th:if="${#fields.hasErrors('explanation')}" th:errors="*{explanation}"></span>
-        </div>
-
-        <div class="form-group">
             <input th:errorclass="is-invalid" class="form-control" th:field="*{statement}" placeholder="Afirmação em questão" type="text">
             <span class="text-danger" th:if="${#fields.hasErrors('statement')}" th:errors="*{statement}"></span>
         </div>
