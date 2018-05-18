@@ -1,10 +1,13 @@
 package br.com.caelum.feel.feedback.cycles.domain.models;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.util.Assert;
 
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
@@ -65,9 +68,11 @@ public class Cycle {
 
 	public boolean isFirstQuestion(Question question) {
 		ApplicationContextHolder.autorwire(this);		
-		Question first = questionRepository.listQuestions(this.id,PageRequest.of(0, 1)).get(0);
+		List<Question> questions = questionRepository.listQuestions(this.id,PageRequest.of(0, 1));		
+		Assert.state(!questions.isEmpty(),"Deveria ter pelo menos uma questao associada ao ciclo");
 		
-		return first.equals(question);
+		
+		return questions.get(0).equals(question);
 	}
 	
 	
