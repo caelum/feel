@@ -15,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
-import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
 
 @Entity
 public class FeedbackAnswer {
@@ -58,6 +57,10 @@ public class FeedbackAnswer {
 
 	public Question getQuestion() {
 		return question;
+	}
+
+	public Integer getId() {
+		return id;
 	}
 
 }

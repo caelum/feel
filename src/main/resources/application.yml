@@ -9,6 +9,9 @@ spring:
     show-sql: true
   flyway:
     enabled: false
+    
+server:
+  port: 8080       
 
 ---
 spring:

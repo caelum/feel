@@ -22,10 +22,12 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
+import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
 import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
@@ -60,7 +62,7 @@ public class Question {
 
 	@ManyToMany
 	private Set<LastCompanyTeamVersion> teams = new HashSet<>();
-
+	
 	/**
 	 * @deprecated frameworks only
 	 */

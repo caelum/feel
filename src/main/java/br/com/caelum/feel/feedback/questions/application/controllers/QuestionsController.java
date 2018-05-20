@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.application.forms.AnswerForm;
 import br.com.caelum.feel.feedback.questions.application.validators.ClosedQuestionValidator;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
-import br.com.caelum.feel.feedback.questions.domain.models.ReportPerTeamAnswer;
 import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
-import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
+import br.com.caelum.feel.infra.AsyncLocalEndpointExecutor;
 
 @Controller
 @RequestMapping("questions")
@@ -34,7 +32,7 @@ public class QuestionsController {
 	@Autowired
 	private FeedbackAnswerRepository feedbackAnswerRepository;
 	@Autowired
-	private ReportPerTeamAnswerRepository reportPerTeamAnswerRepository;
+	private AsyncLocalEndpointExecutor asyncEndpointExecutor;
 
 	@GetMapping("{uuid}")
 	public String form(Model view, @PathVariable String uuid, AnswerForm form) {
@@ -55,27 +53,16 @@ public class QuestionsController {
 		if (bindingResult.hasErrors()) {
 			return form(model, uuid, form);
 		}
-		
-		if(!new ClosedQuestionValidator(questions).validate(uuid, bindingResult)) {
+
+		if (!new ClosedQuestionValidator(questions).validate(uuid, bindingResult)) {
 			return form(model, uuid, form);
 		}
-		
+
 		Question currentQuestion = questions.findByHash(uuid);
-		FeedbackAnswer feedbackAnswer = feedbackAnswerRepository.save(form.toAnswer(currentQuestion,teams));
-		
-		//quantas respostas foram dadas até agora?
-		Number answersCount = feedbackAnswerRepository.countByQuestionIdAndTeamId(currentQuestion.getId(),feedbackAnswer.getTeam().getId());
-		//quantas pessoas tem no time no momento da resposta
-		LastCompanyTeamVersion lastCompanyTeamVersion = currentQuestion.findCurrentVersionOfTeam(feedbackAnswer.getTeam());
-		//pergunta do momento
-		
-		//time respondendo no momento
-		
-		reportPerTeamAnswerRepository.save(new ReportPerTeamAnswer(feedbackAnswer,answersCount,lastCompanyTeamVersion));
+		FeedbackAnswer feedbackAnswer = feedbackAnswerRepository
+				.save(form.toAnswer(currentQuestion, teams));
 			
-		
-		
-		
+		asyncEndpointExecutor.post("/admin/reports/views/per-team/{answerId}", feedbackAnswer.getId());
 
 		redirectAttributes.addFlashAttribute("msg",
 				"Resposta salva com sucesso! Obrigado por participar");
