@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -34,7 +35,8 @@ public class CompanyTeam {
     private Integer totalExpectedPeople;
 
     @NotBlank
-	private String leaderName;
+    @Email
+	private String leaderEmail;
 
     /**
      * @deprecated frameworks only
@@ -42,15 +44,16 @@ public class CompanyTeam {
     @Deprecated(since = "1.0.0")
     CompanyTeam(){}
 
-    public CompanyTeam(String name, String leaderName, Integer totalExpectedPeople){
-        this.leaderName = leaderName;
+    public CompanyTeam(String name, String leaderEmail, Integer totalExpectedPeople){
+        this.leaderEmail = leaderEmail;
 		Assert.hasText(name, "Name required");
-        Assert.hasText(leaderName, "Leader name required");
+        Assert.hasText(leaderEmail, "Leader name required");
         Assert.notNull(totalExpectedPeople, "Total expected people required");
         Assert.isTrue(totalExpectedPeople > 0, "Total expected people should be positive");
 
         this.name = name;
         this.totalExpectedPeople = totalExpectedPeople;
+        this.leaderEmail = leaderEmail;
     }
 
     public String getName() {
@@ -81,10 +84,10 @@ public class CompanyTeam {
     public void updateFromForm(TeamForm form) {
         name = form.getName();
         totalExpectedPeople = form.getTotalExpectedPeople();
-        leaderName = form.getLeaderName();
+        leaderEmail = form.getLeaderEmail();
     }
 
-	public String getLeaderName() {
-		return leaderName;
+	public String getLeaderEmail() {
+		return leaderEmail;
 	}
 }

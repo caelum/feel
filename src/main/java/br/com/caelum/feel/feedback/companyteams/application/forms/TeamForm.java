@@ -2,6 +2,7 @@ package br.com.caelum.feel.feedback.companyteams.application.forms;
 
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -18,14 +19,15 @@ public class TeamForm {
 	private Integer totalExpectedPeople;
 
 	@NotBlank
-	private String leaderName;
+	@Email
+	private String leaderEmail;
 
-	public String getLeaderName() {
-		return leaderName;
+	public String getLeaderEmail() {
+		return leaderEmail;
 	}
 
-	public void setLeaderName(String leaderName) {
-		this.leaderName = leaderName;
+	public void setLeaderEmail(String leaderName) {
+		this.leaderEmail = leaderName;
 	}
 
 	public Long getId() {
@@ -55,11 +57,11 @@ public class TeamForm {
 	public void fillFrom(CompanyTeam companyTeam) {
 		id = companyTeam.getId();
 		name = companyTeam.getName();
-		leaderName = companyTeam.getLeaderName();
+		leaderEmail = companyTeam.getLeaderEmail();
 		totalExpectedPeople = companyTeam.getTotalExpectedPeople();
 	}
 
 	public CompanyTeam toEntity() {
-		return new CompanyTeam(name,leaderName,totalExpectedPeople);
+		return new CompanyTeam(name,leaderEmail,totalExpectedPeople);
 	}
 }

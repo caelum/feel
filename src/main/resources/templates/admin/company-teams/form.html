@@ -19,9 +19,9 @@
         </div>
         
         <div class="form-group">
-            <input id="leader-name" class="form-control" placeholder="Nome do lider" th:field="*{leaderName}"
+            <input id="leader-name" class="form-control" placeholder="Email caelumweb do lider" th:field="*{leaderEmail}"
                    th:errorclass="is-invalid">
-            <span class="text-danger" th:if="${#fields.hasErrors('leaderName')}" th:errors="*{leaderName}"></span>
+            <span class="text-danger" th:if="${#fields.hasErrors('leaderEmail')}" th:errors="*{leaderEmail}"></span>
 
         </div>        
 
