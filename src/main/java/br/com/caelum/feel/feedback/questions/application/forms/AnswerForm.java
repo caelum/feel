@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Range;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
+import br.com.caelum.feel.feedback.questions.domain.models.Question;
 
 public class AnswerForm {
 
@@ -52,9 +53,9 @@ public class AnswerForm {
                 '}';
     }
 
-	public FeedbackAnswer toAnswer(Teams teamRepository) {		
+	public FeedbackAnswer toAnswer(Question question, Teams teamRepository) {		
 		CompanyTeam team = teamRepository.findById(this.teamId).get();		
-		return new FeedbackAnswer(value,comments,team);
+		return new FeedbackAnswer(value,comments,question,team);
 	}
 
 }

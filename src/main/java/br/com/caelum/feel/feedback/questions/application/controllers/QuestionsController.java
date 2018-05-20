@@ -49,7 +49,7 @@ public class QuestionsController {
 	}
 
 	@PostMapping("{uuid}")
-	public String methodName(Model model, @PathVariable String uuid, @Valid AnswerForm form,
+	public String save(Model model, @PathVariable String uuid, @Valid AnswerForm form,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			return form(model, uuid, form);
@@ -59,7 +59,7 @@ public class QuestionsController {
 			return form(model, uuid, form);
 		}
 		
-		feedbackAnswerRepository.save(form.toAnswer(teams));
+		feedbackAnswerRepository.save(form.toAnswer(questions.findByHash(uuid),teams));
 
 		redirectAttributes.addFlashAttribute("msg",
 				"Resposta salva com sucesso! Obrigado por participar");

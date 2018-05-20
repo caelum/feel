@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
@@ -32,10 +33,21 @@ public class FeedbackAnswer {
 	@NotBlank
 	@Column(unique=true)
 	private String hash;
+	@ManyToOne
+	@NotNull
+	private Question question;
+	
+	/**
+	 * @deprecated
+	 */
+	public FeedbackAnswer() {
 
-	public FeedbackAnswer(int value, String comments,CompanyTeam team) {
+	}
+
+	public FeedbackAnswer(int value, String comments,Question question, CompanyTeam team) {
 		this.value = value;
 		this.comments = comments;
+		this.question = question;
 		this.team = team;
 		this.hash = UUID.randomUUID().toString();
 	}
