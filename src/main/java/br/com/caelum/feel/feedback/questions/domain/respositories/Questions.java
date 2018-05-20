@@ -26,5 +26,5 @@ public interface Questions extends Repository<Question, Long> {
 	Optional<Question> findByLastOneAndCycleId(boolean lastOne, Integer cycleId);
 
 	@Query("select q from Question q where q.cycle.id = :id order by q.dueDate asc")
-	List<Question> listQuestions(@Param("id") Integer id,Pageable pageable);
+	List<Question> findAllQuestionsByCycleIdOrderedByDateAsc(@Param("id") Integer cycleId,Pageable pageable);
 }

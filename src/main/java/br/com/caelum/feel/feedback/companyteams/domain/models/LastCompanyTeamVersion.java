@@ -58,6 +58,12 @@ public class LastCompanyTeamVersion implements Serializable{
 		return true;
 	}
 	
+	public CompanyTeam getTeam() {
+		return team;
+	}
 	
+	public int getTotalExpectedPeople() {
+		return totalExpectedPeople;
+	}
 	
 }

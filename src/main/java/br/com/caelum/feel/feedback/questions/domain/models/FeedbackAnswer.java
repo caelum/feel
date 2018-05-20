@@ -52,4 +52,12 @@ public class FeedbackAnswer {
 		this.hash = UUID.randomUUID().toString();
 	}
 
+	public CompanyTeam getTeam() {
+		return team;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
 }

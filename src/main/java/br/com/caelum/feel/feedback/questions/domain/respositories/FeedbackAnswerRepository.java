@@ -9,4 +9,6 @@ public interface FeedbackAnswerRepository extends org.springframework.data.repos
 
 	 @SuppressWarnings("unchecked")
 	FeedbackAnswer save(FeedbackAnswer entity);
+
+	Number countByQuestionIdAndTeamId(Long questionId,Long teamId);
 }
