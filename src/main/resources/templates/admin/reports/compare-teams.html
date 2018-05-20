@@ -17,12 +17,12 @@
     <table class="table table-hover">
         <thead>
 	        <th>Time</th>
-			<th th:each="question : ${compareTeamsReportView.questions}" th:text="${question.statement}"></th>
+			<th th:each="question : ${questionsList}" th:text="${question.statement}"></th>
         </thead>
         <tbody>
-	        <tr th:each="team : ${compareTeamsReportView.teams}">
-	        	<td th:text="${team.name}"/>
-	        	<td th:each="question : ${compareTeamsReportView.questions}" th:text="${compareTeamsReportView.percent(team)}"/>
+	        <tr th:each="team : ${teamsList}">
+	        	<td th:text="${team.name}"></th>
+	        	<td th:each="question : ${questionsList}" th:text=" ${#numbers.formatDecimal(answersList.percent(team,question),1,2)}"></td>	        	
 	        </tr>
         </tbody>
     </table>

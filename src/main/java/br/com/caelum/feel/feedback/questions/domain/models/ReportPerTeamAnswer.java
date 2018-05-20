@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 
 @Entity
 public class ReportPerTeamAnswer {
@@ -38,6 +39,9 @@ public class ReportPerTeamAnswer {
 	@ManyToOne
 	@NotNull
 	private FeedbackAnswer feedbackAnswer;
+	@ManyToOne
+	@NotNull
+	private Cycle cycle;
 	
 	/**
 	 * @deprecated
@@ -48,6 +52,7 @@ public class ReportPerTeamAnswer {
 
 	public ReportPerTeamAnswer(FeedbackAnswer feedbackAnswer, Number answersCount,
 			LastCompanyTeamVersion lastCompanyTeamVersion) {
+		this.cycle = feedbackAnswer.getQuestion().getCycle();
 		this.feedbackAnswer = feedbackAnswer;
 		this.answersCount = answersCount.intValue();
 		this.peopleCount = lastCompanyTeamVersion.getTotalExpectedPeople();
@@ -89,4 +94,8 @@ public class ReportPerTeamAnswer {
 		return teamName;
 	}
 
+	public boolean belongs(CompanyTeam otherTeam, Question otherQuestion) {
+		return this.question.equals(otherQuestion) && this.team.equals(otherTeam);
+		
+	}
 }
