@@ -5,6 +5,7 @@ import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateFor
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
 import br.com.caelum.feel.feedback.questions.application.validators.JustOneLastQuestionValidator;
+import br.com.caelum.feel.feedback.questions.domain.models.CategoryType;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 
@@ -59,6 +60,7 @@ public class AdminQuestionsController {
     public ModelAndView form(@PathVariable Optional<Long> optionalId, QuestionForm form){
         var view = new ModelAndView("admin/questions/form");
         view.addObject("cycleList", cycleRepository.findAll());
+        view.addObject("categoryTypeList", CategoryType.values());
         service.fillFormOnlyWhenIdIsPresent(optionalId, form);
 
         view.addObject("questionForm", form);

@@ -45,7 +45,6 @@ public class Question {
 	@NotEmpty
 	private String hash;
 
-	@Future
 	@NotNull
 	@Column(name = "due_date")
 	private LocalDate dueDate;
@@ -74,7 +73,6 @@ public class Question {
 			boolean lastOne) {
 		Assert.notNull(affirmation, "Affirmation required");
 		Assert.notNull(dueDate, "Due date required");
-		Assert.isTrue(dueDate.isAfter(LocalDate.now()), "Due date should be in the future");
 		Assert.notNull(state, "Initial state required");
 		Assert.notNull(cycle, "Cycle é obrigatório");
 
@@ -104,6 +102,12 @@ public class Question {
 
 	public String getDescriptionOfHighestValue() {
 		return affirmation.getDescriptionOfHighestValue();
+	}
+	
+	
+
+	public CategoryType getCategoryType() {
+		return affirmation.getCategoryType();
 	}
 
 	public LocalDate getDueDate() {

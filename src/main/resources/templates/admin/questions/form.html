@@ -38,6 +38,15 @@
         </div>        
         
         <div class="form-group">
+            <label class="font-weight-bold" for="time">Categoria</label>
+            <select th:errorclass="is-invalid" id="t" class="form-control" name="categoryType" th:field="*{categoryType}" required>
+                <option value="" selected disabled>Escolha uma categoria...</option>
+                <option th:each="categoryType : ${categoryTypeList}" th:value="${categoryType.name()}" th:text="${categoryType.label}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('categoryType')}" th:errors="cycleId"></span>
+        </div> 
+               
+        <div class="form-group">
             <label class="font-weight-bold" for="time">Pertence a qual ciclo?</label>
             <select th:errorclass="is-invalid" id="cycleId" class="form-control" name="cycleId" th:field="*{cycleId}" required>
                 <option value="" selected disabled>Escolha um ciclo...</option>

@@ -2,13 +2,13 @@ package br.com.caelum.feel.feedback.questions.application.forms;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
+import br.com.caelum.feel.feedback.questions.domain.models.CategoryType;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
@@ -27,7 +27,6 @@ public class QuestionForm {
 	private String descriptionOfHighestValue;
 
 	@NotNull
-	@Future
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dueDate;
 
@@ -35,6 +34,17 @@ public class QuestionForm {
 
 	@NotNull
 	private Integer cycleId;
+	
+	@NotNull
+	private CategoryType categoryType;
+	
+	public void setCategoryType(CategoryType categoryType) {
+		this.categoryType = categoryType;
+	}
+	
+	public CategoryType getCategoryType() {
+		return categoryType;
+	}
 
 	public boolean isLastOne() {
 		return lastOne;
@@ -100,6 +110,7 @@ public class QuestionForm {
 		dueDate = question.getDueDate();
 		cycleId = question.getCycle().getId();
 		lastOne = question.isLastOne();
+		categoryType = question.getCategoryType();
 	}
 
 	public Question toQuestion(CycleRepository cycleRepository) {
@@ -115,7 +126,7 @@ public class QuestionForm {
 	}
 
 	private Affirmation createAffirmation() {
-		return new Affirmation(statement, descriptionOfLowerValue, descriptionOfHighestValue);
+		return new Affirmation(statement, descriptionOfLowerValue, descriptionOfHighestValue,categoryType);
 	}
 
 }
