@@ -26,7 +26,8 @@
             </td>
             <td class="d-flex flex-row justify-content-around">
                 <a class="text-primary fas fa-pencil-alt" th:href="@{/admin/cycles/{id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Editar"></a>                
-                <a class="text-secondary fas fa-external-link-alt" th:href="@{/admin/reports/compare-teams?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Relatorio comparativo entre times"></a>                               
+                <a class="text-secondary fas fa-external-link-alt" th:href="@{/admin/reports/feedbak/compare-number-answers?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Relatorio comparativo entre participação dos times"></a>                               
+                <a class="text-secondary fas fa-external-link-alt" th:href="@{/admin/reports/feedbak/compare-number-answers-values?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Relatorio comparativo entre notas dos times"></a>                               
             </td>
         </tr>
         </tbody>

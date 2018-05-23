@@ -41,7 +41,10 @@ public class ReportPerTeamAnswer {
 	private FeedbackAnswer feedbackAnswer;
 	@ManyToOne
 	@NotNull
-	private Cycle cycle;
+	private Cycle cycle;	
+	private int sumValue;
+	@Column(scale=4,precision=19)
+	private BigDecimal percentValue;
 	
 	/**
 	 * @deprecated
@@ -50,11 +53,15 @@ public class ReportPerTeamAnswer {
 
 	}
 
-	public ReportPerTeamAnswer(FeedbackAnswer feedbackAnswer, Number answersCount,
+	public ReportPerTeamAnswer(FeedbackAnswer feedbackAnswer, Number answersCount,Number sumValue,
 			LastCompanyTeamVersion lastCompanyTeamVersion) {
 		this.cycle = feedbackAnswer.getQuestion().getCycle();
 		this.feedbackAnswer = feedbackAnswer;
 		this.answersCount = answersCount.intValue();
+		this.sumValue = sumValue.intValue();
+		this.percentValue = new BigDecimal(this.sumValue).divide(
+				new BigDecimal(this.answersCount), 3,
+				RoundingMode.HALF_EVEN);
 		this.peopleCount = lastCompanyTeamVersion.getTotalExpectedPeople();
 		this.percentAnswer = new BigDecimal(answersCount.intValue()).divide(
 				new BigDecimal(lastCompanyTeamVersion.getTotalExpectedPeople()), 3,
@@ -63,7 +70,7 @@ public class ReportPerTeamAnswer {
 		this.question = feedbackAnswer.getQuestion();
 		this.questionStatement = feedbackAnswer.getQuestion().getStatement();
 		this.team = feedbackAnswer.getTeam();
-		this.teamName = feedbackAnswer.getTeam().getName();
+		this.teamName = feedbackAnswer.getTeam().getName();		
 	}
 
 	public int getAnswersCount() {
@@ -92,6 +99,10 @@ public class ReportPerTeamAnswer {
 
 	public String getTeamName() {
 		return teamName;
+	}
+	
+	public BigDecimal getPercentValue() {
+		return percentValue;
 	}
 
 	public boolean belongs(CompanyTeam otherTeam, Question otherQuestion) {

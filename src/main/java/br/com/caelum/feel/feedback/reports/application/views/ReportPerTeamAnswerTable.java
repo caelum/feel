@@ -16,10 +16,16 @@ public class ReportPerTeamAnswerTable {
 		this.answers = answers;
 	}
 	
-	public BigDecimal percent(CompanyTeam otherTeam, Question otherQuestion) {
+	public BigDecimal percentCount(CompanyTeam otherTeam, Question otherQuestion) {
 		Optional<ReportPerTeamAnswer> found = answers.stream().filter(answer -> answer.belongs(otherTeam, otherQuestion)).findFirst();
 		
 		return found.map(answer -> answer.getPercentAnswer()).orElse(BigDecimal.ZERO);
 	}
+	
+	public BigDecimal percentValue(CompanyTeam otherTeam, Question otherQuestion) {
+		Optional<ReportPerTeamAnswer> found = answers.stream().filter(answer -> answer.belongs(otherTeam, otherQuestion)).findFirst();
+		
+		return found.map(answer -> answer.getPercentValue()).orElse(BigDecimal.ZERO);
+	}	
 
 }

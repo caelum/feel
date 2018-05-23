@@ -22,7 +22,7 @@ import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamA
 import br.com.caelum.feel.feedback.reports.application.views.ReportPerTeamAnswerTable;
 
 @Controller
-public class ReportsController {
+public class FeedbackReportsController {
 
 	@Autowired
 	private SaveReportPerTeamAction saveReportPerTeamAction;
@@ -35,8 +35,8 @@ public class ReportsController {
 	@Autowired
 	private Teams teamRepository;
 
-	@GetMapping("/admin/reports/compare-teams")
-	public String dashboardCompareTeams(Model model, @RequestParam("cycleId") Integer cycleId) {
+	@GetMapping("/admin/reports/feedbak/compare-number-answers")
+	public String dashboardCompareAnswersPercent(Model model, @RequestParam("cycleId") Integer cycleId) {
 
 		List<ReportPerTeamAnswer> answers = reportPerTeamAnswerRepository.listCurrentView(cycleId);
 		model.addAttribute("answersList", new ReportPerTeamAnswerTable(answers));
@@ -45,8 +45,19 @@ public class ReportsController {
 		model.addAttribute("teamsList", teamRepository.findAll());
 		return "admin/reports/compare-teams";
 	}
+	
+	@GetMapping("/admin/reports/feedbak/compare-number-answers-values")
+	public String dashboardCompareValuesPercent(Model model, @RequestParam("cycleId") Integer cycleId) {
+		
+		List<ReportPerTeamAnswer> answers = reportPerTeamAnswerRepository.listCurrentView(cycleId);
+		model.addAttribute("answersList", new ReportPerTeamAnswerTable(answers));
+		model.addAttribute("questionsList", questionRepository
+				.findAllQuestionsByCycleIdOrderedByDateAsc(cycleId, PageRequest.of(0, 6)));
+		model.addAttribute("teamsList", teamRepository.findAll());
+		return "admin/reports/compare-answers-values";
+	}
 
-	@PostMapping("/admin/reports/views/per-team/{answerId}")
+	@PostMapping("/admin/reports/feedback/views/per-team/{answerId}")
 	public HttpEntity<?> saveRepostAnswerPerTeam(@PathVariable("answerId") Integer answerId) {
 		saveReportPerTeamAction.execute(feedbackAnswerRepository.findById(answerId).get());
 		return ResponseEntity.ok("");

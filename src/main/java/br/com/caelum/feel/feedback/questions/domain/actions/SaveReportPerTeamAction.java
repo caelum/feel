@@ -22,9 +22,10 @@ public class SaveReportPerTeamAction {
 		Question currentQuestion = feedbackAnswer.getQuestion();
 		
 		Number answersCount = feedbackAnswerRepository.countByQuestionIdAndTeamId(currentQuestion.getId(),feedbackAnswer.getTeam().getId());
+		Number sumValuesOfQuestion = feedbackAnswerRepository.sumValuesOfQuestion(feedbackAnswer.getQuestion().getId(),feedbackAnswer.getTeam().getId());
 		LastCompanyTeamVersion lastCompanyTeamVersion = currentQuestion.findCurrentVersionOfTeam(feedbackAnswer.getTeam());
 		
-		reportPerTeamAnswerRepository.save(new ReportPerTeamAnswer(feedbackAnswer,answersCount,lastCompanyTeamVersion));		
+		reportPerTeamAnswerRepository.save(new ReportPerTeamAnswer(feedbackAnswer,answersCount,sumValuesOfQuestion,lastCompanyTeamVersion));		
 	}
 
 }
