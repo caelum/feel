@@ -62,7 +62,7 @@ public class QuestionsController {
 		FeedbackAnswer feedbackAnswer = feedbackAnswerRepository
 				.save(form.toAnswer(currentQuestion, teams));
 			
-		asyncEndpointExecutor.post("/admin/reports/feedback/views/per-team/{answerId}", feedbackAnswer.getId());
+		asyncEndpointExecutor.post("/magic/kjfhsdjkfdsfsduhwied23/reports/feedback/views/per-team/{answerId}", feedbackAnswer.getId());
 
 		redirectAttributes.addFlashAttribute("msg",
 				"Resposta salva com sucesso! Obrigado por participar");

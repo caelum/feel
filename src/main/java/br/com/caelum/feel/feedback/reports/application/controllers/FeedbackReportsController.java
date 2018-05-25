@@ -35,7 +35,7 @@ public class FeedbackReportsController {
 	@Autowired
 	private Teams teamRepository;
 
-	@GetMapping("/admin/reports/feedbak/compare-number-answers")
+	@GetMapping("/reports/feedbak/compare-number-answers")
 	public String dashboardCompareAnswersPercent(Model model, @RequestParam("cycleId") Integer cycleId) {
 
 		List<ReportPerTeamAnswer> answers = reportPerTeamAnswerRepository.listCurrentView(cycleId);
@@ -46,7 +46,7 @@ public class FeedbackReportsController {
 		return "admin/reports/compare-teams";
 	}
 	
-	@GetMapping("/admin/reports/feedbak/compare-number-answers-values")
+	@GetMapping("/reports/feedbak/compare-number-answers-values")
 	public String dashboardCompareValuesPercent(Model model, @RequestParam("cycleId") Integer cycleId) {
 		
 		List<ReportPerTeamAnswer> answers = reportPerTeamAnswerRepository.listCurrentView(cycleId);
@@ -57,7 +57,7 @@ public class FeedbackReportsController {
 		return "admin/reports/compare-answers-values";
 	}
 
-	@PostMapping("/admin/reports/feedback/views/per-team/{answerId}")
+	@PostMapping("/magic/kjfhsdjkfdsfsduhwied23/reports/feedback/views/per-team/{answerId}")
 	public HttpEntity<?> saveRepostAnswerPerTeam(@PathVariable("answerId") Integer answerId) {
 		saveReportPerTeamAction.execute(feedbackAnswerRepository.findById(answerId).get());
 		return ResponseEntity.ok("");
