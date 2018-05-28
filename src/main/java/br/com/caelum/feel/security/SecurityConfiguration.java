@@ -22,6 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.antMatchers("/questions/**").permitAll()		
 		.antMatchers("/magic/**").permitAll()		
 		.antMatchers("/custom/login").permitAll()		
+		.antMatchers("/admin/cycles").authenticated()		
 		.antMatchers("/admin/**").hasAuthority(Role.PEOPLE.getName())		
 		.anyRequest().authenticated()
 		.and().formLogin()		
