@@ -1,6 +1,7 @@
 package br.com.caelum.feel.feedback.questions.domain.respositories;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,4 +17,8 @@ public interface FeedbackAnswerRepository extends CrudRepository<FeedbackAnswer,
 	
 	@Query("select sum(f.value) from FeedbackAnswer f where f.question.id = :questionId and f.team.id = :teamId") 
 	BigDecimal sumValuesOfQuestion(@Param("questionId") Long questionId,@Param("teamId") Long teamId);
+
+	List<FeedbackAnswer> findByTeamIdAndQuestionId(Long teamId, Long questionId);
+
+	List<FeedbackAnswer> findByQuestionId(Long teamId);
 }

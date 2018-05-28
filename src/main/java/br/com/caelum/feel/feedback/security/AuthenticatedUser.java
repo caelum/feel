@@ -1,6 +1,7 @@
 package br.com.caelum.feel.feedback.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import br.com.caelum.feel.security.Role;
@@ -9,12 +10,20 @@ import br.com.caelum.feel.security.Role;
 public class AuthenticatedUser {
 
 	public boolean isPeople() {
-		return SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-				.contains(Role.PEOPLE);
+		return isPeople((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	}
 	
 	public boolean isReader() {
-		return SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+		return isReader((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+	}
+	
+	public boolean isPeople(UserDetails currentUser) {
+		return currentUser.getAuthorities()
+				.contains(Role.PEOPLE);
+	}
+	
+	public boolean isReader(UserDetails currentUser) {
+		return currentUser.getAuthorities()
 				.contains(Role.READER);
 	}
 }

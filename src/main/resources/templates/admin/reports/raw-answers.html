@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Questions</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+	<form th:action="@{/reports/feedback/raw-answers/search}" th:object="${searchRawAnswersForm}" method="get">
+	
+	
+        <input type="hidden" th:field="*{cycleId}"/>
+        <input type="hidden" th:field="*{teamId}" th:if="${@authenticatedUser.isReader()}"/>
+        
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Questão</label>
+            <select th:errorclass="is-invalid" class="form-control" name="questionId" th:field="*{questionId}" required>
+                <option value="" selected disabled>Escolha uma questão...</option>
+                <option th:each="question : ${questionList}" th:value="${question.id}" th:text="${question.statement}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="teamId"></span>            			           
+        </div>        
+        	
+        <div class="form-group" th:if="${@authenticatedUser.isPeople()}">
+            <label class="font-weight-bold" for="time">Time</label>
+            <select th:errorclass="is-invalid" class="form-control" name="teamId" th:field="*{teamId}">
+                <option value="" selected>Todos</option>
+                <option th:each="team : ${teamList}" th:value="${team.id}" th:text="${team.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="teamId"></span>            			           
+        </div>		
+        
+        <button class="btn btn-block btn-info">Filtrar</button>
+	</form>	
+
+    <table class="table table-hover">
+        <thead>
+        <th>Dia</th>
+        <th>Time</th>
+        <th>Nota</th>
+        <th>Comentário</th>
+        </thead>
+        <tbody>
+        <tr th:each="answer : ${answerList}">
+            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:MM')}">05/05/2018 20:10</td>
+            <td th:text="${answer.team.name}">Comercial</td>
+            <td th:text="${answer.value}">4</td>
+            <td th:text="${answer.comments}">4</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

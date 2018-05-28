@@ -68,7 +68,7 @@ public class Cycle {
 
 	public boolean isFirstQuestion(Question question) {
 		ApplicationContextHolder.autorwire(this);		
-		List<Question> questions = questionRepository.findAllQuestionsByCycleIdOrderedByDateAsc(this.id,PageRequest.of(0, 1));		
+		List<Question> questions = questionRepository.findByCycleIdOrderByDueDateAsc(this.id,PageRequest.of(0, 1));		
 		Assert.state(!questions.isEmpty(),"Deveria ter pelo menos uma questao associada ao ciclo");
 		
 		

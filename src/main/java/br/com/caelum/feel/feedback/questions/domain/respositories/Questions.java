@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -25,6 +24,7 @@ public interface Questions extends Repository<Question, Long> {
 
 	Optional<Question> findByLastOneAndCycleId(boolean lastOne, Integer cycleId);
 
-	@Query("select q from Question q where q.cycle.id = :id order by q.dueDate asc")
-	List<Question> findAllQuestionsByCycleIdOrderedByDateAsc(@Param("id") Integer cycleId,Pageable pageable);
+	List<Question> findByCycleIdOrderByDueDateAsc(@Param("id") Integer cycleId,Pageable pageable);
+
+	List<Question> findByCycleIdOrderByDueDateAsc(Integer cycleId);
 }

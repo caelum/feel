@@ -18,4 +18,6 @@ public interface Teams extends Repository<CompanyTeam, Long> {
     void delete(CompanyTeam team);
 
     List<Teams> findAll();
+
+	CompanyTeam findByLeaderLogin(String login);
 }

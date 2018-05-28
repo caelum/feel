@@ -1,5 +1,6 @@
 package br.com.caelum.feel.feedback.questions.domain.models;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -35,6 +36,8 @@ public class FeedbackAnswer {
 	@ManyToOne
 	@NotNull
 	private Question question;
+	@NotNull
+	private LocalDateTime instant = LocalDateTime.now();
 	
 	/**
 	 * @deprecated
@@ -48,7 +51,7 @@ public class FeedbackAnswer {
 		this.comments = comments;
 		this.question = question;
 		this.team = team;
-		this.hash = UUID.randomUUID().toString();
+		this.hash = UUID.randomUUID().toString();		
 	}
 
 	public CompanyTeam getTeam() {
@@ -61,6 +64,18 @@ public class FeedbackAnswer {
 
 	public Integer getId() {
 		return id;
+	}
+	
+	public String getComments() {
+		return comments;
+	}
+	
+	public LocalDateTime getInstant() {
+		return instant;
+	}
+	
+	public int getValue() {
+		return value;
 	}
 
 }
