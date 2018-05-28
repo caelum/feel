@@ -1,12 +1,11 @@
 package br.com.caelum.feel.feedback.companyteams.application.forms;
 
-import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 
 public class TeamForm {
 	private Long id;
@@ -19,15 +18,14 @@ public class TeamForm {
 	private Integer totalExpectedPeople;
 
 	@NotBlank
-	@Email
-	private String leaderEmail;
+	private String leaderLogin;
 
-	public String getLeaderEmail() {
-		return leaderEmail;
+	public String getLeaderLogin() {
+		return leaderLogin;
 	}
 
-	public void setLeaderEmail(String leaderName) {
-		this.leaderEmail = leaderName;
+	public void setLeaderLogin(String leaderName) {
+		this.leaderLogin = leaderName;
 	}
 
 	public Long getId() {
@@ -57,11 +55,11 @@ public class TeamForm {
 	public void fillFrom(CompanyTeam companyTeam) {
 		id = companyTeam.getId();
 		name = companyTeam.getName();
-		leaderEmail = companyTeam.getLeaderEmail();
+		leaderLogin = companyTeam.getLeaderLogin();
 		totalExpectedPeople = companyTeam.getTotalExpectedPeople();
 	}
 
 	public CompanyTeam toEntity() {
-		return new CompanyTeam(name,leaderEmail,totalExpectedPeople);
+		return new CompanyTeam(name,leaderLogin,totalExpectedPeople);
 	}
 }
