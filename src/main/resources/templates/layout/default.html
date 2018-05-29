@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec=“http://www.thymeleaf.org/thymeleaf-extras-springsecurity4”>
 <head>
     <meta charset="UTF-8">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Feedback Loop</title>
@@ -13,22 +14,22 @@
 </head>
 <body>
 
-<header class="header">
+<header class="header" sec:authorize="isAuthenticated()">
     <nav class="nav-area">
 
         <img id="logo" src="/images/logo.svg">
-
+	
         <ul class="nav-links m-0">
             <li class="nav-item">
                 <a class="nav-link" href="/admin/cycles">Ciclos</a>
             </li>
              
                     
-            <li class="nav-item" th:if="${@authenticatedUser.isPeople()}">
+            <li class="nav-item" sec:authorize="hasRole('ROLE_PEOPLE')">
                 <a class="nav-link" href="/admin/company-teams">Times</a>
             </li>
                       
-            <li class="nav-item" th:if="${@authenticatedUser.isPeople()}">
+            <li class="nav-item" sec:authorize="hasRole('ROLE_PEOPLE')">
                 <a class="nav-link" href="/admin/questions">Perguntas</a>
             </li>
 
