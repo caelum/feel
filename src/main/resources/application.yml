@@ -16,9 +16,8 @@ server:
 ---
 spring:
   profiles: production
-  datasource:
-    username: root
-    url: jdbc:mysql://${DATABASE_URL}/feel
+  datasource:    
+    url: jdbc:mysql://adffdadf2341:adf4234@us-cdbr-east.cleardb.com/heroku_db?reconnect=true
     driver-class-name: org.gjt.mm.mysql.Driver
   jpa:
     hibernate:
@@ -28,3 +27,6 @@ spring:
   devtools:
     livereload:
       enabled: false
+      
+server:
+  port: ${PORT}          

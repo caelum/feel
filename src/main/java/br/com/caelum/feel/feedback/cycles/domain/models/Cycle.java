@@ -65,7 +65,7 @@ public class Cycle {
 		this.welcomeText = updatedCycle.welcomeText;
 		this.closingText = updatedCycle.closingText;
 	}
-
+	
 	public boolean isFirstQuestion(Question question) {
 		ApplicationContextHolder.autorwire(this);		
 		List<Question> questions = questionRepository.findByCycleIdOrderByDueDateAsc(this.id,PageRequest.of(0, 1));		
