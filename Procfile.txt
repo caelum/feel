@@ -1,1 +1,1 @@
-web: java -Dspring.profiles.active=production -jar target/feel-1.0-SNAPSHOT.jar
+web: java --add-modules java.xml.bind -Dspring.profiles.active=production -jar target/feel-1.0-SNAPSHOT.jar
