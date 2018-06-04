@@ -16,17 +16,20 @@ server:
 ---
 spring:
   profiles: production
-  datasource:    
-    url: jdbc:mysql://adffdadf2341:adf4234@us-cdbr-east.cleardb.com/heroku_db?reconnect=true&createDatabaseIfNotExist=true
+  datasource:  
+    username: root  
+    password: 5cf7de5eef05d0b3aae6b11f25bdb18cb54067fcbe05c288
+    url: jdbc:mysql://localhost/feel_prod?createDatabaseIfNotExist=true
     driver-class-name: org.gjt.mm.mysql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
   flyway:
     encoding: UTF-8
+    enabled: false
   devtools:
     livereload:
       enabled: false
       
 server:
-  port: ${PORT}          
+  port: 80          
