@@ -9,6 +9,6 @@ public class UrlBuilder {
 		Environment env = ApplicationContextHolder.getInstance().getBean(Environment.class);	
 		
 		return ServletUriComponentsBuilder.fromPath(path)
-		.host("localhost").port(Integer.parseInt(env.getProperty("server.port"))).scheme("http").build(variables).toString();		
+		.host(env.getProperty("server.host-name")).port(Integer.parseInt(env.getProperty("server.port"))).scheme("http").build(variables).toString();		
 	}
 }
