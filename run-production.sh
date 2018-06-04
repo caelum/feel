@@ -1,0 +1,1 @@
+java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=prod -jar webapp-runner.jar --port 80 --expand-war bolao.war&
