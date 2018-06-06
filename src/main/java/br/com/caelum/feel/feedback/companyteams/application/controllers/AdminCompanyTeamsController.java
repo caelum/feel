@@ -23,6 +23,7 @@ import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
 import br.com.caelum.feel.feedback.companyteams.application.services.SaveTeamService;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.questions.domain.actions.UpdateQuestionsForTeamAction;
+import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
 import br.com.caelum.feel.infra.TransactionalRunner;
 
 @Controller
@@ -35,7 +36,9 @@ public class AdminCompanyTeamsController {
 	@Autowired
     private UpdateQuestionsForTeamAction updateQuestionsForTeamAction;
 	@Autowired
-    private TransactionalRunner transactionalRunner;
+    private TransactionalRunner transactionalRunner;	
+	@Autowired
+	private FeedbackAnswerRepository feedbackAnswerRepository;
 
     @GetMapping
     public ModelAndView list(Optional<Integer> page){
@@ -69,7 +72,8 @@ public class AdminCompanyTeamsController {
 
         transactionalRunner.run(() -> service.saveByForm(form));
         transactionalRunner.run(() -> updateQuestionsForTeamAction.executeForAllQuestions());
-
+        //aqui agora precisa atualizar em função das últimas respostas para cada pergunta diferente
+        
         redirect.addFlashAttribute("msg", String.format("Time %s salvo com sucesso!", form.getName()));
 
         return view;

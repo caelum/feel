@@ -19,6 +19,7 @@ import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
+import br.com.caelum.feel.feedback.reports.application.endpoints.UpdateQuestionsReportEndpoint;
 import br.com.caelum.feel.infra.AsyncLocalEndpointExecutor;
 
 @Controller
@@ -32,7 +33,7 @@ public class QuestionsController {
 	@Autowired
 	private FeedbackAnswerRepository feedbackAnswerRepository;
 	@Autowired
-	private AsyncLocalEndpointExecutor asyncEndpointExecutor;
+	private UpdateQuestionsReportEndpoint updateQuestionsReportEndpoint;
 
 	@GetMapping("{uuid}")
 	public String form(Model view, @PathVariable String uuid, AnswerForm form) {
@@ -62,7 +63,7 @@ public class QuestionsController {
 		FeedbackAnswer feedbackAnswer = feedbackAnswerRepository
 				.save(form.toAnswer(currentQuestion, teams));
 			
-		asyncEndpointExecutor.post("/magic/kjfhsdjkfdsfsduhwied23/reports/feedback/views/per-team/{answerId}", feedbackAnswer.getId());
+		updateQuestionsReportEndpoint.execute(feedbackAnswer);
 
 		redirectAttributes.addFlashAttribute("msg",
 				"Resposta salva com sucesso! Obrigado por participar");
