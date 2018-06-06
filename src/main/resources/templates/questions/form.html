@@ -23,6 +23,19 @@
                 </div>
             </div>
         </div>
+        
+        <div th:if="${answerForm.isDone()}" id="answeredModal" class="modal modal-open fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Obrigado pela resposta!</h5>
+                    </div>
+                    <div class="modal-body">
+                        Você já pode fechar a página :). 
+                    </div>
+                </div>
+            </div>
+        </div>        
 
         <h3>Feedback Caelum</h3>
 
@@ -121,6 +134,9 @@
 </main>
 <script th:if="${question.isClosed()}" layout:fragment="scripts">
     $('#myModal').modal()
+</script>
+<script th:if="${answerForm.isDone()}" layout:fragment="scripts">
+    $('#answeredModal').modal()
 </script>
 </body>
 </html>

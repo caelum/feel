@@ -19,6 +19,8 @@ public class AnswerForm {
     private Integer value;
 
     private String comments;
+
+	private boolean done;
     
     public Long getTeamId() {
         return teamId;
@@ -56,6 +58,14 @@ public class AnswerForm {
 	public FeedbackAnswer toAnswer(Question question, Teams teamRepository) {		
 		CompanyTeam team = teamRepository.findById(this.teamId).get();		
 		return new FeedbackAnswer(value,comments,question,team);
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
+	}
+	
+	public boolean isDone() {
+		return done;
 	}
 
 }

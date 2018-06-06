@@ -64,10 +64,10 @@ public class QuestionsController {
 				.save(form.toAnswer(currentQuestion, teams));
 			
 		updateQuestionsReportEndpoint.execute(feedbackAnswer);
-
+		
 		redirectAttributes.addFlashAttribute("msg",
 				"Resposta salva com sucesso! Obrigado por participar");
-		return "redirect:/questions/" + uuid;
+		return "redirect:/questions/" + uuid + "?done=true";
 	}
 
 }
