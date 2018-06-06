@@ -3,7 +3,6 @@ package br.com.caelum.feel.feedback.questions.application.services;
 import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -11,66 +10,57 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
-import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
+import br.com.caelum.feel.feedback.questions.domain.actions.UpdateQuestionsForTeamAction;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 
 @Service
 public class QuestionService {
 
-    private final Questions questions;
-    private CycleRepository cycleRepository;
-    private LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository;
+	private final Questions questions;
+	private CycleRepository cycleRepository;
+	private UpdateQuestionsForTeamAction updateQuestionsForTeamAction;
 
-    public QuestionService(Questions questions,CycleRepository cycleRepository,LastCompanyTeamVersionRepository lastCompanyTeamVersionRepository) {
-        this.questions = questions;
+	public QuestionService(Questions questions, CycleRepository cycleRepository,
+			UpdateQuestionsForTeamAction updateQuestionsForTeamAction) {
+		this.questions = questions;
 		this.cycleRepository = cycleRepository;
-		this.lastCompanyTeamVersionRepository = lastCompanyTeamVersionRepository;
-    }
+		this.updateQuestionsForTeamAction = updateQuestionsForTeamAction;
+	}
 
-    public Page<Question> getAllPaged(Integer currentPage) {
-        return questions.findAll(PageRequest.of(currentPage, 5));
-    }
+	public Page<Question> getAllPaged(Integer currentPage) {
+		return questions.findAll(PageRequest.of(currentPage, 5));
+	}
 
-    @Transactional
-    public void saveBy(QuestionForm form) {
+	@Transactional
+	public void saveBy(QuestionForm form) {
 
-        var id = form.getId();
-        var optionalQuestion = ofNullable(id).flatMap(questions::findById);
-        
-        var formQuestion = form.toQuestion(cycleRepository);
+		var id = form.getId();
+		var optionalQuestion = ofNullable(id).flatMap(questions::findById);
 
-        Set<LastCompanyTeamVersion> lastVersionOfTeams = lastCompanyTeamVersionRepository.listLastVersions();
-        formQuestion.addTeams(lastVersionOfTeams);
+		var formQuestion = updateQuestionsForTeamAction.execute(form.toQuestion(cycleRepository));
 
-        if(optionalQuestion.isPresent()) {
-        	optionalQuestion.get().updateFromForm(formQuestion);
-        } else {        	        	
-        	questions.save(formQuestion);        	
-        }
-        
+		if (optionalQuestion.isPresent()) {
+			optionalQuestion.get().updateFromForm(formQuestion);
+		} else {
+			questions.save(formQuestion);
+		}
 
-        
+	}
 
+	public void fillFormOnlyWhenIdIsPresent(Optional<Long> optionalId, QuestionForm form) {
+		optionalId.flatMap(questions::findById).ifPresent(form::fromQuestion);
+	}
 
-    }
+	public Optional<Question> removeById(Long id) {
 
-    public void fillFormOnlyWhenIdIsPresent(Optional<Long> optionalId, QuestionForm form) {
-        optionalId
-                .flatMap(questions::findById)
-                    .ifPresent(form::fromQuestion);
-    }
+		var question = questions.findById(id);
 
-    public Optional<Question> removeById(Long id) {
+		question.ifPresent(questions::delete);
 
-        var question = questions.findById(id);
+		return question;
 
-        question.ifPresent(questions::delete);
-
-        return question;
-
-    }
+	}
 }

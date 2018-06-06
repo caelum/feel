@@ -130,8 +130,7 @@ public class Question {
 		lastOne = otherQuestion.lastOne;
 		dueDate = otherQuestion.dueDate;
 
-		teams.clear();
-		addTeams(otherQuestion.teams);
+		updateTeams(otherQuestion.teams);
 	}
 
 	public boolean isClosed() {
@@ -144,6 +143,11 @@ public class Question {
 
 	public void addTeams(Set<LastCompanyTeamVersion> lastVersionOfTeams) {
 		this.teams.addAll(lastVersionOfTeams);
+	}
+	
+	public void updateTeams(Set<LastCompanyTeamVersion> lastVersionOfTeams) {
+		this.teams.clear();
+		addTeams(lastVersionOfTeams);
 	}
 
 	public boolean isFirst() {

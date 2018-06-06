@@ -1,31 +1,41 @@
 package br.com.caelum.feel.feedback.companyteams.application.controllers;
 
-import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
-import br.com.caelum.feel.feedback.companyteams.application.services.SaveTeamService;
-import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
+import static java.util.Optional.empty;
+
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.util.Optional;
-
-import static java.util.Optional.empty;
+import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
+import br.com.caelum.feel.feedback.companyteams.application.services.SaveTeamService;
+import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
+import br.com.caelum.feel.feedback.questions.domain.actions.UpdateQuestionsForTeamAction;
+import br.com.caelum.feel.infra.TransactionalRunner;
 
 @Controller
 @RequestMapping("admin/company-teams")
 public class AdminCompanyTeamsController {
 
 
-    private final SaveTeamService service;
-
-    public AdminCompanyTeamsController(SaveTeamService service) {
-        this.service = service;
-    }
-
+	@Autowired
+    private SaveTeamService service;
+	@Autowired
+    private UpdateQuestionsForTeamAction updateQuestionsForTeamAction;
+	@Autowired
+    private TransactionalRunner transactionalRunner;
 
     @GetMapping
     public ModelAndView list(Optional<Integer> page){
@@ -57,7 +67,8 @@ public class AdminCompanyTeamsController {
             return form(empty(), form);
         }
 
-        service.saveByForm(form);
+        transactionalRunner.run(() -> service.saveByForm(form));
+        transactionalRunner.run(() -> updateQuestionsForTeamAction.executeForAllQuestions());
 
         redirect.addFlashAttribute("msg", String.format("Time %s salvo com sucesso!", form.getName()));
 

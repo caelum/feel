@@ -65,5 +65,13 @@ public class LastCompanyTeamVersion implements Serializable{
 	public int getTotalExpectedPeople() {
 		return totalExpectedPeople;
 	}
+
+	@Override
+	public String toString() {
+		return "LastCompanyTeamVersion [team=" + team + ", totalExpectedPeople="
+				+ totalExpectedPeople + "]";
+	}
+	
+	
 	
 }

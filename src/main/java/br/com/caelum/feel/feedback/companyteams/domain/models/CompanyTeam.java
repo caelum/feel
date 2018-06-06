@@ -21,7 +21,9 @@ import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
 @Audited
 public class CompanyTeam {
 
-    @Id
+
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -88,4 +90,9 @@ public class CompanyTeam {
 	public String getLeaderLogin() {
 		return leaderLogin;
 	}
+	
+    @Override
+	public String toString() {
+		return "CompanyTeam [name=" + name + "]";
+	}	
 }

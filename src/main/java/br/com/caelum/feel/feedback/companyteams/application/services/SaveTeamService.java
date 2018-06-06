@@ -18,7 +18,7 @@ public class SaveTeamService {
         this.teams = teams;
     }
 
-    public void saveByForm(@Valid TeamForm form) {
+    public CompanyTeam saveByForm(@Valid TeamForm form) {
         var optionalTeam = Optional.ofNullable(form.getId()).flatMap(teams::findById);
 
         optionalTeam.ifPresent(team -> team.updateFromForm(form));
@@ -26,6 +26,8 @@ public class SaveTeamService {
         var team = optionalTeam.orElseGet(form::toEntity);
 
         teams.save(team);
+        
+        return team;
     }
 
     public Page<CompanyTeam> getAllPaged(Integer currentPage) {
