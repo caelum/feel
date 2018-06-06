@@ -31,7 +31,7 @@ public class QuestionService {
 	}
 
 	public Page<Question> getAllPaged(Integer currentPage) {
-		return questions.findAll(PageRequest.of(currentPage, 5));
+		return questions.findAll(PageRequest.of(currentPage, 10));
 	}
 
 	@Transactional

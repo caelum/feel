@@ -32,10 +32,6 @@
         </tr>
         </tbody>
     </table>
-
-    <div th:replace="~{layout/fragments/components :: pagination(baseURL=@{/admin/questions},page=${questions})}">
-        Pagination
-    </div>
 </section>
 <script layout:fragment="scripts">
     function remove(id){

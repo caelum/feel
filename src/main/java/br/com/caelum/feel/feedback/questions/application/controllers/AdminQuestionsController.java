@@ -57,6 +57,14 @@ public class AdminQuestionsController {
 
         return view;
     }
+    
+    @GetMapping("/cycle/{cycleId}")
+    public ModelAndView listByCycle(@PathVariable("cycleId") Integer cycleId){
+        var view = new ModelAndView("admin/questions/list");
+        view.addObject("questions", questions.findByCycleIdOrderByDueDateAsc(cycleId));
+
+        return view;
+    }
 
     @GetMapping({"new", "{optionalId}"})
     public ModelAndView form(@PathVariable Optional<Long> optionalId, QuestionForm form){
