@@ -11,7 +11,6 @@ import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.domain.models.CategoryType;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 
 public class QuestionForm {
 
@@ -27,7 +26,7 @@ public class QuestionForm {
 	private String descriptionOfHighestValue;
 
 	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dueDate;
 
 	private boolean lastOne;
@@ -115,7 +114,7 @@ public class QuestionForm {
 
 	public Question toQuestion(CycleRepository cycleRepository) {
 		var affirmation = createAffirmation();
-		Question question = new Question(affirmation, dueDate, QuestionState.OPEN,
+		Question question = new Question(affirmation, dueDate,
 				cycleRepository.findById(this.cycleId).get(),lastOne);
 		
 		return question;

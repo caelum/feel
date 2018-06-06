@@ -1,30 +1,32 @@
 package br.com.caelum.feel.feedback.questions.application.controllers;
 
+import static java.util.Optional.empty;
+
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
-import br.com.caelum.feel.feedback.questions.application.forms.OpenCloseStateForm;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
 import br.com.caelum.feel.feedback.questions.application.validators.JustOneLastQuestionValidator;
 import br.com.caelum.feel.feedback.questions.domain.models.CategoryType;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
-import java.util.Optional;
-
-import static java.util.Optional.empty;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("admin/questions")
@@ -92,20 +94,5 @@ public class AdminQuestionsController {
         var removedQuestion = service.removeById(id);
 
         return removedQuestion.map(ResponseEntity.accepted()::body).orElseGet(ResponseEntity.noContent()::build);
-    }
-
-    @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public ResponseEntity<?> changeState(@PathVariable Long id, @RequestBody OpenCloseStateForm form){
-        var targetState = form.getState();
-
-        try {
-            return
-            service.tryTransitState(id, targetState)
-                            .map(ResponseEntity::ok)
-                                .orElseGet(ResponseEntity.noContent()::build);
-        }catch (IllegalStateException e){
-            return ResponseEntity.status(HttpStatus.GONE).body(e.getMessage());
-        }
     }
 }

@@ -16,7 +16,6 @@ import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyT
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 
 @Service
@@ -73,21 +72,5 @@ public class QuestionService {
 
         return question;
 
-    }
-
-    public Optional<Question> tryTransitState(Long id, QuestionState targetState) {
-
-        var optionalQuestion = questions.findById(id);
-
-        optionalQuestion.ifPresent(question -> {
-            if (targetState.isOpen())
-                question.open();
-            else
-                question.close();
-
-            questions.save(question);
-        });
-
-        return optionalQuestion;
     }
 }

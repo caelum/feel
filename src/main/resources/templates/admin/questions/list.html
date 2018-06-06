@@ -27,8 +27,6 @@
             <td class="d-flex flex-row justify-content-around">
                 <a class="text-secondary fas fa-external-link-alt" th:href="@{/questions/{uuid}(uuid=${question.hash})}" data-toggle="tooltip" data-placement="bottom" title="Ir para pergunta"></a>
                 <a class="text-secondary fas fa-pencil-alt" th:href="@{/admin/questions/{id}(id=${question.id})}" data-toggle="tooltip" data-placement="bottom" title="Editar"></a>
-                <a class="text-primary fas fa-lock-open" th:if="${question.isOpen()}"  th:onclick="'changeState('+${question.id}+',\'CLOSE\')'"  data-toggle="tooltip" data-placement="bottom" title="Clique para fechar a pergunta"></a>
-                <a class="text-secondary fas fa-lock" th:if="${question.isClosed()}"   th:onclick="'changeState('+${question.id}+',\'OPEN\')'"  data-toggle="tooltip" data-placement="bottom" title="Clique para abrir a pergunta"></a>
                 <a class="text-secondary far fa-trash-alt" th:onclick="'remove('+${question.id}+')'" href="#" data-toggle="tooltip" data-placement="bottom"  title="Remover"></a>
             </td>
         </tr>
@@ -49,32 +47,6 @@
                     $("#question_" + id).remove();
                 }
             });
-    }
-
-    function changeState(id, targetState) {
-        let url = "/admin/questions/" + id;
-        let payload = {"state": targetState};
-        let headers = new Headers();
-
-        headers.append('Content-type', 'application/json');
-
-        let request = {"method": 'PUT', headers: headers, body: JSON.stringify(payload)};
-
-        fetch(url, request)
-            .then( response => {
-
-                if(response.ok){
-                   window.location.href = window.location;
-                }else {
-
-                    response.text()
-                        .then(response => {
-                                $("body section")
-                                    .append('<div class="alert alert-danger">' + response + '<a class="close" data-dismiss="alert">×</a></div>');
-                        });
-                }
-        });
-
     }
 </script>
 </body>

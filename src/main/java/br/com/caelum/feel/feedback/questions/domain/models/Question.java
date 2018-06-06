@@ -9,28 +9,20 @@ import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.models.LastCompanyTeamVersion;
-import br.com.caelum.feel.feedback.companyteams.domain.repositories.LastCompanyTeamVersionRepository;
 import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
-import br.com.caelum.feel.feedback.questions.domain.models.vo.QuestionState;
 
 @Entity
 public class Question {
@@ -49,10 +41,6 @@ public class Question {
 	@Column(name = "due_date")
 	private LocalDate dueDate;
 
-	@Column(name = "state")
-	@Enumerated(EnumType.STRING)
-	private QuestionState currentState;
-
 	@ManyToOne
 	@NotNull
 	private Cycle cycle;
@@ -69,17 +57,15 @@ public class Question {
 	Question() {
 	}
 
-	public Question(Affirmation affirmation, LocalDate dueDate, QuestionState state, Cycle cycle,
+	public Question(Affirmation affirmation, LocalDate dueDate, Cycle cycle,
 			boolean lastOne) {
 		Assert.notNull(affirmation, "Affirmation required");
 		Assert.notNull(dueDate, "Due date required");
-		Assert.notNull(state, "Initial state required");
 		Assert.notNull(cycle, "Cycle é obrigatório");
 
 		this.affirmation = affirmation;
 		this.dueDate = dueDate;
 		this.hash = UUID.randomUUID().toString();
-		this.currentState = state;
 		this.cycle = cycle;
 		this.lastOne = lastOne;
 	}
@@ -149,27 +135,11 @@ public class Question {
 	}
 
 	public boolean isClosed() {
-		return currentState.isClosed() || LocalDate.now().compareTo(dueDate) > 0;
+		return LocalDate.now().compareTo(dueDate) > 0;
 	}
 
 	public boolean isOpen() {
 		return !isClosed();
-	}
-
-	public void open() {
-		if (currentState.isOpen()) {
-			throw new IllegalStateException("Question is already open");
-		}
-
-		this.currentState = QuestionState.OPEN;
-	}
-
-	public void close() {
-		if (currentState.isClosed()) {
-			throw new IllegalStateException("Question is already closed");
-		}
-
-		this.currentState = QuestionState.CLOSE;
 	}
 
 	public void addTeams(Set<LastCompanyTeamVersion> lastVersionOfTeams) {
