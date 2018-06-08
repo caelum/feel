@@ -2,6 +2,7 @@ package br.com.caelum.feel.feedback.questions.domain.respositories;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,4 +22,7 @@ public interface FeedbackAnswerRepository extends CrudRepository<FeedbackAnswer,
 	List<FeedbackAnswer> findByTeamIdAndQuestionId(Long teamId, Long questionId);
 
 	List<FeedbackAnswer> findByQuestionId(Long teamId);
+
+	@Query("select max(f) from FeedbackAnswer f where f.team.id = :teamId order by f.id desc")
+	Optional<FeedbackAnswer> findLastAnswerPerTeam(@Param("teamId") Long teamId);
 }

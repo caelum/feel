@@ -1,5 +1,7 @@
 package br.com.caelum.feel.infra;
 
+import java.util.function.Supplier;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class TransactionalRunner {
 
 	@Transactional
-	public void run(Runnable runnable) {
-		runnable.run();
+	public <T> T run(Supplier<T> supplier) {
+		return supplier.get();
 	}
 }

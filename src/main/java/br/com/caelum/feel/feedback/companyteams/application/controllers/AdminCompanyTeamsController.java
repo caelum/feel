@@ -23,7 +23,9 @@ import br.com.caelum.feel.feedback.companyteams.application.forms.TeamForm;
 import br.com.caelum.feel.feedback.companyteams.application.services.SaveTeamService;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.questions.domain.actions.UpdateQuestionsForTeamAction;
+import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
+import br.com.caelum.feel.feedback.reports.application.endpoints.UpdateQuestionsReportEndpoint;
 import br.com.caelum.feel.infra.TransactionalRunner;
 
 @Controller
@@ -39,6 +41,8 @@ public class AdminCompanyTeamsController {
     private TransactionalRunner transactionalRunner;	
 	@Autowired
 	private FeedbackAnswerRepository feedbackAnswerRepository;
+	@Autowired
+	private UpdateQuestionsReportEndpoint updateQuestionsReportEndpoint;	
 
     @GetMapping
     public ModelAndView list(Optional<Integer> page){
@@ -70,9 +74,15 @@ public class AdminCompanyTeamsController {
             return form(empty(), form);
         }
 
-        transactionalRunner.run(() -> service.saveByForm(form));
+        CompanyTeam registeredTeam = transactionalRunner.run(() -> service.saveByForm(form));
         transactionalRunner.run(() -> updateQuestionsForTeamAction.executeForAllQuestions());
-        //aqui agora precisa atualizar em função das últimas respostas para cada pergunta diferente
+        
+        
+        //busca a ultima resposta do time na tabela feedbacks
+        Optional<FeedbackAnswer> answer = feedbackAnswerRepository.findLastAnswerPerTeam(registeredTeam.getId());
+        if(answer.isPresent()) {
+        	updateQuestionsReportEndpoint.execute(answer.get());
+        }
         
         redirect.addFlashAttribute("msg", String.format("Time %s salvo com sucesso!", form.getName()));
 

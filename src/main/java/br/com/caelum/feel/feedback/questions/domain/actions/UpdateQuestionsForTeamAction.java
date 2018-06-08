@@ -21,7 +21,7 @@ public class UpdateQuestionsForTeamAction {
 	private Questions questionRepository;
 	
 	public Collection<Question> executeForAllQuestions() {
-        List<Question> allQuestions = questionRepository.findAll();
+        List<Question> allQuestions = questionRepository.findAllCurrentOpenQuestions();
         Set<LastCompanyTeamVersion> lastVersionOfTeams = lastCompanyTeamVersionRepository.listLastVersions();
         allQuestions.forEach(question -> question.updateTeams(lastVersionOfTeams));
         return allQuestions;

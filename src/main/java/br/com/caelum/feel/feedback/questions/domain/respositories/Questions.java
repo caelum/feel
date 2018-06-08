@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -29,4 +30,8 @@ public interface Questions extends Repository<Question, Long> {
 	List<Question> findByCycleIdOrderByDueDateAsc(@Param("id") Integer cycleId,Pageable pageable);
 
 	List<Question> findByCycleIdOrderByDueDateAsc(Integer cycleId);
+
+	//TODO um ponto interessante é que aqui ficou complicado de testar... tem um parâmetro na query que não é definido pelo programador
+	@Query("select q from Question q where q.dueDate >= now()")
+	List<Question> findAllCurrentOpenQuestions();
 }
