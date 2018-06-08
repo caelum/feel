@@ -17,7 +17,7 @@
         <tbody>
 	        <tr th:each="team : ${teamsList}">
 	        	<td th:text="${team.name}"></th>
-	        	<td th:each="question : ${questionsList}" th:text=" ${#numbers.formatDecimal(answersList.percentCount(team,question),1,2)}"></td>	        	
+	        	<td th:each="question : ${questionsList}" th:text=" ${@numbersFormatter.percent(answersList.percentCount(team,question))}"></td>	        	
 	        </tr>
         </tbody>
     </table>
