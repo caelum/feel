@@ -36,4 +36,4 @@ spring:
       
 server:
   port: 80
-  host-name: 206.189.25.29          
+  host-name: people.caelum.com.br          
