@@ -76,13 +76,10 @@ public class AdminCompanyTeamsController {
 
         CompanyTeam registeredTeam = transactionalRunner.run(() -> service.saveByForm(form));
         transactionalRunner.run(() -> updateQuestionsForTeamAction.executeForAllQuestions());
-        
-        
-        //busca a ultima resposta do time na tabela feedbacks
-        Optional<FeedbackAnswer> answer = feedbackAnswerRepository.findLastAnswerPerTeam(registeredTeam.getId());
-        if(answer.isPresent()) {
-        	updateQuestionsReportEndpoint.execute(answer.get());
-        }
+
+        //TODO qual classe eu deveria ter criado para isolar esse trecho de código? Deveria mesmo ter criado?
+        Optional<FeedbackAnswer> possibleAnswer = feedbackAnswerRepository.findLastAnswerPerTeam(registeredTeam.getId());
+        possibleAnswer.ifPresent(updateQuestionsReportEndpoint :: execute);
         
         redirect.addFlashAttribute("msg", String.format("Time %s salvo com sucesso!", form.getName()));
 
