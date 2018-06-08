@@ -66,7 +66,7 @@
 
         <form th:object="${answerForm}" th:action="@{/questions/{uuid}(uuid=${uuid})}" method="post">
             <div class="form-group">
-                <label class="font-weight-bold" for="time">Em que time da caelum você trabalha?</label>
+                <label class="font-weight-bold" for="time">Em que time da Caelum você trabalha?</label>
                 <select th:errorclass="is-invalid" id="time" class="form-control" name="time" th:field="*{teamId}" required>
                     <option value="" selected disabled>Escolha um time...</option>
                     <option th:each="team : ${allTeams}" th:value="${team.id}" th:text="${team.name}"/>
