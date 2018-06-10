@@ -13,6 +13,30 @@
     </div>
 
     <a class="btn btn-outline-info mb-5" href="/admin/questions/new">Novo</a>
+    
+    
+	<form th:action="@{/admin/questions}" th:object="${questionsFilterForm}" method="get">
+	
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Ciclo</label>
+            <select th:errorclass="is-invalid" class="form-control" name="cycleId" th:field="*{cycleId}">
+                <option value="" selected>Todos</option>
+                <option th:each="cycle : ${cycleList}" th:value="${cycle.id}" th:text="${cycle.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('cycleId')}" th:errors="cycleId"></span>            			           
+        </div>        
+        	
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Categoria da pergunta</label>
+            <select th:errorclass="is-invalid" class="form-control" name="categoryType" th:field="*{categoryType}">
+                <option value="" selected>Todos</option>
+                <option th:each="category : ${categoryList}" th:value="${category.name()}" th:text="${category.label}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('categoryType')}" th:errors="categoryType"></span>            			           
+        </div>		
+        
+        <button class="btn btn-block btn-info">Filtrar</button>
+	</form>    
 
     <table class="table table-hover">
         <thead>
