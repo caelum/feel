@@ -30,10 +30,6 @@ public class QuestionService {
 		this.updateQuestionsForTeamAction = updateQuestionsForTeamAction;
 	}
 
-	public Page<Question> getAllPaged(Integer currentPage) {
-		return questions.findAll(PageRequest.of(currentPage, 10));
-	}
-
 	@Transactional
 	public void saveBy(QuestionForm form) {
 

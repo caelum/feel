@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.application.forms.QuestionForm;
+import br.com.caelum.feel.feedback.questions.application.forms.QuestionsFilterForm;
 import br.com.caelum.feel.feedback.questions.application.services.QuestionService;
 import br.com.caelum.feel.feedback.questions.application.validators.JustOneLastQuestionValidator;
 import br.com.caelum.feel.feedback.questions.domain.models.CategoryType;
@@ -49,23 +50,14 @@ public class AdminQuestionsController {
     }
 
     @GetMapping
-    public ModelAndView list(Optional<Integer> page){
+    public ModelAndView list(QuestionsFilterForm form){
         var view = new ModelAndView("admin/questions/list");
-
-        var currentPage = page.orElse(0);
-        view.addObject("questions", service.getAllPaged(currentPage));
+        
+        view.addObject("questions", questions.findAll(form.build()));
 
         return view;
     }
     
-    @GetMapping("/cycle/{cycleId}")
-    public ModelAndView listByCycle(@PathVariable("cycleId") Integer cycleId){
-        var view = new ModelAndView("admin/questions/list");
-        view.addObject("questions", questions.findByCycleIdOrderByDueDateAsc(cycleId));
-
-        return view;
-    }
-
     @GetMapping({"new", "{optionalId}"})
     public ModelAndView form(@PathVariable Optional<Long> optionalId, QuestionForm form){
         var view = new ModelAndView("admin/questions/form");

@@ -54,7 +54,7 @@ public class Question {
 	 * @deprecated frameworks only
 	 */
 	@Deprecated(since = "1.0.0")
-	Question() {
+	public Question() {
 	}
 
 	public Question(Affirmation affirmation, LocalDate dueDate, Cycle cycle,

@@ -26,7 +26,7 @@
             </td>
             <td class="d-flex flex-row justify-content-around">
                 <a class="text-primary fas fa-pencil-alt"  th:if="${@authenticatedUser.isPeople()}"  th:href="@{/admin/cycles/{id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Editar"></a>
-                <a class="text-secondary fas fa-external-link-alt" th:if="${@authenticatedUser.isPeople()}"  th:href="@{/admin/questions/cycle/{id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom" title="Perguntas do ciclo"></a>                
+                <a class="text-secondary fas fa-external-link-alt" th:if="${@authenticatedUser.isPeople()}"  th:href="@{/admin/questions?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom" title="Perguntas do ciclo"></a>                
                 <a class="text-secondary fas fa-table" th:href="@{/reports/feedbak/compare-number-answers?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Taxa de respostas"></a>                               
                 <a class="text-secondary fas fa-table" th:href="@{/reports/feedbak/compare-number-answers-values?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Notas dos times"></a>                               
                 <a class="text-secondary far fa-comment-alt" th:href="@{/reports/feedback/raw-answers?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Notas e comentários do ciclo"></a>                               
