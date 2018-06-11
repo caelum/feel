@@ -52,7 +52,6 @@ public class AdminQuestionsController {
     @GetMapping
     public ModelAndView list(QuestionsFilterForm form){
         var view = new ModelAndView("admin/questions/list");
-        
         view.addObject("cycleList",cycleRepository.findAll());
         view.addObject("categoryList",CategoryType.values());
         view.addObject("questions", questions.findAll(form.build()));

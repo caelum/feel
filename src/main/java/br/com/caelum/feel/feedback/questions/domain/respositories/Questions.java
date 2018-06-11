@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import br.com.caelum.feel.feedback.questions.domain.models.Question;
 
-public interface Questions extends Repository<Question, Long>,QueryByExampleExecutor<Question> {
+public interface Questions extends Repository<Question, Long>,JpaSpecificationExecutor<Question> {
 
     Optional<Question> findById(Long id);
 
