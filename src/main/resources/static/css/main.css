@@ -56,10 +56,17 @@
 }
 
 .content-area {
-    width: 50%;
+    width: 70%;
     padding: 2em;
     margin-top: 1em;
     background-color: white;
+}
+
+@media print {
+	.content-area {
+		width: 100%;
+		margin-top: 0;
+	}
 }
 
 .rounded{
