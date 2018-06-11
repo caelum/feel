@@ -11,6 +11,11 @@
     background-color: #f8f9fa;
     box-sizing: content-box;
 }
+@media (max-width: 560px) {
+	.header {
+		display: none;
+	}
+}
 
 .nav-area {
     display: inline-flex;
@@ -28,7 +33,6 @@
     width: 7em;
     text-align: center;
     margin: 1em 1em;
-
 }
 
 .nav-link {
@@ -38,7 +42,7 @@
     transition: background-color 500ms;
 }
 
-
+.nav-link.active,
 .nav-link:hover {
     background-color: #17a2b8;
     color: white;
@@ -60,6 +64,11 @@
     padding: 2em;
     margin-top: 1em;
     background-color: white;
+}
+@media (max-width: 560px) {
+	.content-area {
+		width: 100%;
+	}
 }
 
 @media print {
@@ -100,5 +109,27 @@ input[type='radio']:checked{
     margin: 0;
     width: 6em;
     height: 5em;
+}
+
+
+/* Ajustes de Formulario */
+.radio-question-label {
+	transform: translateY(25%);
+}
+.form-legend {
+    margin-bottom: 10px;
+    display: block;
+    margin-top: 50px;
+    width: 100%;
+}
+@media (max-width: 768px) {
+	.hidden-sm-down {
+		display: none;		
+	}
+}
+@media (min-width: 769px) {
+	.hidden-sm-up {
+		display: none;		
+	}
 }
 
