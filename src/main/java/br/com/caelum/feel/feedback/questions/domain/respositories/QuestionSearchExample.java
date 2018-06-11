@@ -17,8 +17,7 @@ import br.com.caelum.feel.feedback.questions.domain.models.vo.Affirmation;
  * @author alberto
  *
  */
-@SuppressWarnings("deprecation")
-public class QuestionSearchExample extends Question {
+public class QuestionSearchExample {
 
 	@SuppressWarnings("unused")
 	private Cycle cycle;
