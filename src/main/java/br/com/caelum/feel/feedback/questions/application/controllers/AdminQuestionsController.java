@@ -83,7 +83,7 @@ public class AdminQuestionsController {
 
         redirect.addFlashAttribute("msg", "Questão salva com sucesso!");
 
-        return new ModelAndView("redirect:/admin/questions");
+        return new ModelAndView("redirect:/admin/questions?cycleId="+form.getCycleId());
 
     }
 }
