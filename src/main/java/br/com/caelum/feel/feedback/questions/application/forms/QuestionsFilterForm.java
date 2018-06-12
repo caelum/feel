@@ -41,6 +41,7 @@ public class QuestionsFilterForm {
 					CriteriaBuilder builder) {
 								
 				ArrayList<Predicate> predicates = new ArrayList<>();
+				predicates.add(builder.isNull(root.get("cycle").get("deletedInstant")));
 				
 				if (cycleId != null) {
 					predicates.add(builder.equal(root.get("cycle").get("id"), cycleId));

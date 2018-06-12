@@ -86,14 +86,4 @@ public class AdminQuestionsController {
         return new ModelAndView("redirect:/admin/questions");
 
     }
-
-
-    @DeleteMapping("{id}")
-    @ResponseBody
-    public ResponseEntity<Question> delete(@PathVariable Long id){
-
-        var removedQuestion = service.removeById(id);
-
-        return removedQuestion.map(ResponseEntity.accepted()::body).orElseGet(ResponseEntity.noContent()::build);
-    }
 }

@@ -49,14 +49,4 @@ public class QuestionService {
 	public void fillFormOnlyWhenIdIsPresent(Optional<Long> optionalId, QuestionForm form) {
 		optionalId.flatMap(questions::findById).ifPresent(form::fromQuestion);
 	}
-
-	public Optional<Question> removeById(Long id) {
-
-		var question = questions.findById(id);
-
-		question.ifPresent(questions::delete);
-
-		return question;
-
-	}
 }
