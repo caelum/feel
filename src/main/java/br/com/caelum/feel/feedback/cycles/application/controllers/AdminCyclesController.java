@@ -67,4 +67,12 @@ public class AdminCyclesController {
 		redirectAttributes.addFlashAttribute("msg", "Ciclo editado com sucesso");
 		return "redirect:/admin/cycles";
 	}
+	
+	@GetMapping("/admin/cycles/remove/{id}")
+	public String remove(@PathVariable("id") Integer id,RedirectAttributes redirectAttributes) {
+		cycleRepository.deleteById(id);
+		
+		redirectAttributes.addFlashAttribute("msg", "Ciclo excluido com sucesso. Se você excluiu errado, fale com alberto e ele reverte para você.");
+		return "redirect:/admin/cycles";
+	}
 }

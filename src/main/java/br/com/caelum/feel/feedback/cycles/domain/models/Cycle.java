@@ -1,10 +1,14 @@
 package br.com.caelum.feel.feedback.cycles.domain.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
@@ -14,6 +18,10 @@ import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import br.com.caelum.feel.infra.ApplicationContextHolder;
 
 @Entity
+@SQLDelete(sql="update cycle set deleted_instant = now() where id = ?")
+@Where(clause="deleted_instant is null")
+@NamedQuery(name="findCycleById",query="select c from Cycle c where c.id = ?1 and deletedInstant is null")
+@Loader(namedQuery="findCycleById")
 public class Cycle {
 
 	@Id
@@ -30,6 +38,8 @@ public class Cycle {
 	
 	@Autowired
 	private transient Questions questionRepository;	
+	
+	private LocalDateTime deletedInstant;
 	
 	/**
 	 * @deprecated frameworks only
