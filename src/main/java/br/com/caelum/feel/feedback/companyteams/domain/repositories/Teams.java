@@ -19,5 +19,5 @@ public interface Teams extends Repository<CompanyTeam, Long> {
 
     List<Teams> findAll();
 
-	CompanyTeam findByLeaderLogin(String login);
+	List<CompanyTeam> findByLeaderLogin(String login);
 }

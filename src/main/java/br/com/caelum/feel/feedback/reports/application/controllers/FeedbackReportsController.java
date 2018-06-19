@@ -75,12 +75,9 @@ public class FeedbackReportsController {
 	public String searchRawAnswers(Model model, @Valid SearchRawAnswersForm form,
 			BindingResult result, @AuthenticationPrincipal SystemUser currentUser) {
 
+		System.out.println("");
 		if (result.hasErrors()) {
 			return rawAnswersList(model, form, currentUser);
-		}
-
-		if (authenticatedUser.isReader(currentUser)) {
-			form.setTeamId(teamRepository.findByLeaderLogin(currentUser.getEmail()).getId());
 		}
 
 		final String anwsersPageVariable = "answerList";
@@ -102,13 +99,11 @@ public class FeedbackReportsController {
 			@AuthenticationPrincipal SystemUser currentUser) {
 		model.addAttribute("questionList",
 				questionRepository.findByCycleIdOrderByDueDateAsc(form.getCycleId()));
-
-		if (!form.hasTeamId() && authenticatedUser.isReader(currentUser)) {
-			form.setTeamId(teamRepository.findByLeaderLogin(currentUser.getEmail()).getId());
-		}
-
+		
 		if (authenticatedUser.isPeople(currentUser)) {
 			model.addAttribute("teamList", teamRepository.findAll());
+		} else {
+			model.addAttribute("teamList",teamRepository.findByLeaderLogin(currentUser.getEmail()));
 		}
 
 		return "admin/reports/raw-answers";

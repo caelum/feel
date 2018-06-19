@@ -13,7 +13,6 @@
 	
 	
         <input type="hidden" th:field="*{cycleId}"/>
-        <input type="hidden" th:field="*{teamId}" th:if="${@authenticatedUser.isReader()}"/>
         
         <div class="form-group">
             <label class="font-weight-bold" for="time">Questão</label>
@@ -24,10 +23,10 @@
             <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="teamId"></span>            			           
         </div>        
         	
-        <div class="form-group" th:if="${@authenticatedUser.isPeople()}">
+        <div class="form-group">
             <label class="font-weight-bold" for="time">Time</label>
             <select th:errorclass="is-invalid" class="form-control" name="teamId" th:field="*{teamId}">
-                <option value="" selected>Todos</option>
+                <option value="" selected th:if="${@authenticatedUser.isPeople()}">Todos</option>
                 <option th:each="team : ${teamList}" th:value="${team.id}" th:text="${team.name}"/>
             </select>
             <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="teamId"></span>            			           
