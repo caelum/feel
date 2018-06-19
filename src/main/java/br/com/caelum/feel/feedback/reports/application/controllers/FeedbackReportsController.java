@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.actions.SaveReportPerTeamAction;
 import br.com.caelum.feel.feedback.questions.domain.models.ReportPerTeamAnswer;
@@ -75,8 +76,15 @@ public class FeedbackReportsController {
 	public String searchRawAnswers(Model model, @Valid SearchRawAnswersForm form,
 			BindingResult result, @AuthenticationPrincipal SystemUser currentUser) {
 
-		System.out.println("");
 		if (result.hasErrors()) {
+			return rawAnswersList(model, form, currentUser);
+		}
+		
+		if (authenticatedUser.isReader(currentUser)) {
+			List<CompanyTeam> teams = teamRepository.findByLeaderLogin(currentUser.getEmail());
+			if(!teams.stream().filter(t -> t.getId().equals(form.getTeamId())).findAny().isPresent()) {
+				result.rejectValue("teamId", "", "Você não está cadastrado como lider do time");
+			}
 			return rawAnswersList(model, form, currentUser);
 		}
 

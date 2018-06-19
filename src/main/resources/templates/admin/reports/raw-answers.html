@@ -20,7 +20,7 @@
                 <option value="" selected disabled>Escolha uma questão...</option>
                 <option th:each="question : ${questionList}" th:value="${question.id}" th:text="${question.statement}"/>
             </select>
-            <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="teamId"></span>            			           
+            <span class="text-danger" th:if="${#fields.hasErrors('questionId')}" th:errors="*{questionId}"></span>            			           
         </div>        
         	
         <div class="form-group">
@@ -29,7 +29,7 @@
                 <option value="" selected th:if="${@authenticatedUser.isPeople()}">Todos</option>
                 <option th:each="team : ${teamList}" th:value="${team.id}" th:text="${team.name}"/>
             </select>
-            <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="teamId"></span>            			           
+            <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="*{teamId}"></span>            			           
         </div>		
         
         <button class="btn btn-block btn-info">Filtrar</button>
