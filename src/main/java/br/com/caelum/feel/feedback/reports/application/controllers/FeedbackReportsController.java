@@ -14,7 +14,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswer
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
 import br.com.caelum.feel.feedback.reports.application.forms.SearchRawAnswersForm;
+import br.com.caelum.feel.feedback.reports.application.validators.UserIsLeaderOfTeamValidator;
 import br.com.caelum.feel.feedback.reports.application.views.ReportPerTeamAnswerTable;
 import br.com.caelum.feel.feedback.security.AuthenticatedUser;
 import br.com.caelum.feel.security.SystemUser;
@@ -47,6 +50,11 @@ public class FeedbackReportsController {
 
 	@Autowired
 	private AuthenticatedUser authenticatedUser;
+	
+	@InitBinder("searchRawAnswersForm")
+	public void init(WebDataBinder binder,@AuthenticationPrincipal SystemUser currentUser) {
+		binder.addValidators(new UserIsLeaderOfTeamValidator(teamRepository,currentUser,authenticatedUser));
+	}
 
 	@GetMapping("/reports/feedbak/compare-number-answers")
 	public String dashboardCompareAnswersPercent(Model model,
@@ -80,14 +88,6 @@ public class FeedbackReportsController {
 			return rawAnswersList(model, form, currentUser);
 		}
 		
-		if (authenticatedUser.isReader(currentUser)) {
-			List<CompanyTeam> teams = teamRepository.findByLeaderLogin(currentUser.getEmail());
-			if(!teams.stream().filter(t -> t.getId().equals(form.getTeamId())).findAny().isPresent()) {
-				result.rejectValue("teamId", "", "Você não está cadastrado como lider do time");
-			}
-			return rawAnswersList(model, form, currentUser);
-		}
-
 		final String anwsersPageVariable = "answerList";
 		
 		if (form.hasTeamId()) {
