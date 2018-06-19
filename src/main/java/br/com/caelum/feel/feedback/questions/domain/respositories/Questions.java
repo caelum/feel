@@ -28,6 +28,6 @@ public interface Questions extends Repository<Question, Long>,JpaSpecificationEx
 	List<Question> findByCycleIdOrderByDueDateAsc(Integer cycleId);
 
 	//TODO um ponto interessante é que aqui ficou complicado de testar... tem um parâmetro na query que não é definido pelo programador
-	@Query("select q from Question q where q.dueDate >= now()")
+	@Query("select q from Question q where q.dueDate >= now() and q.cycle.deletedInstant is null")
 	List<Question> findAllCurrentOpenQuestions();
 }
