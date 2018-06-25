@@ -1,7 +1,5 @@
 package br.com.caelum.feel.feedback.reports.application.controllers;
 
-import static java.util.Optional.empty;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.actions.SaveReportPerTeamAction;
 import br.com.caelum.feel.feedback.questions.domain.models.ReportPerTeamAnswer;
@@ -88,16 +85,7 @@ public class FeedbackReportsController {
 			return rawAnswersList(model, form, currentUser);
 		}
 		
-		final String anwsersPageVariable = "answerList";
-		
-		if (form.hasTeamId()) {
-			model.addAttribute(anwsersPageVariable, feedbackAnswerRepository
-					.findByTeamIdAndQuestionId(form.getTeamId(), form.getQuestionId()));
-		} else {
-			model.addAttribute(anwsersPageVariable, feedbackAnswerRepository
-					.findByQuestionId(form.getQuestionId()));
-			
-		}
+		model.addAttribute("answerList", feedbackAnswerRepository.findAll(form.build()));
 
 		return rawAnswersList(model, form, currentUser);
 	}

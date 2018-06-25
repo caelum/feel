@@ -15,7 +15,7 @@ import br.com.caelum.feel.feedback.questions.domain.models.Question;
 public class QuestionsFilterForm {
 
 	private Integer cycleId;
-	private CategoryType categoryType;
+	private CategoryType categoryType;	
 
 	public Integer getCycleId() {
 		return cycleId;

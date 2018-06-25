@@ -1,6 +1,16 @@
 package br.com.caelum.feel.feedback.reports.application.forms;
 
+import java.util.ArrayList;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 
 public class SearchRawAnswersForm {
 
@@ -9,6 +19,16 @@ public class SearchRawAnswersForm {
 	private Long questionId;
 	@NotNull
 	private Integer cycleId;
+
+	private Integer maximumValue;
+
+	public Integer getMaximumValue() {
+		return maximumValue;
+	}
+
+	public void setMaximumValue(Integer maximumValue) {
+		this.maximumValue = maximumValue;
+	}
 
 	public Integer getCycleId() {
 		return cycleId;
@@ -36,6 +56,27 @@ public class SearchRawAnswersForm {
 
 	public boolean hasTeamId() {
 		return teamId != null;
+	}
+
+	public Specification<FeedbackAnswer> build() {
+		return new Specification<FeedbackAnswer>() {
+
+			@Override
+			public Predicate toPredicate(Root<FeedbackAnswer> root, CriteriaQuery<?> query,
+					CriteriaBuilder builder) {
+								
+				ArrayList<Predicate> predicates = new ArrayList<>();
+				predicates.add(builder.equal(root.get("question").get("id"),questionId));
+				
+				if (teamId != null) {
+					predicates.add(builder.equal(root.get("team").get("id"), teamId));
+				}
+				if (maximumValue != null) {
+					predicates.add(builder.lessThanOrEqualTo(root.get("value"), maximumValue));
+				}				
+				return builder.and(predicates.toArray(new Predicate[0]));
+			}
+		};
 	}
 
 }

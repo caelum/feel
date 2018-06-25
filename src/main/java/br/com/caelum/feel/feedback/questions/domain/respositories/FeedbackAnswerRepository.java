@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 
 @Repository
-public interface FeedbackAnswerRepository extends CrudRepository<FeedbackAnswer, Integer>{
+public interface FeedbackAnswerRepository extends CrudRepository<FeedbackAnswer, Integer>,JpaSpecificationExecutor<FeedbackAnswer>{
 
 	Number countByQuestionIdAndTeamId(Long questionId,Long teamId);
 	
