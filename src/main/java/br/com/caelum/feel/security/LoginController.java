@@ -19,7 +19,6 @@ public class LoginController {
 
 	@GetMapping(value = "/login/form")
 	public String loginForm() {
-		System.out.println();
 		return "user/login";
 	}
 
