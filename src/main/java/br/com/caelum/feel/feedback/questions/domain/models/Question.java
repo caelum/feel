@@ -134,6 +134,7 @@ public class Question {
 	}
 
 	public boolean isClosed() {
+		System.out.println("======"+(LocalDate.now().compareTo(dueDate) > 0));
 		return LocalDate.now().compareTo(dueDate) > 0;
 	}
 

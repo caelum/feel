@@ -141,11 +141,8 @@
         </form>
     </section>
 </main>
-<script th:if="${question.isClosed()}" layout:fragment="scripts">
-    $('#myModal').modal()
-</script>
-<script th:if="${answerForm.isDone()}" layout:fragment="scripts">
-    $('#answeredModal').modal()
+<script layout:fragment="scripts" th:inline="javascript">
+	eval([[${@questionFormScripts.generate(question,answerForm)}]]);
 </script>
 </body>
 </html>
