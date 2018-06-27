@@ -68,7 +68,7 @@
             <div class="form-group">
                 <label class="bg-secondary text-light p-2 rounded font-weight-bold d-block" for="time">Em que time da Caelum você trabalha?</label>
                 <select th:errorclass="is-invalid" id="time" class="form-control" name="time" th:field="*{teamId}" required>
-                    <option value="" selected disabled>Escolha um time...</option>
+                    <option value="" selected>Escolha um time...</option>
                     <option th:each="team : ${allTeams}" th:value="${team.id}" th:text="${team.name}"/>
                 </select>
                 <span class="text-danger" th:if="${#fields.hasErrors('teamId')}" th:errors="*{teamId}"></span>
