@@ -139,6 +139,10 @@ public class SystemUser implements UserDetails {
 	public String toString() {
 		return "User [id=" + id + ", roles=" + roles + ", email=" + email
 				+ ", password=" + password + ", name=" + name + "]";
+	}
+
+	public void addRole(Role role) {
+		this.roles.add(role);
 	}	
 	
 	

@@ -1,5 +1,7 @@
 package br.com.caelum.feel.security;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -18,6 +20,8 @@ public class GenerateSecurityConfigurationController {
 	private EntityManager entityManager;
 	@Autowired
 	private RoleDao roleDao;
+	@Autowired
+	private SystemUserDao systemUserDao;
 
 	@RequestMapping("/magic/generate/roles")
 	@ResponseBody
@@ -33,5 +37,21 @@ public class GenerateSecurityConfigurationController {
 		SystemUser user = new SystemUser(email, email, Password.buildWithRawText(password), roleDao.findByName(Role.PEOPLE.getName()));
 		entityManager.persist(user);
 		return "usuario gerado com uscesso";
+	}
+	
+	@GetMapping("/magic/user/add/role")
+	@ResponseBody
+	@Transactional
+	public String addRoleToLogin(String login,String roleName) {
+		Optional<SystemUser> user = systemUserDao.findByEmail(login);
+		if(!user.isPresent()) {
+			throw new RuntimeException("acho que você passou um usuário que não existe...");
+		}
+		
+		Role role = roleDao.findByName(roleName);
+		user.get().addRole(role);
+		
+			
+		return "role adicionada com sucesso";
 	}
 }
