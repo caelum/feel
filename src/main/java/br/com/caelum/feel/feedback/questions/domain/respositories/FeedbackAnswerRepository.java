@@ -26,4 +26,6 @@ public interface FeedbackAnswerRepository extends CrudRepository<FeedbackAnswer,
 
 	@Query("select max(f) from FeedbackAnswer f where f.team.id = :teamId order by f.id desc")
 	Optional<FeedbackAnswer> findLastAnswerPerTeam(@Param("teamId") Long teamId);
+
+	List<FeedbackAnswer> findByQuestionCycleId(Integer cycleId);
 }

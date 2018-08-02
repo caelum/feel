@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Questions</title>
+</head>
+<body>
+<section layout:fragment="content">
+
+	<form th:action="@{/reports/feedback/csv/allAnswers}" th:object="${reportCycleForm}" method="post">
+	
+	
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Questão</label>
+            <select th:errorclass="is-invalid" class="form-control" name="cycleId" th:field="*{cycleId}" required>
+                <option value="" selected disabled>Escolha um ciclo...</option>
+                <option th:each="cycle : ${cycleList}" th:value="${cycle.id}" th:text="${cycle.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('cycleId')}" th:errors="*{cycleId}"></span>            			           
+        </div>        
+        	
+        <button class="btn btn-block btn-info">Gerar csv</button>
+	</form>	
+</section>
+</body>
+</html>
