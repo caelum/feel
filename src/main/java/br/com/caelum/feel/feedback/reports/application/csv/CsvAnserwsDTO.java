@@ -3,6 +3,9 @@ package br.com.caelum.feel.feedback.reports.application.csv;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 
 public class CsvAnserwsDTO {
@@ -45,6 +48,11 @@ public class CsvAnserwsDTO {
 	
 	public static String[] header() {
 		return new String[] {"questionTitle","value","comment","teamName"};
+	}
+
+	public static CellProcessor[] processors() {
+		return new CellProcessor[] { new NotNull(), new NotNull(),
+				new NotNull(), new NotNull() };
 	}
 
 }
