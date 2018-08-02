@@ -17,7 +17,7 @@ public interface Teams extends Repository<CompanyTeam, Long> {
 
     void delete(CompanyTeam team);
 
-    List<Teams> findAll();
+    List<CompanyTeam> findAll();
 
 	List<CompanyTeam> findByLeaderLogin(String login);
 }

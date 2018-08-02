@@ -19,7 +19,7 @@ public class CsvWriter {
 
 			beanWriter.writeHeader(header);
 			for (final Object line : lines) {
-				beanWriter.write(line, CsvAnserwsDTO.header(), processors);
+				beanWriter.write(line, header, processors);
 			}
 				
 		} catch (Exception exception) {
