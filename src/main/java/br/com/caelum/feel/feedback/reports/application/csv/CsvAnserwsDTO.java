@@ -3,6 +3,7 @@ package br.com.caelum.feel.feedback.reports.application.csv;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.util.StringUtils;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 
@@ -19,7 +20,11 @@ public class CsvAnserwsDTO {
 		super();
 		this.questionTitle = questionTitle;
 		this.value = value;
-		this.comment = comment;
+		if(StringUtils.hasText(comment)) {
+			this.comment = comment.replace("\n", " ").replaceAll("\r\n", " ");			
+		} else {
+			this.comment = "#vazio#";
+		}
 		this.teamName = teamName;
 	}
 
@@ -47,7 +52,7 @@ public class CsvAnserwsDTO {
 	}
 	
 	public static String[] header() {
-		return new String[] {"questionTitle","value","comment","teamName"};
+		return new String[] {"questionTitle","value","teamName","comment"};
 	}
 
 	public static CellProcessor[] processors() {
