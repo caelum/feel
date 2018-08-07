@@ -1,7 +1,6 @@
 package br.com.caelum.feel.feedback.reports.application.controllers;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +86,7 @@ public class CsvReportsController {
 		for (CompanyTeam team : teams) {			
 			for (Question question : questions) {
 				BigDecimal percentCount = reportPerTeamAnswerTable.percentCount(team, question);
-				lines.add(new CsvPercentAnswersDTO(team.getName(),percentCount.setScale(2, RoundingMode.HALF_EVEN)));
+				lines.add(new CsvPercentAnswersDTO(question.getStatement(),team.getName(),percentCount));
 			}
 		}
 		

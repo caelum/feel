@@ -13,4 +13,10 @@ public class NumbersFormatter {
 		defaultFormat.setMinimumFractionDigits(2);
 		return defaultFormat.format(value);
 	}
+	
+	public String percent(BigDecimal value,int digits) {
+		NumberFormat defaultFormat = NumberFormat.getPercentInstance();
+		defaultFormat.setMinimumFractionDigits(digits);
+		return defaultFormat.format(value);
+	}
 }
