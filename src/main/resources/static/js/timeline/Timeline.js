@@ -10,13 +10,13 @@ class Response extends React.Component {
 	
 	render() {
 		return (
-			 <div class="row">
+			 <div class="row" key={this.props.message.id}>
 		        <div class="col py-2">
 		            <div class="card">
 		                <div class="card-body">
-		                    <div class="float-right text-muted">Mon, Jan 9th 2019 7:00 AM</div>
-		                    <h4 class="card-title text-muted">Day 1 Orientation</h4>
-		                    <p class="card-text">Welcome to the campus, introduction and get started with the tour.</p>
+		                    <div class="float-right text-muted">{this.props.message.date}</div>
+		                    <h4 class="card-title text-muted">{this.props.message.from}</h4>
+		                    <p class="card-text">{this.props.message.comment}</p>
 		                </div>
 		            </div>
 		        </div>
@@ -26,12 +26,30 @@ class Response extends React.Component {
 }
 
 class Timeline extends React.Component {
+	
+	constructor(){
+		super();
+		this.state = {messages : []};
+	}
+	
+	componentDidMount() {
+		fetch('/behavior/anonimous/timeline/messages/'+HASH)
+			.then(response => response.json())
+			.then(listOfMessages => {
+				this.setState({messages : listOfMessages});
+			});
+		
+	}
+	
 	render() {
 		return (
 		  <div>
 			<Header/>
-			<Response/>
-			<Response/>
+			{
+				this.state.messages.map(m => {
+					return (<Response message={m}/>); 
+				})
+			}
 		  </div>
 		);
 	}
