@@ -21,3 +21,14 @@
     </button>
 
 </div>
+
+<!--Error component-->
+<div th:fragment="error" th:if="${#request.getAttribute(attribute) != null}"
+     class="alert alert-danger alert-dismissible fade show">
+
+    <span th:text="${#request.getAttribute(attribute)}">Problema</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>

@@ -24,6 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.antMatchers("/custom/login").permitAll()		
 		.antMatchers("/behavior/feedback/anonimous/form").permitAll()		
 		.antMatchers("/behavior/feedback/anonimous").permitAll()		
+		.antMatchers("/behavior/anonimous/timeline/**").permitAll()		
 		.antMatchers("/admin/cycles").authenticated()		
 		.antMatchers("/admin/**").hasAuthority(Role.PEOPLE.getName())		
 		.anyRequest().authenticated()
