@@ -1,7 +1,7 @@
 class Header extends React.Component {
 	render() {
 		return (
-				<h2 class="text-center text-muted py-3">Conversa</h2>
+				<h2 class="text-center text-muted py-3">{this.props.title}</h2>
 		);
 	}
 }
@@ -25,6 +25,51 @@ class Response extends React.Component {
 	}
 }
 
+class MessageForm extends React.Component {
+	
+	send(event){
+		event.preventDefault();
+		
+        const requestInfo = {
+                method:'POST',
+                body:JSON.stringify({name:this.name.value,comment:this.comment.value}),
+                headers: new Headers({
+                  'Content-type':'application/json'
+                })
+              };
+        
+      fetch('/behavior/anonimous/timeline/messages/'+HASH+'/append',requestInfo)
+        .then(response => {
+          if(response.ok){
+        	this.props.callback();
+            return "";
+          } else {
+        	alert("Infelizmente não foi possível adicionar o comentário agora. Caso o erro persista, chame Alberto ou Luísa");  
+            throw new Error("Ocorreu um problema");
+          }
+        }); 
+    }             			
+	
+	render() {
+		return (
+			    <form method="post" onSubmit={this.send.bind(this)}>
+
+		        <div class="form-group">
+		            <input id="name" class="form-control" placeholder="Seu nome(opcional)" ref={input => this.name = input}/>		            
+		        </div>
+
+		        <div class="form-group">
+		            <textarea required="required" class="form-control" placeholder="Nos conte o que aconteceu da maneira mais detalhada possível." rows="5" ref={input => this.comment = input}></textarea>
+		        </div>
+		        
+		        <div>
+		            <button class="btn btn-info btn-block">Enviar</button>
+		        </div>
+		    </form>			
+		);
+	}
+}
+
 class Timeline extends React.Component {
 	
 	constructor(){
@@ -32,24 +77,32 @@ class Timeline extends React.Component {
 		this.state = {messages : []};
 	}
 	
-	componentDidMount() {
+	listAll() {
 		fetch('/behavior/anonimous/timeline/messages/'+HASH)
-			.then(response => response.json())
-			.then(listOfMessages => {
-				this.setState({messages : listOfMessages});
-			});
-		
+		.then(response => response.json())
+		.then(listOfMessages => {
+			this.setState({messages : listOfMessages});
+		});		
+	}
+	
+	componentDidMount() {
+		this.listAll();		
 	}
 	
 	render() {
 		return (
 		  <div>
-			<Header/>
+			<Header title="Conversa"/>
 			{
 				this.state.messages.map(m => {
 					return (<Response message={m}/>); 
 				})
 			}
+			
+			<hr/>
+			
+			<Header title="Nova mensagem"/>
+			<MessageForm callback={this.listAll.bind(this)}/>
 		  </div>
 		);
 	}

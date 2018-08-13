@@ -1,14 +1,18 @@
 package br.com.caelum.feel.behavior;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.util.StringUtils;
@@ -26,6 +30,9 @@ public class BehaviorFeedback {
 	@NotBlank
 	private String hash = UUID.randomUUID().toString();
 	private LocalDateTime instant = LocalDateTime.now();
+	//se precisar separar, faz uma migration
+	@OneToMany(cascade=CascadeType.MERGE)
+	private List<BehaviorFeedback> messages = new ArrayList<>();
 
 	/**
 	 * @deprecated
@@ -58,6 +65,21 @@ public class BehaviorFeedback {
 
 	public LocalDateTime getInstant() {
 		return instant;
+	}
+	
+	public List<BehaviorFeedback> getMessages() {
+		return messages;
+	}
+
+	public void append(BehaviorFeedback newFeedback) {
+		this.messages.add(newFeedback);
+	}
+
+	public List<BehaviorFeedback> asList() {
+		ArrayList<BehaviorFeedback> list = new ArrayList<>();
+		list.add(this);
+		list.addAll(messages);
+		return list;
 	}
 	
 	
