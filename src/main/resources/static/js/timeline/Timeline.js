@@ -25,7 +25,28 @@ class Response extends React.Component {
 	}
 }
 
+class SuccessMessage extends React.Component {
+	render() {
+		const classes = "alert alert-success alert-dismissible fade "+(this.props.show ? "show" : '');
+		return (
+				<div className={classes}>
+
+				    <span>{this.props.message}</span>
+				    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				        <span aria-hidden="true">&times;</span>
+				    </button>
+
+				</div>				
+		);
+	}
+}
+
 class MessageForm extends React.Component {
+	
+	constructor(props) {
+		super();
+		this.state = {show : props.show};
+	}
 	
 	send(event){
 		event.preventDefault();
@@ -40,18 +61,28 @@ class MessageForm extends React.Component {
         
       fetch('/behavior/anonimous/timeline/messages/'+HASH+'/append',requestInfo)
         .then(response => {
-          if(response.ok){
-        	this.props.callback();
+          if(response.ok){        	
+        	this.name.value = "";
+        	this.comment.value = "";
+        	this.setState({show:true});
+        	this.props.callback();  
+        	setTimeout(
+        		      () => this.setState({show:false}),
+        		      5000
+        		    );        	
             return "";
           } else {
         	alert("Infelizmente não foi possível adicionar o comentário agora. Caso o erro persista, chame Alberto ou Luísa");  
             throw new Error("Ocorreu um problema");
           }
         }); 
-    }             			
+    }    
 	
-	render() {
+	render() {				
 		return (
+			<div>
+				<Header title="Nova mensagem"/>
+				<SuccessMessage show={this.state.show} message="Comentario enviado com sucesso"/>	
 			    <form method="post" onSubmit={this.send.bind(this)}>
 
 		        <div class="form-group">
@@ -65,10 +96,12 @@ class MessageForm extends React.Component {
 		        <div>
 		            <button class="btn btn-info btn-block">Enviar</button>
 		        </div>
-		    </form>			
+		    </form>	
+		   </div>
 		);
 	}
 }
+
 
 class Timeline extends React.Component {
 	
@@ -100,9 +133,8 @@ class Timeline extends React.Component {
 			}
 			
 			<hr/>
-			
-			<Header title="Nova mensagem"/>
-			<MessageForm callback={this.listAll.bind(this)}/>
+						
+			<MessageForm callback={this.listAll.bind(this)} show={false}/>
 		  </div>
 		);
 	}
