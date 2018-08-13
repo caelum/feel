@@ -24,4 +24,8 @@ public class NewBehaviorFeedbackForm {
 		this.comment = comment;
 	}
 
+	public BehaviorFeedback toBehaviorFeedback() {
+		return new BehaviorFeedback(name, comment);
+	}
+
 }
