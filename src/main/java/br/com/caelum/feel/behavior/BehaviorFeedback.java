@@ -1,5 +1,6 @@
 package br.com.caelum.feel.behavior;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ public class BehaviorFeedback {
 	private String comment;
 	@NotBlank
 	private String hash = UUID.randomUUID().toString();
+	private LocalDateTime instant = LocalDateTime.now();
 
 	/**
 	 * @deprecated
