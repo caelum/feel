@@ -32,3 +32,13 @@
     </button>
 
 </div>
+
+<div th:fragment="info" th:if="${#request.getAttribute(attribute) != null}"
+     class="alert alert-info alert-dismissible fade show">
+
+    <span th:text="${#request.getAttribute(attribute)}">Info</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>

@@ -90,7 +90,7 @@ class MessageForm extends React.Component {
 		        </div>
 
 		        <div class="form-group">
-		            <textarea required="required" class="form-control" placeholder="Nos conte o que aconteceu da maneira mais detalhada possível." rows="5" ref={input => this.comment = input}></textarea>
+		            <textarea required="required" class="form-control" rows="5" ref={input => this.comment = input}></textarea>
 		        </div>
 		        
 		        <div>
