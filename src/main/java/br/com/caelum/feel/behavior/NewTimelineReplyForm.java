@@ -2,7 +2,7 @@ package br.com.caelum.feel.behavior;
 
 import javax.validation.constraints.NotBlank;
 
-public class NewBehaviorFeedbackForm {
+public class NewTimelineReplyForm {
 
 	private String name;
 	@NotBlank
@@ -24,8 +24,8 @@ public class NewBehaviorFeedbackForm {
 		this.comment = comment;
 	}
 
-	public BehaviorFeedback toBehaviorFeedback() {
-		return new BehaviorFeedback(name,comment);
-	}
 
+	public BehaviorReply toBehaviorReply(BehaviorFeedback root) {
+		return new BehaviorReply(comment, name, root);
+	}	
 }

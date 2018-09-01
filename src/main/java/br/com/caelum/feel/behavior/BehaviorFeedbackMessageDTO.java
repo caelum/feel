@@ -9,11 +9,11 @@ public class BehaviorFeedbackMessageDTO {
 	private String from;
 	private String comment;
 
-	public BehaviorFeedbackMessageDTO(BehaviorFeedback feedback) {
-		this.id = feedback.getId();
-		this.date = feedback.getInstant().format(DateTimeFormatter.ofPattern("kk:mm dd/MM/yyyy"));
-		this.from = feedback.getName().orElse("Anônimo");
-		this.comment = feedback.getComment();
+	public BehaviorFeedbackMessageDTO(TimelineMessage message) {
+		this.id = message.getId();
+		this.date = message.getInstant().format(DateTimeFormatter.ofPattern("kk:mm dd/MM/yyyy"));
+		this.from = message.getName().orElse("Anônimo");
+		this.comment = message.getComment();
 	}
 
 	public Integer getId() {

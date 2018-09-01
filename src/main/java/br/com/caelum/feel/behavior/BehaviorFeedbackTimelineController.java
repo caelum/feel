@@ -1,6 +1,5 @@
 package br.com.caelum.feel.behavior;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,19 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class BehaviorFeedbackTimelineController {
 
 	@Autowired
 	private BehaviorFeedbackRepository behaviorFeedbackRepository;
+	@Autowired
+	private BehaviorReplyRepository behaviorReplyRepository;
 
 	@GetMapping("/behavior/anonimous/timeline/{hash}")
 	public String helloTimeline(Model model, @PathVariable("hash") String hash) {
@@ -53,12 +52,11 @@ public class BehaviorFeedbackTimelineController {
 	@Transactional
 	@ResponseBody
 	public String save(@PathVariable("hash") String hash,
-			@Valid @RequestBody NewBehaviorFeedbackForm form) {
+			@Valid @RequestBody NewTimelineReplyForm form) {
 
 		BehaviorFeedback root = behaviorFeedbackRepository.findByHash(hash).get();
-		BehaviorFeedback newFeedback = form.toBehaviorFeedback();
-		behaviorFeedbackRepository.save(newFeedback);
-		root.append(newFeedback);
+		BehaviorReply reply = form.toBehaviorReply(root);
+		behaviorReplyRepository.save(reply);
 
 		return "Salvo com sucesso";
 	}

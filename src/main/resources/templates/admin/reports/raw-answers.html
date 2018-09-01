@@ -50,7 +50,7 @@
         </thead>
         <tbody>
         <tr th:each="answer : ${answerList}">
-            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:MM')}">05/05/2018 20:10</td>
+            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>
             <td th:text="${answer.team.name}">Comercial</td>
             <td th:text="${answer.value}">4</td>
             <td><p th:text="${answer.comments}" class="text-justify" style="overflow: scroll;">4</p></td>

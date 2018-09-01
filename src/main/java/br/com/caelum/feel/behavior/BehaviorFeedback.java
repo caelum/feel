@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.util.StringUtils;
 
 @Entity
-public class BehaviorFeedback {
+public class BehaviorFeedback implements TimelineMessage{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +29,8 @@ public class BehaviorFeedback {
 	@NotBlank
 	private String hash = UUID.randomUUID().toString();
 	private LocalDateTime instant = LocalDateTime.now();
-	//se precisar separar, faz uma migration
-	@OneToMany(cascade=CascadeType.MERGE)
-	private List<BehaviorFeedback> messages = new ArrayList<>();
+	@OneToMany(mappedBy="root")
+	private List<BehaviorReply> messages = new ArrayList<>();
 
 	/**
 	 * @deprecated
@@ -62,26 +60,26 @@ public class BehaviorFeedback {
 	public String getComment() {
 		return comment;
 	}
+	
+	public String partOfComment(int size) {
+		if(size < this.comment.length()) {
+			return comment.substring(0, size).concat("...");
+		}
+		
+		return comment;
+	}
 
 	public LocalDateTime getInstant() {
 		return instant;
 	}
 	
-	public List<BehaviorFeedback> getMessages() {
-		return messages;
-	}
-
-	public void append(BehaviorFeedback newFeedback) {
-		this.messages.add(newFeedback);
-	}
-
-	public List<BehaviorFeedback> asList() {
-		ArrayList<BehaviorFeedback> list = new ArrayList<>();
+	public List<TimelineMessage> asList() {
+		ArrayList<TimelineMessage> list = new ArrayList<>();
 		list.add(this);
 		list.addAll(messages);
 		return list;
 	}
-	
+
 	
 
 }

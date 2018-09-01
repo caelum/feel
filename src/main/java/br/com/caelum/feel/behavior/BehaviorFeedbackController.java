@@ -16,6 +16,12 @@ public class BehaviorFeedbackController {
 
 	@Autowired
 	private BehaviorFeedbackRepository behaviorFeedbackRepository;
+	
+	@GetMapping("/admin/behavior/feedbacks")
+	public String list(Model model) {
+		model.addAttribute("list",behaviorFeedbackRepository.findAll());
+		return "complains/list";
+	}
 
 	@GetMapping("/behavior/feedback/anonimous/form")
 	public String form(Model model, NewBehaviorFeedbackForm form,
