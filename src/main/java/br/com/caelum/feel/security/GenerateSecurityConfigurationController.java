@@ -31,6 +31,13 @@ public class GenerateSecurityConfigurationController {
 		return "Roles geradas. Por favor, não execute essa url novamente.";
 	}
 	
+	@RequestMapping("/magic/roles/add/goodbehavior")
+	@ResponseBody
+	public String addRoleGoodBehavior() {
+		entityManager.persist(Role.GOOD_BEHAVIOR);
+		return "Role adicionada";
+	}	
+	
 	@GetMapping("/magic/generate/user")
 	@ResponseBody
 	public String generatePeopleUsers(String email,String password) {

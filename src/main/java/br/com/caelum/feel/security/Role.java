@@ -17,6 +17,7 @@ public class Role implements GrantedAuthority {
 	private static final long serialVersionUID = -4322926734171829137L;
 	public static final Role PEOPLE = new Role("ROLE_PEOPLE");
 	public static final Role READER = new Role("ROLE_READER");
+	public static final Role GOOD_BEHAVIOR = new Role("ROLE_GOOD_BEHAVIOR");
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
