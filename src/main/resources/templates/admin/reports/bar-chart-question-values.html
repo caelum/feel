@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de notas</title>
+    <script src="/js/Chart.min.js"></script>
+</head>
+<body>
+<section layout:fragment="content">
+	<h3>Relatório de média de notas por pergunta</h3>
+	<canvas id="myChart" width="400" height="400"></canvas>
+</section>
+
+<script layout:fragment="scripts" th:inline="javascript">
+const cycleId = [(${cycle.id})];
+const url = '/admin/reports/feedback/values/barchart/data/'+cycleId; 
+var ctx = document.getElementById("myChart");
+
+fetch(url)
+	.then(res => res.json())
+	.then(info => {
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: info.labels,
+		        datasets: [{
+		            label: 'notas',
+		            data: info.values
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});		
+	 });	
+</script>
+</body>
+</html>
