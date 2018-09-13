@@ -8,7 +8,7 @@ import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerQuesti
 
 public class BarChartAverageValuesPerQuestionData {
 	
-	private List<String> labels = new ArrayList<>();
+	private List<String[]> labels = new ArrayList<>();
 	private List<BigDecimal> values = new ArrayList<>();
 	private List<String> colors = new ArrayList<>();
 	private String[] colorsOptions = {"red","blue","yellow","green","gray","purple","black","orange"};
@@ -17,13 +17,17 @@ public class BarChartAverageValuesPerQuestionData {
 		
 		for(int i=0;i<results.size();i++) {
 			AverageValuePerQuestionResult item = results.get(i);
-			labels.add(item.getQuestion().getStatement());
+			labels.add(splitLabelPerLineToShowCorrect(item));
 			values.add(new BigDecimal(item.getValue().doubleValue()));
 			colors.add(colorsOptions[i]);
 		}
 	}
+
+	private String[] splitLabelPerLineToShowCorrect(AverageValuePerQuestionResult item) {
+		return item.getQuestion().getStatement().split(" ");
+	}
 	
-	public List<String> getLabels() {
+	public List<String[]> getLabels() {
 		return labels;
 	}
 	
