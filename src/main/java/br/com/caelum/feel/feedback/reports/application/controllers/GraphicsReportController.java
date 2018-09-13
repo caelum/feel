@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
+import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
-import br.com.caelum.feel.feedback.reports.application.graphics.AverageValuePerQuestionResult;
 import br.com.caelum.feel.feedback.reports.application.graphics.BarChartAverageValuesPerQuestionData;
 
 @Controller

@@ -7,8 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.models.ReportPerTeamAnswer;
-import br.com.caelum.feel.feedback.reports.application.graphics.AverageValuePerQuestionResult;
 
 @Repository
 public interface ReportPerTeamAnswerRepository extends CrudRepository<ReportPerTeamAnswer, Integer>{

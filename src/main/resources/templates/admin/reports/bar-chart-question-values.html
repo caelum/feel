@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Relatório de notas</title>
-    <script src="/js/Chart.min.js"></script>
+    <script src="/js/reports/Chart.min.js"></script>
 </head>
 <body>
 <section layout:fragment="content">
@@ -27,7 +27,8 @@ fetch(url)
 		        labels: info.labels,
 		        datasets: [{
 		            label: 'notas',
-		            data: info.values
+		            data: info.values,
+		            backgroundColor: info.colors
 		        }]
 		    },
 		    options: {

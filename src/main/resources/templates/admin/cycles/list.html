@@ -31,6 +31,7 @@
                 <a class="text-secondary fas fa-table" th:href="@{/reports/feedbak/compare-number-answers?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Taxa de respostas"></a>                               
                 <a class="text-secondary fas fa-table" th:href="@{/reports/feedbak/compare-number-answers-values?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Notas dos times"></a>                               
                 <a class="text-secondary far fa-comment-alt" th:href="@{/reports/feedback/raw-answers?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Notas e comentários do ciclo"></a>                               
+                <a class="text-secondary far fa-chart-bar" th:href="@{/admin/reports/feedback/values/barchart?cycleId={id}(id=${cycle.id})}" data-toggle="tooltip" data-placement="bottom"  title="Grafico de barras com notas"></a>                               
             </td>
         </tr>
         </tbody>
