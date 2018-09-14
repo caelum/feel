@@ -70,6 +70,8 @@ public class SearchRawAnswersForm {
 								
 				ArrayList<Predicate> predicates = new ArrayList<>();
 				
+				predicates.add(builder.equal(root.get("question").get("cycle").get("id"),cycleId));
+				
 				if(questionId != null) {
 					predicates.add(builder.equal(root.get("question").get("id"),questionId));
 				}
