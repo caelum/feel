@@ -29,7 +29,7 @@ import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
 import br.com.caelum.feel.feedback.reports.application.forms.SearchRawAnswersForm;
 import br.com.caelum.feel.feedback.reports.application.validators.UserIsLeaderOfTeamValidator;
-import br.com.caelum.feel.feedback.reports.application.views.AllAnsewrsPerTeam;
+import br.com.caelum.feel.feedback.reports.application.views.AllAnsewrs;
 import br.com.caelum.feel.feedback.reports.application.views.ReportPerTeamAnswerTable;
 import br.com.caelum.feel.feedback.security.AuthenticatedUser;
 import br.com.caelum.feel.security.SystemUser;
@@ -89,7 +89,7 @@ public class FeedbackReportsController {
 		}
 		
 		List<FeedbackAnswer> answers = feedbackAnswerRepository.findAll(form.build());
-		model.addAttribute("allAnswersPerTeamList", new AllAnsewrsPerTeam(answers));
+		model.addAttribute("allAnswersPerTeamList", new AllAnsewrs(answers));
 		
 		return rawAnswersList(model, form, currentUser);
 	}

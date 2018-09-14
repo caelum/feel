@@ -52,7 +52,7 @@
 		        <th>Dia</th>
 		        <th>Time</th>
 		        <th>Nota</th>
-		        <th>Comentário</th>
+		        <th>Comentário</th>		        
 		        </thead>
 		        <tbody>
 		        <tr th:each="answer : ${allAnswersPerTeamList.findAnswers(question)}">
@@ -60,6 +60,9 @@
 		            <td th:text="${answer.team.name}">Comercial</td>
 		            <td th:text="${answer.value}">4</td>
 		            <td><p th:text="${answer.comments}" class="text-justify" style="overflow: scroll;">4</p></td>
+		        </tr>
+		        <tr>
+		        	<td colspan="1" th:text="${'Média '+allAnswersPerTeamList.avg(question)}">Média 4.5</td>
 		        </tr>
 		        </tbody>
 		    </table>	
