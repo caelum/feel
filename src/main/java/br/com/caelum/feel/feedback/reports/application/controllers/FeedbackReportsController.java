@@ -1,5 +1,6 @@
 package br.com.caelum.feel.feedback.reports.application.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.actions.SaveReportPerTeamAction;
+import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 import br.com.caelum.feel.feedback.questions.domain.models.ReportPerTeamAnswer;
 import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
 import br.com.caelum.feel.feedback.reports.application.forms.SearchRawAnswersForm;
 import br.com.caelum.feel.feedback.reports.application.validators.UserIsLeaderOfTeamValidator;
+import br.com.caelum.feel.feedback.reports.application.views.AllAnsewrsPerTeam;
 import br.com.caelum.feel.feedback.reports.application.views.ReportPerTeamAnswerTable;
 import br.com.caelum.feel.feedback.security.AuthenticatedUser;
 import br.com.caelum.feel.security.SystemUser;
@@ -85,9 +88,16 @@ public class FeedbackReportsController {
 			return rawAnswersList(model, form, currentUser);
 		}
 		
-		model.addAttribute("answerList", feedbackAnswerRepository.findAll(form.build()));
+		List<FeedbackAnswer> answers = feedbackAnswerRepository.findAll(form.build());
+		model.addAttribute("answerList", answers);
+		String rawAnswersList = rawAnswersList(model, form, currentUser);
 
-		return rawAnswersList(model, form, currentUser);
+		if(form.hasQuestion()) {
+			return rawAnswersList;
+		}
+		
+		model.addAttribute("allAnswersPerTeamList",new AllAnsewrsPerTeam(answers));
+		return "admin/reports/raw-all-answers";
 	}
 
 	@GetMapping("/reports/feedback/raw-answers")

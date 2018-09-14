@@ -15,7 +15,6 @@ import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 public class SearchRawAnswersForm {
 
 	private Long teamId;
-	@NotNull
 	private Long questionId;
 	@NotNull
 	private Integer cycleId;
@@ -57,6 +56,10 @@ public class SearchRawAnswersForm {
 	public boolean hasTeamId() {
 		return teamId != null;
 	}
+	
+	public boolean hasQuestion() {
+		return questionId != null;
+	}
 
 	public Specification<FeedbackAnswer> build() {
 		return new Specification<FeedbackAnswer>() {
@@ -66,7 +69,10 @@ public class SearchRawAnswersForm {
 					CriteriaBuilder builder) {
 								
 				ArrayList<Predicate> predicates = new ArrayList<>();
-				predicates.add(builder.equal(root.get("question").get("id"),questionId));
+				
+				if(questionId != null) {
+					predicates.add(builder.equal(root.get("question").get("id"),questionId));
+				}
 				
 				if (teamId != null) {
 					predicates.add(builder.equal(root.get("team").get("id"), teamId));

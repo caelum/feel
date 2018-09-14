@@ -16,8 +16,8 @@
         
         <div class="form-group">
             <label class="font-weight-bold" for="time">Questão</label>
-            <select th:errorclass="is-invalid" class="form-control" name="questionId" th:field="*{questionId}" required>
-                <option value="" selected disabled>Escolha uma questão...</option>
+            <select th:errorclass="is-invalid" class="form-control" name="questionId" th:field="*{questionId}">
+                <option value="" selected>Todas</option>
                 <option th:each="question : ${questionList}" th:value="${question.id}" th:text="${question.statement}"/>
             </select>
             <span class="text-danger" th:if="${#fields.hasErrors('questionId')}" th:errors="*{questionId}"></span>            			           
