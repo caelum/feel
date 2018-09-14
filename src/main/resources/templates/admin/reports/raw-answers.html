@@ -41,22 +41,30 @@
         <button class="btn btn-block btn-info">Filtrar</button>
 	</form>	
 
-    <table class="table table-hover">
-        <thead>
-        <th>Dia</th>
-        <th>Time</th>
-        <th>Nota</th>
-        <th>Comentário</th>
-        </thead>
-        <tbody>
-        <tr th:each="answer : ${answerList}">
-            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>
-            <td th:text="${answer.team.name}">Comercial</td>
-            <td th:text="${answer.value}">4</td>
-            <td><p th:text="${answer.comments}" class="text-justify" style="overflow: scroll;">4</p></td>
-        </tr>
-        </tbody>
-    </table>
+	<div class="panel panel-default" th:each="question : ${allAnswersPerTeamList.questions}">
+	
+		<div class="panel-heading">
+		    <caption th:text="${question.statement}" class="panel-title">Panel title<</caption>
+		</div>	
+		<div class="panel-body">	
+		    <table class="table table-hover table-bordered">
+		        <thead>
+		        <th>Dia</th>
+		        <th>Time</th>
+		        <th>Nota</th>
+		        <th>Comentário</th>
+		        </thead>
+		        <tbody>
+		        <tr th:each="answer : ${allAnswersPerTeamList.findAnswers(question)}">
+		            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>
+		            <td th:text="${answer.team.name}">Comercial</td>
+		            <td th:text="${answer.value}">4</td>
+		            <td><p th:text="${answer.comments}" class="text-justify" style="overflow: scroll;">4</p></td>
+		        </tr>
+		        </tbody>
+		    </table>	
+	    </div>
+	</div>
 </section>
 </body>
 </html>

@@ -89,15 +89,9 @@ public class FeedbackReportsController {
 		}
 		
 		List<FeedbackAnswer> answers = feedbackAnswerRepository.findAll(form.build());
-		model.addAttribute("answerList", answers);
-		String rawAnswersList = rawAnswersList(model, form, currentUser);
-
-		if(form.hasQuestion()) {
-			return rawAnswersList;
-		}
+		model.addAttribute("allAnswersPerTeamList", new AllAnsewrsPerTeam(answers));
 		
-		model.addAttribute("allAnswersPerTeamList",new AllAnsewrsPerTeam(answers));
-		return "admin/reports/raw-all-answers";
+		return rawAnswersList(model, form, currentUser);
 	}
 
 	@GetMapping("/reports/feedback/raw-answers")
