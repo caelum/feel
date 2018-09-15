@@ -41,7 +41,7 @@
         <button class="btn btn-block btn-info">Filtrar</button>
 	</form>	
 
-	<div class="panel panel-default" th:each="question : ${allAnswersPerTeamList.questions}">
+	<div class="panel panel-default" th:each="question : ${allAnswersPerTeamList?.questions}">
 	
 		<div class="panel-heading">
 		    <caption th:text="${question.statement}" class="panel-title">Panel title<</caption>

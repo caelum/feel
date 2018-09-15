@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de notas</title>
+    <script src="/js/reports/Chart.min.js"></script>
+</head>
+<body>
+<section layout:fragment="content">
+	<h1>Relatório de notas por time</h1>
+	<form th:action="@{/admin/reports/feedback/values/barchart/search/team}" th:object="${searchValuesPerTeamForm}" method="get">
+	
+	
+        <input type="hidden" th:field="*{cycleId}"/>
+        
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Questão</label>
+            <select th:errorclass="is-invalid" class="form-control" name="questionId" th:field="*{questionId}" required>
+                <option value="" selected disabled="disabled">Selecione</option>
+                <option th:each="question : ${questionList}" th:value="${question.id}" th:text="${question.statement}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('questionId')}" th:errors="*{questionId}"></span>            			           
+        </div>        
+        	
+        <button class="btn btn-block btn-info">Filtrar</button>
+	</form>
+	
+	<canvas id="myChart" width="400" height="400"></canvas>
+</section>
+
+<script layout:fragment="scripts" th:inline="javascript" th:if="${dataUrl}">
+const dataUrl = '[(${dataUrl})]';
+var ctx = document.getElementById("myChart");
+
+fetch(dataUrl)
+	.then(res => res.json())
+	.then(info => {
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: info.labels,
+		        datasets: [{
+		            label: 'notas',
+		            data: info.values,
+		            backgroundColor: info.colors
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});		
+	 });	
+</script>
+</body>
+</html>
