@@ -1,5 +1,7 @@
 package br.com.caelum.feel.security;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -40,7 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.logoutSuccessUrl("/login/form").permitAll()		
 		.and()
 		.rememberMe()
-		.tokenValiditySeconds(umDia)
+		.alwaysRemember(true)
+		.tokenValiditySeconds(umDia*365)
 		.and()
 		.csrf()
 		.disable();
