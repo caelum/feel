@@ -21,6 +21,6 @@ public interface ReportPerTeamAnswerRepository extends CrudRepository<ReportPerT
 	List<AverageValuePerQuestionResult> averagePerQuestion(@Param("cycleId") Integer cycleId);
 
 	@Query("select avg(r.percentValue) as value,r.team as team from ReportPerTeamAnswer r where r.cycle.id = :cycleId and r.question.id = :questionId and r.id in (select max(r2.id) from ReportPerTeamAnswer r2 where r2.cycle.id = :cycleId and r2.team.id = r.team.id and r2.question.id = r.question.id) group by r.team.id")
-	List<AverageValuePerTeamnResult> averagePerTeam(Integer cycleId, Long questionId);
+	List<AverageValuePerTeamnResult> averagePerTeam(@Param("cycleId") Integer cycleId, @Param("questionId") Long questionId);
 
 }
