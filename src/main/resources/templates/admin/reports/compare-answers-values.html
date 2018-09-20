@@ -9,7 +9,7 @@
 <body>
 <section layout:fragment="content">
 	<h3>Relatório de média de notas</h3>
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
         <thead>
 	        <th>Time</th>
 			<th th:each="question : ${questionsList}" th:text="${question.statement}"></th>
@@ -17,7 +17,7 @@
         <tbody>
 	        <tr th:each="team : ${teamsList}">
 	        	<td th:text="${team.name}"></th>	        	
-	        	<td th:each="question : ${questionsList}" th:text=" ${#numbers.formatDecimal(answersList.percentValue(team,question),1,2)}"></td>	        	
+	        	<td th:each="question : ${questionsList}" th:text=" ${#numbers.formatDecimal(answersList.percentValue(team,question),1,2)}" th:class="${@reportTableView.decideColorValue(answersList.percentValue(team,question))}"></td>	        	
 	        </tr>
         </tbody>
     </table>
