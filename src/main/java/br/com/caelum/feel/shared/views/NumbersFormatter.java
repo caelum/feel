@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 public class NumbersFormatter {
 
 	public String percent(BigDecimal value) {
-		NumberFormat defaultFormat = NumberFormat.getPercentInstance();
-		defaultFormat.setMinimumFractionDigits(2);
-		return defaultFormat.format(value);
+		return percent(value,2);
 	}
 	
 	public String percent(BigDecimal value,int digits) {

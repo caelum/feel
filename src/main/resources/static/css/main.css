@@ -111,6 +111,28 @@ input[type='radio']:checked{
     height: 5em;
 }
 
+/* cores para atenção do relatorio */
+
+.report-positive-1 {
+	background-color: rgb(83, 244, 66);
+}
+
+.report-positive-2 {
+	background-color: rgb(65, 244, 160);
+}
+
+.report-positive-3 {
+	background-color: rgb(238, 244, 65);
+}
+
+.report-warning {
+	background-color: rgb(244, 65, 131);
+}
+
+.report-danger {
+	background-color: rgb(244, 66, 66);
+}
+
 
 /* Ajustes de Formulario */
 .radio-question-label {
