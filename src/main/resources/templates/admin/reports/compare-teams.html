@@ -17,7 +17,7 @@
         <tbody>
 	        <tr th:each="team : ${teamsList}">
 	        	<td th:text="${team.name}"></th>
-	        	<td th:each="question : ${questionsList}" th:text=" ${@numbersFormatter.percent(answersList.percentCount(team,question))+'('+answersList.peopleCount(team,question)+')'}" th:class="${@reportTableView.decideColorPercent(answersList.percentValue(team,question))}"></td>	        	
+	        	<td th:each="question : ${questionsList}" th:text=" ${@numbersFormatter.percent(answersList.percentCount(team,question))+'('+answersList.peopleCount(team,question)+')'}" th:class="${@reportTableView.decideColorPercent(answersList.percentCount(team,question))}"></td>	        	
 	        </tr>
         </tbody>
     </table>
