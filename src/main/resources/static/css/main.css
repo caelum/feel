@@ -118,15 +118,15 @@ input[type='radio']:checked{
 }
 
 .report-positive-2 {
-	background-color: rgb(65, 244, 160);
+	background-color: rgb(131, 226, 153);
 }
 
 .report-positive-3 {
-	background-color: rgb(238, 244, 65);
+	background-color: rgb(238, 243, 126);
 }
 
 .report-warning {
-	background-color: rgb(244, 65, 131);
+	background-color: rgb(249, 187, 187);
 }
 
 .report-danger {
