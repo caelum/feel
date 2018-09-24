@@ -59,7 +59,7 @@
 		            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>
 		            <td th:text="${answer.team.name}">Comercial</td>
 		            <td th:text="${answer.value}">4</td>
-		            <td><p th:text="${answer.comments}" class="text-justify" style="overflow: scroll;">4</p></td>
+		            <td><p th:text="${answer.comments}" class="text-justify">4</p></td>
 		        </tr>
 		        <tr>
 		        	<td colspan="1" th:text="${'Média '+allAnswersPerTeamList.avg(question)}">Média 4.5</td>
