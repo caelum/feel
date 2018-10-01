@@ -69,9 +69,8 @@
 			            		<p th:text="${answer.comments}" class="text-justify">4</p>
 			            	</div>
 			            	<div class="row">
-								<ul class="list-inline">
-								  <li class="list-inline-item"><a href="#">tag1</a></li>
-								  <li class="list-inline-item"><a href="#">tag2</a></li>
+								<ul class="list-inline" th:each="category : ${answer.categories}">
+								  <li class="list-inline-item"><a href="#" th:text="${category.name}">categoria1</a></li>
 								</ul>			            		
 			            	</div>
 			            	<div class="row">

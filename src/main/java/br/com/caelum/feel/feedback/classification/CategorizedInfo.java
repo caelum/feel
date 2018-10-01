@@ -34,4 +34,11 @@ public class CategorizedInfo {
 		this.categoryInfo = categoryInfo;
 		this.feedbackAnswer = feedbackAnswer;
 	}
+
+	public String getName() {
+		return categoryInfo.getName();
+	}
+	
+	
+	
 }

@@ -1,6 +1,8 @@
 package br.com.caelum.feel.feedback.questions.domain.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -10,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.caelum.feel.feedback.classification.CategorizedInfo;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 
 @Entity
@@ -38,6 +42,8 @@ public class FeedbackAnswer {
 	private Question question;
 	@NotNull
 	private LocalDateTime instant = LocalDateTime.now();
+	@OneToMany(mappedBy="feedbackAnswer")
+	private List<CategorizedInfo> categories = new ArrayList<>();
 	
 	/**
 	 * @deprecated
@@ -76,6 +82,10 @@ public class FeedbackAnswer {
 	
 	public int getValue() {
 		return value;
+	}
+	
+	public List<CategorizedInfo> getCategories() {
+		return categories;
 	}
 
 }
