@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.caelum.feel.feedback.questions.domain.respositories.FeedbackAnswerRepository;
 import br.com.caelum.feel.feedback.reports.application.forms.SearchRawAnswersForm;
 
 public class NewCategoryCommentForm {
@@ -95,6 +96,10 @@ public class NewCategoryCommentForm {
 
 	private String valueOrEmpty(Object value) {
 		return Optional.ofNullable(value).map(Object::toString).orElse("");
+	}
+
+	public CategoryInfo build() {
+		return new CategoryInfo(this.categoryName);
 	}
 
 }
