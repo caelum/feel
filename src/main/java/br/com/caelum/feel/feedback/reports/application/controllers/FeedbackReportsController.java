@@ -106,7 +106,7 @@ public class FeedbackReportsController {
 		}	
 
 		if(!model.containsAttribute("newCategoryCommentForm")) {
-			model.addAttribute("newCategoryCommentForm",new NewCategoryCommentForm(form.getCycleId()));
+			model.addAttribute("newCategoryCommentForm",new NewCategoryCommentForm(form));
 		}
 		
 		//isso daqui é um comportamento não necessário, mas também não faz mal algum. Como esse método é chamado por outro controller,

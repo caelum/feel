@@ -20,7 +20,6 @@ public class SearchRawAnswersForm {
 	private Integer cycleId;
 
 	private Integer maximumValue;
-	private boolean showModal;
 	
 	/**
 	 * @deprecated
@@ -102,16 +101,6 @@ public class SearchRawAnswersForm {
 				return builder.and(predicates.toArray(new Predicate[0]));
 			}
 		};
-	}
-
-
-
-	public void showModal() {
-		this.showModal = true;
-	}
-	
-	public boolean isShowModal() {
-		return showModal;
 	}
 
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.caelum.feel.feedback.reports.application.controllers.FeedbackReportsController;
-import br.com.caelum.feel.feedback.reports.application.forms.SearchRawAnswersForm;
 import br.com.caelum.feel.security.SystemUser;
 
 @Controller
@@ -23,15 +22,13 @@ public class CommentsClassifierController {
 	@PostMapping("/admin/comments/categories")
 	public String saveCategory(Model model, @Valid NewCategoryCommentForm form, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes,@AuthenticationPrincipal SystemUser currentUser) {
-		if (bindingResult.hasErrors()) {
-			SearchRawAnswersForm searchRawAnswersForm = new SearchRawAnswersForm(form.getCycleId());
-			searchRawAnswersForm.showModal();
-			return feedbackReportsController.rawAnswersList(model,searchRawAnswersForm, currentUser);
+		if (bindingResult.hasErrors()) {			
+			return feedbackReportsController.rawAnswersList(model,form.rebuildSearchForm(), currentUser);
 		}
 
 
-		redirectAttributes.addFlashAttribute("msg", "Nova categoria criada com sucesso. Me desculpa, mas perdemos a sua busca anterior. ");
-		return "redirect:/reports/feedback/raw-answers?cycleId="+form.getCycleId();
+		redirectAttributes.addFlashAttribute("msg", "Nova categoria criada com sucesso.");
+		return "redirect:/reports/feedback/raw-answers/search?"+form.serializeSearchParms();
 	}
 
 }

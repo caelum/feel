@@ -116,6 +116,9 @@
 		            			 <form th:action="@{/admin/comments/categories}"  th:object="${newCategoryCommentForm}" method="post">
 		            			 	<input type="hidden" th:field="*{answerId}" id="category-answerId"/>		            			 	
 		            			 	<input type="hidden" th:field="*{cycleId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{teamId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{questionId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{maximumValue}"/>		            			 	
 							        <div class="form-group">
 							            <input id="categoryName" required class="form-control" placeholder="nova categoria" th:field="*{categoryName}"
 							                   th:errorclass="is-invalid">
@@ -140,9 +143,7 @@
 	$('#exampleModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget);		
 		$("#category-answerId").val(button.data('answerid'));				
-	});
-	
-	var showModal = /*[[${searchRawAnswersForm.showModal}]]*/;
+	});	
 </script>
 </body>
 </html>
