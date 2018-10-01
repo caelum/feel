@@ -9,6 +9,10 @@
 <body>
 <section layout:fragment="content">
 
+    <div th:replace="layout/fragments/components :: sucess(attribute='msg')">
+        Success
+    </div>
+
 	<form th:action="@{/reports/feedback/raw-answers/search}" th:object="${searchRawAnswersForm}" method="get">
 	
 	
@@ -71,24 +75,9 @@
 								</ul>			            		
 			            	</div>
 			            	<div class="row">
-			            		<div class="col">
-			            			<form>
-			            				<div class="form-group">
-				            				<select>
-				            					<option>categoria1</option>
-				            				</select>
-			            				</div>
-			            				<button class="btn btn-info">Classifique</button>
-			            			</form>
-			            		</div>
-			            		<div class="col">
-			            			<form>
-			            				<div class="form-group">
-			            					<input placeholder="nova categoria">
-			            				</div>
-				            			<button class="btn btn-info">Criar</button>
-			            			</form>
-			            		</div>			            		
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:attr="data-answerid=${answer.id}">
+								  Classifique
+								</button>			            		
 			            	</div>
 		            	</div>		            	
 		            </td>
@@ -100,6 +89,60 @@
 		    </table>	
 	    </div>
 	</div>
+	
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="container">
+		            	<div class="row">
+		            		<div class="col">
+		            			<form>
+		            				<div class="form-group">
+			            				<select>
+			            					<option>categoria1</option>
+			            				</select>
+		            				</div>
+		            				<button class="btn btn-info">Classifique</button>
+		            			</form>
+		            		</div>
+		            		<div class="col">
+		            			 <form th:action="@{/admin/comments/categories}"  th:object="${newCategoryCommentForm}" method="post">
+		            			 	<input type="hidden" th:field="*{answerId}" id="category-answerId"/>		            			 	
+		            			 	<input type="hidden" th:field="*{cycleId}"/>		            			 	
+							        <div class="form-group">
+							            <input id="categoryName" required class="form-control" placeholder="nova categoria" th:field="*{categoryName}"
+							                   th:errorclass="is-invalid">
+							            <span class="text-danger" th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}"></span>
+							
+							        </div>
+			            			<button class="btn btn-info">Criar</button>
+		            			</form>
+		            		</div>
+		            	</div>			            		
+	            	</div>		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+	
 </section>
+<script layout:fragment="scripts" th:inline="javascript">
+	$('#exampleModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget);		
+		$("#category-answerId").val(button.data('answerid'));				
+	});
+	
+	var showModal = /*[[${searchRawAnswersForm.showModal}]]*/;
+</script>
 </body>
 </html>
