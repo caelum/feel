@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec=“http://www.thymeleaf.org/thymeleaf-extras-springsecurity4” 
+      layout:decorate="~{layout/default}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Busca por categorias</title>    
+</head>
+<body>
+<section layout:fragment="content">
+
+	<form th:action="@{/admin/comments/categories/search}" th:object="${searchCategoriesForm}" method="get">
+	
+        <div class="form-group">
+            <label class="font-weight-bold" for="categoryIds">Categorias</label>
+            <select th:errorclass="is-invalid" class="form-control" name="categoryIds" id="categoryIds" th:field="*{categoryIds}" multiple="multiple">
+                <option th:each="category : ${categoryInfoList}" th:value="${category.id}" th:text="${category.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('categoryIds')}" th:errors="*{questionId}"></span>            			           
+        </div>        
+        
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Ciclos</label>
+            <select th:errorclass="is-invalid" class="form-control" name="cycleId" th:field="*{cycleId}">
+                <option value="" selected>Todas</option>
+                <option th:each="cycle : ${cycleList}" th:value="${cycle.id}" th:text="${cycle.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('cycleId')}" th:errors="cycleId"></span>            			           
+        </div>        
+        	
+        <button class="btn btn-block btn-info">Filtrar</button>
+	</form>
+		
+</section>
+</body>
+</html>
