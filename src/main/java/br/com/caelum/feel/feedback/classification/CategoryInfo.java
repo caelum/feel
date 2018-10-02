@@ -26,7 +26,7 @@ public class CategoryInfo {
 
 	public CategoryInfo(@NotBlank String name) {
 		super();
-		this.name = StringUtils.trimAllWhitespace(name);
+		this.name = StringUtils.trimWhitespace(name).replaceAll("\\s+","-");
 	}
 	
 	public String getName() {
@@ -36,5 +36,4 @@ public class CategoryInfo {
 	public Integer getId() {
 		return id;
 	}
-
 }
