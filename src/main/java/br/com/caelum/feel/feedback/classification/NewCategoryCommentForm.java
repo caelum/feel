@@ -14,11 +14,7 @@ public class NewCategoryCommentForm {
 	private Integer answerId;
 	@NotBlank
 	private String categoryName;
-	@NotNull
-	private Integer cycleId;
-	private Integer maximumValue;
-	private Long questionId;
-	private Long teamId;
+	private SearchRawAnswersForm searchForm = new SearchRawAnswersForm();
 
 	/**
 	 * @deprecated
@@ -28,42 +24,15 @@ public class NewCategoryCommentForm {
 	}
 
 	public NewCategoryCommentForm(SearchRawAnswersForm form) {
-		this.cycleId = form.getCycleId();
-		this.maximumValue = form.getMaximumValue();
-		this.questionId = form.getQuestionId();
-		this.teamId = form.getTeamId();
+		this.searchForm = form;
 	}
-
-	public Integer getMaximumValue() {
-		return maximumValue;
+	
+	public SearchRawAnswersForm getSearchForm() {
+		return searchForm;
 	}
-
-	public void setMaximumValue(Integer maximumValue) {
-		this.maximumValue = maximumValue;
-	}
-
-	public Long getQuestionId() {
-		return questionId;
-	}
-
-	public void setQuestionId(Long questionId) {
-		this.questionId = questionId;
-	}
-
-	public Long getTeamId() {
-		return teamId;
-	}
-
-	public void setTeamId(Long teamId) {
-		this.teamId = teamId;
-	}
-
-	public Integer getCycleId() {
-		return cycleId;
-	}
-
-	public void setCycleId(Integer cycleId) {
-		this.cycleId = cycleId;
+	
+	public void setSearchForm(SearchRawAnswersForm searchForm) {
+		this.searchForm = searchForm;
 	}
 
 	public Integer getAnswerId() {
@@ -80,22 +49,6 @@ public class NewCategoryCommentForm {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
-	}
-
-	public SearchRawAnswersForm rebuildSearchForm() {
-		SearchRawAnswersForm form = new SearchRawAnswersForm(this.cycleId);
-		form.setMaximumValue(this.maximumValue);
-		form.setQuestionId(this.questionId);
-		form.setTeamId(this.teamId);
-		return form;
-	}
-
-	public String serializeSearchParms() {		
-		return "cycleId="+this.cycleId+"&teamId="+valueOrEmpty(this.teamId)+"&questionId="+valueOrEmpty(this.questionId)+"&maximumValue="+valueOrEmpty(this.maximumValue);
-	}
-
-	private String valueOrEmpty(Object value) {
-		return Optional.ofNullable(value).map(Object::toString).orElse("");
 	}
 
 	public CategoryInfo build() {

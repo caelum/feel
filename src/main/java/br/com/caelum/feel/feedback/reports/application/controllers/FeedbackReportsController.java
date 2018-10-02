@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.caelum.feel.feedback.classification.CategoryInfoRepository;
+import br.com.caelum.feel.feedback.classification.ChooseCategoryInfoForm;
 import br.com.caelum.feel.feedback.classification.NewCategoryCommentForm;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.actions.SaveReportPerTeamAction;
@@ -47,6 +49,8 @@ public class FeedbackReportsController {
 	private Questions questionRepository;
 	@Autowired
 	private Teams teamRepository;
+	@Autowired
+	private CategoryInfoRepository categoryInfoRepository;
 
 	@Autowired
 	private AuthenticatedUser authenticatedUser;
@@ -99,6 +103,8 @@ public class FeedbackReportsController {
 		model.addAttribute("questionList",
 				questionRepository.findByCycleIdOrderByDueDateAsc(form.getCycleId()));
 		
+		model.addAttribute("categoryInfoList", categoryInfoRepository.findAll());
+		
 		if (authenticatedUser.isPeople(currentUser)) {
 			model.addAttribute("teamList", teamRepository.findAll());
 		} else {
@@ -107,6 +113,10 @@ public class FeedbackReportsController {
 
 		if(!model.containsAttribute("newCategoryCommentForm")) {
 			model.addAttribute("newCategoryCommentForm",new NewCategoryCommentForm(form));
+		}
+		
+		if(!model.containsAttribute("chooseCategoryInfoForm")) {
+			model.addAttribute("chooseCategoryInfoForm",new ChooseCategoryInfoForm(form));
 		}
 		
 		//isso daqui é um comportamento não necessário, mas também não faz mal algum. Como esse método é chamado por outro controller,

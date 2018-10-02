@@ -32,8 +32,7 @@ public class CommentsClassifierController {
 			BindingResult bindingResult, RedirectAttributes redirectAttributes,
 			@AuthenticationPrincipal SystemUser currentUser) {
 		if (bindingResult.hasErrors()) {
-			return feedbackReportsController.rawAnswersList(model, form.rebuildSearchForm(),
-					currentUser);
+			return feedbackReportsController.rawAnswersList(model, form.getSearchForm(),currentUser);
 		}
 
 		CategoryInfo categoryInfo = form.build();
@@ -43,7 +42,7 @@ public class CommentsClassifierController {
 				feedbackAnswerRepository.findById(form.getAnswerId()).get()));
 
 		redirectAttributes.addFlashAttribute("msg", "Nova categoria criada com sucesso.");
-		return "redirect:/reports/feedback/raw-answers/search?" + form.serializeSearchParms();
+		return "redirect:/reports/feedback/raw-answers/search?" + form.getSearchForm().serializeParms();
 	}
 
 }

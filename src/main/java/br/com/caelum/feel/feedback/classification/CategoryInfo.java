@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.util.StringUtils;
+
 @Entity
 public class CategoryInfo {
 
@@ -24,11 +26,15 @@ public class CategoryInfo {
 
 	public CategoryInfo(@NotBlank String name) {
 		super();
-		this.name = name;
+		this.name = StringUtils.trimAllWhitespace(name);
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 
 }

@@ -18,6 +18,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.BatchSize;
+
 import br.com.caelum.feel.feedback.classification.CategorizedInfo;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
 
@@ -43,6 +45,7 @@ public class FeedbackAnswer {
 	@NotNull
 	private LocalDateTime instant = LocalDateTime.now();
 	@OneToMany(mappedBy="feedbackAnswer")
+	@BatchSize(size=20)
 	private List<CategorizedInfo> categories = new ArrayList<>();
 	
 	/**

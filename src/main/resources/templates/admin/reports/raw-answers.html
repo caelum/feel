@@ -69,8 +69,10 @@
 			            		<p th:text="${answer.comments}" class="text-justify">4</p>
 			            	</div>
 			            	<div class="row">
-								<ul class="list-inline" th:each="category : ${answer.categories}">
-								  <li class="list-inline-item"><a href="#" th:text="${category.name}">categoria1</a></li>
+								<ul class="list-inline">
+								  <li class="list-inline-item" th:each="category : ${answer.categories}">
+								  	<a href="#" th:text="${category.name}">categoria1</a>
+								  </li>
 								</ul>			            		
 			            	</div>
 			            	<div class="row">
@@ -102,24 +104,33 @@
 		      	<div class="container">
 		            	<div class="row">
 		            		<div class="col">
-		            			<form>
-		            				<div class="form-group">
-			            				<select>
-			            					<option>categoria1</option>
-			            				</select>
-		            				</div>
-		            				<button class="btn btn-info">Classifique</button>
-		            			</form>
+		            				<form th:action="@{/admin/comments/select/category}"  th:object="${chooseCategoryInfoForm}" method="post">
+		            					<input type="hidden" th:field="*{answerId}" id="choose-category-answerId"/>
+			            				<input type="hidden" th:field="*{searchForm.cycleId}"/>		            			 	
+			            			 	<input type="hidden" th:field="*{searchForm.teamId}"/>		            			 	
+			            			 	<input type="hidden" th:field="*{searchForm.questionId}"/>		            			 	
+			            			 	<input type="hidden" th:field="*{searchForm.maximumValue}"/>
+								        <div class="form-group">
+								            <label class="font-weight-bold" for="time">Categoria</label>
+								            <select th:errorclass="is-invalid" class="form-control" name="categoryInfoId" th:field="*{categoryInfoId}" required>								                
+								                <option th:each="category : ${categoryInfoList}" th:value="${category.id}" th:text="${category.name}"/>
+								            </select>
+								            <span class="text-danger" th:if="${#fields.hasErrors('categoryInfoId')}" th:errors="*{categoryInfoId}"></span>            			           
+								        </div>
+		            					<button class="btn btn-info">Classifique</button>
+		            				</form>
+		            			
 		            		</div>
 		            		<div class="col">
 		            			 <form th:action="@{/admin/comments/categories}"  th:object="${newCategoryCommentForm}" method="post">
 		            			 	<input type="hidden" th:field="*{answerId}" id="category-answerId"/>		            			 	
-		            			 	<input type="hidden" th:field="*{cycleId}"/>		            			 	
-		            			 	<input type="hidden" th:field="*{teamId}"/>		            			 	
-		            			 	<input type="hidden" th:field="*{questionId}"/>		            			 	
-		            			 	<input type="hidden" th:field="*{maximumValue}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.cycleId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.teamId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.questionId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.maximumValue}"/>		            			 	
 							        <div class="form-group">
-							            <input id="categoryName" required class="form-control" placeholder="nova categoria" th:field="*{categoryName}"
+							        	<label class="font-weight-bold" for="categoryName">Crie uma categoria</label>
+							            <input id="categoryName" required class="form-control" placeholder="nova categoria(todo espaço será retirado)" th:field="*{categoryName}"
 							                   th:errorclass="is-invalid">
 							            <span class="text-danger" th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}"></span>
 							
@@ -142,6 +153,7 @@
 	$('#exampleModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget);		
 		$("#category-answerId").val(button.data('answerid'));				
+		$("#choose-category-answerId").val(button.data('answerid'));				
 	});	
 </script>
 </body>
