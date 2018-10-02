@@ -36,6 +36,13 @@ public class GenerateSecurityConfigurationController {
 	public String addRoleGoodBehavior() {
 		entityManager.persist(Role.GOOD_BEHAVIOR);
 		return "Role adicionada";
+	}
+	
+	@RequestMapping("/magic/roles/add/categorizer")
+	@ResponseBody
+	public String addRoleCategorizer() {
+		entityManager.persist(Role.CATEGORIZER);
+		return "Role adicionada";
 	}	
 	
 	@GetMapping("/magic/generate/user")

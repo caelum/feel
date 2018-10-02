@@ -18,6 +18,7 @@ public class Role implements GrantedAuthority {
 	public static final Role PEOPLE = new Role("ROLE_PEOPLE");
 	public static final Role READER = new Role("ROLE_READER");
 	public static final Role GOOD_BEHAVIOR = new Role("ROLE_GOOD_BEHAVIOR");
+	public static final Role CATEGORIZER = new Role("ROLE_CATEGORIZER");
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

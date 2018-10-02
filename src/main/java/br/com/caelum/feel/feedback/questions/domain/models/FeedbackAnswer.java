@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
+import org.springframework.util.StringUtils;
 
 import br.com.caelum.feel.feedback.classification.CategorizedInfo;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
@@ -89,6 +90,10 @@ public class FeedbackAnswer {
 	
 	public List<CategorizedInfo> getCategories() {
 		return categories;
+	}
+	
+	public boolean hasText() {
+		return StringUtils.hasText(comments);
 	}
 
 }

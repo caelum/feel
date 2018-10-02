@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec=“http://www.thymeleaf.org/thymeleaf-extras-springsecurity4” 
+      layout:decorate="~{layout/default}">
 
 <head>
     <meta charset="UTF-8">
@@ -68,14 +70,14 @@
 			            	<div class="row">
 			            		<p th:text="${answer.comments}" class="text-justify">4</p>
 			            	</div>
-			            	<div class="row">
+			            	<div class="row" sec:authorize="hasRole('ROLE_CATEGORIZER')">
 								<ul class="list-inline">
 								  <li class="list-inline-item" th:each="category : ${answer.categories}">
 								  	<a href="#" th:text="${category.name}">categoria1</a>
 								  </li>
 								</ul>			            		
 			            	</div>
-			            	<div class="row">
+			            	<div class="row" th:if="${answer.hasText()}" sec:authorize="hasRole('ROLE_CATEGORIZER')">
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:attr="data-answerid=${answer.id}">
 								  Classifique
 								</button>			            		
