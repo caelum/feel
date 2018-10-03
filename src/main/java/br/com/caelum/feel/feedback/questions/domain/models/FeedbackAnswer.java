@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import br.com.caelum.feel.feedback.classification.CategorizedInfo;
 import br.com.caelum.feel.feedback.companyteams.domain.models.CompanyTeam;
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 
 @Entity
 public class FeedbackAnswer {
@@ -95,5 +96,38 @@ public class FeedbackAnswer {
 	public boolean hasText() {
 		return StringUtils.hasText(comments);
 	}
+	
+	
+
+	public Cycle getCycle() {
+		return question.getCycle();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((hash == null) ? 0 : hash.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FeedbackAnswer other = (FeedbackAnswer) obj;
+		if (hash == null) {
+			if (other.hash != null)
+				return false;
+		} else if (!hash.equals(other.hash))
+			return false;
+		return true;
+	}
+	
+	
 
 }

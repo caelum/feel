@@ -43,6 +43,8 @@ public class SearchCommentsCategoriesController {
 		List<CategorizedInfo> infos = categorizedInfoRepository.findAll(criteria);
 		
 		System.out.println(infos.size());
+		
+		model.addAttribute("allAnswersPerCategory", new AllAnswersPerCategory(infos));
 
 		return form(model,form);
 	}

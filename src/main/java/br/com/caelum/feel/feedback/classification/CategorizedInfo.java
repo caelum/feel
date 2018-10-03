@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.BatchSize;
+
+import br.com.caelum.feel.feedback.cycles.domain.models.Cycle;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
 
 @Entity
@@ -21,6 +24,7 @@ public class CategorizedInfo {
 	private CategoryInfo categoryInfo;
 	@ManyToOne
 	@NotNull
+	@BatchSize(size=20)
 	private FeedbackAnswer feedbackAnswer;
 	
 	/**
@@ -39,6 +43,13 @@ public class CategorizedInfo {
 		return categoryInfo.getName();
 	}
 	
+	public Cycle getCycle() {
+		return feedbackAnswer.getQuestion().getCycle();
+	}
+
+	public FeedbackAnswer getFeedbackAnswer() {
+		return feedbackAnswer;
+	}
 	
 	
 }
