@@ -43,11 +43,13 @@
 		    <table class="table table-hover table-bordered">
 		        <thead>
 		        <th>Time</th>
+		        <th>Nota</th>
 		        <th>Comentário</th>		        
 		        </thead>
 		        <tbody>
 		        <tr th:each="answer : ${allAnswersPerCategory.find(cycle)}">
 		        	<td th:text="${answer.team.name}">time</td>
+		        	<td th:text="${answer.value}">nota</td>
 		            <td>
 		            	<div class="container">
 			            	<div class="row">
