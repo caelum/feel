@@ -1,6 +1,7 @@
 package br.com.caelum.feel.feedback.reports.application.forms;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -18,8 +19,8 @@ public class SearchRawAnswersForm {
 	private Long questionId;
 	@NotNull
 	private Integer cycleId;
-
 	private Integer maximumValue;
+	
 
 	public Integer getMaximumValue() {
 		return maximumValue;
@@ -56,10 +57,18 @@ public class SearchRawAnswersForm {
 	public boolean hasTeamId() {
 		return teamId != null;
 	}
-	
+
 	public boolean hasQuestion() {
 		return questionId != null;
 	}
+	
+	public String serializeParms() {		
+		return "cycleId="+this.cycleId+"&teamId="+valueOrEmpty(this.teamId)+"&questionId="+valueOrEmpty(this.questionId)+"&maximumValue="+valueOrEmpty(this.maximumValue);
+	}
+
+	private String valueOrEmpty(Object value) {
+		return Optional.ofNullable(value).map(Object::toString).orElse("");
+	}	
 
 	public Specification<FeedbackAnswer> build() {
 		return new Specification<FeedbackAnswer>() {
@@ -67,21 +76,21 @@ public class SearchRawAnswersForm {
 			@Override
 			public Predicate toPredicate(Root<FeedbackAnswer> root, CriteriaQuery<?> query,
 					CriteriaBuilder builder) {
-								
+
 				ArrayList<Predicate> predicates = new ArrayList<>();
-				
-				predicates.add(builder.equal(root.get("question").get("cycle").get("id"),cycleId));
-				
-				if(questionId != null) {
-					predicates.add(builder.equal(root.get("question").get("id"),questionId));
+
+				predicates.add(builder.equal(root.get("question").get("cycle").get("id"), cycleId));
+
+				if (questionId != null) {
+					predicates.add(builder.equal(root.get("question").get("id"), questionId));
 				}
-				
+
 				if (teamId != null) {
 					predicates.add(builder.equal(root.get("team").get("id"), teamId));
 				}
 				if (maximumValue != null) {
 					predicates.add(builder.lessThanOrEqualTo(root.get("value"), maximumValue));
-				}				
+				}
 				return builder.and(predicates.toArray(new Predicate[0]));
 			}
 		};

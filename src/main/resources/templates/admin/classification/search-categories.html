@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec=“http://www.thymeleaf.org/thymeleaf-extras-springsecurity4” 
+      layout:decorate="~{layout/default}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Busca por categorias</title>  
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css ">  
+</head>
+<body>
+<section layout:fragment="content">
+
+	<form th:action="@{/admin/comments/categories/search}" th:object="${searchCategoriesForm}" method="get">
+	
+        <div class="form-group">
+            <label class="font-weight-bold" for="categoryIds">Categorias</label>
+            <select th:errorclass="is-invalid" class="form-control" name="categoryIds" id="categoryIds" th:field="*{categoryIds}" multiple="multiple">
+                <option th:each="category : ${categoryInfoList}" th:value="${category.id}" th:text="${category.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('categoryIds')}" th:errors="*{categoryIds}"></span>            			           
+        </div>        
+        
+        <div class="form-group">
+            <label class="font-weight-bold" for="time">Ciclos</label>
+            <select th:errorclass="is-invalid" class="form-control" name="cycleId" th:field="*{cycleId}">
+                <option value="" selected>Todas</option>
+                <option th:each="cycle : ${cycleList}" th:value="${cycle.id}" th:text="${cycle.name}"/>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('cycleId')}" th:errors="cycleId"></span>            			           
+        </div>        
+        	
+        <button class="btn btn-block btn-info">Filtrar</button>
+	</form>
+	
+	<div class="panel panel-default" th:each="cycle : ${allAnswersPerCategory?.cycles}">
+	
+		<div class="panel-heading">
+		    <caption th:text="${cycle.name}" class="panel-title">Nome do ciclo<</caption>
+		</div>	
+		<div class="panel-body">	
+		    <table class="table table-hover table-bordered">
+		        <thead>
+		        <th>Time</th>
+		        <th>Nota</th>
+		        <th>Comentário</th>		        
+		        </thead>
+		        <tbody>
+		        <tr th:each="answer : ${allAnswersPerCategory.find(cycle)}">
+		        	<td th:text="${answer.team.name}">time</td>
+		        	<td th:text="${answer.value}">nota</td>
+		            <td>
+		            	<div class="container">
+			            	<div class="row">
+			            		<p th:text="${answer.comments}" class="text-justify">4</p>
+			            	</div>
+			            	<div class="row">
+								<ul class="list-inline">
+								  <li class="list-inline-item" th:each="category : ${answer.categories}">
+								  	<a href="#" th:text="${category.name}">categoria1</a>
+								  </li>
+								</ul>			            		
+			            	</div>
+		            	</div>		            	
+		            </td>
+		        </tr>
+		        </tbody>
+		    </table>	
+	    </div>
+	</div>		
+		
+</section>
+</body>
+<script layout:fragment="scripts" th:inline="javascript">
+	$('#categoryIds').selectpicker();
+</script>
+</html>

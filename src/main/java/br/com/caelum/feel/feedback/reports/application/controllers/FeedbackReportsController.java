@@ -1,6 +1,5 @@
 package br.com.caelum.feel.feedback.reports.application.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.caelum.feel.feedback.classification.CategoryInfoRepository;
+import br.com.caelum.feel.feedback.classification.ChooseCategoryInfoForm;
+import br.com.caelum.feel.feedback.classification.NewCategoryCommentForm;
 import br.com.caelum.feel.feedback.companyteams.domain.repositories.Teams;
 import br.com.caelum.feel.feedback.questions.domain.actions.SaveReportPerTeamAction;
 import br.com.caelum.feel.feedback.questions.domain.models.FeedbackAnswer;
@@ -47,6 +49,8 @@ public class FeedbackReportsController {
 	private Questions questionRepository;
 	@Autowired
 	private Teams teamRepository;
+	@Autowired
+	private CategoryInfoRepository categoryInfoRepository;
 
 	@Autowired
 	private AuthenticatedUser authenticatedUser;
@@ -90,7 +94,6 @@ public class FeedbackReportsController {
 		
 		List<FeedbackAnswer> answers = feedbackAnswerRepository.findAll(form.build());
 		model.addAttribute("allAnswersPerTeamList", new AllAnsewrs(answers));
-		
 		return rawAnswersList(model, form, currentUser);
 	}
 
@@ -100,12 +103,26 @@ public class FeedbackReportsController {
 		model.addAttribute("questionList",
 				questionRepository.findByCycleIdOrderByDueDateAsc(form.getCycleId()));
 		
+		model.addAttribute("categoryInfoList", categoryInfoRepository.findAll());
+		
 		if (authenticatedUser.isPeople(currentUser)) {
 			model.addAttribute("teamList", teamRepository.findAll());
 		} else {
 			model.addAttribute("teamList",teamRepository.findByLeaderLogin(currentUser.getEmail()));
-		}
+		}	
 
+		if(!model.containsAttribute("newCategoryCommentForm")) {
+			model.addAttribute("newCategoryCommentForm",new NewCategoryCommentForm(form));
+		}
+		
+		if(!model.containsAttribute("chooseCategoryInfoForm")) {
+			model.addAttribute("chooseCategoryInfoForm",new ChooseCategoryInfoForm(form));
+		}
+		
+		//isso daqui é um comportamento não necessário, mas também não faz mal algum. Como esse método é chamado por outro controller,
+		//resolvi deixar aqui. Espero achar um caminho melhor. 
+		model.addAttribute("searchRawAnswersForm", form);
+		
 		return "admin/reports/raw-answers";
 	}
 

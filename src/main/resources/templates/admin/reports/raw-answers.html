@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec=“http://www.thymeleaf.org/thymeleaf-extras-springsecurity4” 
+      layout:decorate="~{layout/default}">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +10,10 @@
 </head>
 <body>
 <section layout:fragment="content">
+
+    <div th:replace="layout/fragments/components :: sucess(attribute='msg')">
+        Success
+    </div>
 
 	<form th:action="@{/reports/feedback/raw-answers/search}" th:object="${searchRawAnswersForm}" method="get">
 	
@@ -59,7 +65,25 @@
 		            <td th:text="${#temporals.format(answer.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>
 		            <td th:text="${answer.team.name}">Comercial</td>
 		            <td th:text="${answer.value}">4</td>
-		            <td><p th:text="${answer.comments}" class="text-justify">4</p></td>
+		            <td>
+		            	<div class="container">
+			            	<div class="row">
+			            		<p th:text="${answer.comments}" class="text-justify">4</p>
+			            	</div>
+			            	<div class="row" sec:authorize="hasRole('ROLE_CATEGORIZER')">
+								<ul class="list-inline">
+								  <li class="list-inline-item" th:each="category : ${answer.categories}">
+								  	<a href="#" th:text="${category.name}">categoria1</a>
+								  </li>
+								</ul>			            		
+			            	</div>
+			            	<div class="row" th:if="${answer.hasText()}" sec:authorize="hasRole('ROLE_CATEGORIZER')">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:attr="data-answerid=${answer.id}">
+								  Classifique
+								</button>			            		
+			            	</div>
+		            	</div>		            	
+		            </td>
 		        </tr>
 		        <tr>
 		        	<td colspan="1" th:text="${'Média '+allAnswersPerTeamList.avg(question)}">Média 4.5</td>
@@ -68,6 +92,71 @@
 		    </table>	
 	    </div>
 	</div>
+	
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="container">
+		            	<div class="row">
+		            		<div class="col">
+		            				<form th:action="@{/admin/comments/select/category}"  th:object="${chooseCategoryInfoForm}" method="post">
+		            					<input type="hidden" th:field="*{answerId}" id="choose-category-answerId"/>
+			            				<input type="hidden" th:field="*{searchForm.cycleId}"/>		            			 	
+			            			 	<input type="hidden" th:field="*{searchForm.teamId}"/>		            			 	
+			            			 	<input type="hidden" th:field="*{searchForm.questionId}"/>		            			 	
+			            			 	<input type="hidden" th:field="*{searchForm.maximumValue}"/>
+								        <div class="form-group">
+								            <label class="font-weight-bold" for="time">Categoria</label>
+								            <select th:errorclass="is-invalid" class="form-control" name="categoryInfoId" th:field="*{categoryInfoId}" required>								                
+								                <option th:each="category : ${categoryInfoList}" th:value="${category.id}" th:text="${category.name}"/>
+								            </select>
+								            <span class="text-danger" th:if="${#fields.hasErrors('categoryInfoId')}" th:errors="*{categoryInfoId}"></span>            			           
+								        </div>
+		            					<button class="btn btn-info">Classifique</button>
+		            				</form>
+		            			
+		            		</div>
+		            		<div class="col">
+		            			 <form th:action="@{/admin/comments/categories}"  th:object="${newCategoryCommentForm}" method="post">
+		            			 	<input type="hidden" th:field="*{answerId}" id="category-answerId"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.cycleId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.teamId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.questionId}"/>		            			 	
+		            			 	<input type="hidden" th:field="*{searchForm.maximumValue}"/>		            			 	
+							        <div class="form-group">
+							        	<label class="font-weight-bold" for="categoryName">Crie uma categoria</label>
+							            <input id="categoryName" required class="form-control" placeholder="nova categoria(todo espaço será retirado)" th:field="*{categoryName}"
+							                   th:errorclass="is-invalid">
+							            <span class="text-danger" th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}"></span>
+							
+							        </div>
+			            			<button class="btn btn-info">Criar</button>
+		            			</form>
+		            		</div>
+		            	</div>			            		
+	            	</div>		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+	
 </section>
+<script layout:fragment="scripts" th:inline="javascript">
+	$('#exampleModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget);		
+		$("#category-answerId").val(button.data('answerid'));				
+		$("#choose-category-answerId").val(button.data('answerid'));				
+	});	
+</script>
 </body>
 </html>

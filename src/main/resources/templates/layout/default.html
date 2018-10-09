@@ -37,6 +37,10 @@
             <li class="nav-item" sec:authorize="hasRole('ROLE_GOOD_BEHAVIOR')">
                 <a th:classappend="${@navigator.activeLinkClass('admin/behavior')}" class="nav-link" href="/admin/behavior/feedbacks">Denúncias</a>
             </li>
+            
+            <li class="nav-item" sec:authorize="hasRole('ROLE_CATEGORIZER')">
+                <a th:classappend="${@navigator.activeLinkClass('/admin/comments/categories/search/form')}" class="nav-link" href="/admin/comments/categories/search/form">Classificação</a>
+            </li>
 
 
             <li class="nav-item">
@@ -55,6 +59,7 @@
 </main>
 <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.0.0-2/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap-select.js"></script>
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
