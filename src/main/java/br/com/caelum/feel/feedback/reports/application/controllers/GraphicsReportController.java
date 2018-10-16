@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
+import br.com.caelum.feel.feedback.questions.domain.models.AnswerCountPerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerTeamnResult;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
@@ -46,20 +47,21 @@ public class GraphicsReportController {
 		List<AverageValuePerQuestionResult> results = reportPerTeamAnswerRepository
 				.averagePerQuestion(cycleId);
 
-		return new BarChartAverageValuesPerQuestionData<AverageValuePerQuestionResult>(results,avgQuestion -> {
-			return new GraphicData() {
-				
-				@Override
-				public BigDecimal getValue() {
-					return new BigDecimal(avgQuestion.getValue().doubleValue());
-				}
-				
-				@Override
-				public String getLabel() {
-					return avgQuestion.getQuestion().getStatement();
-				}
-			};
-		});
+		return new BarChartAverageValuesPerQuestionData<AverageValuePerQuestionResult>(results,
+				avgQuestion -> {
+					return new GraphicData() {
+
+						@Override
+						public BigDecimal getValue() {
+							return new BigDecimal(avgQuestion.getValue().doubleValue());
+						}
+
+						@Override
+						public String getLabel() {
+							return avgQuestion.getQuestion().getStatement();
+						}
+					};
+				});
 	}
 
 	@GetMapping("/admin/reports/feedback/values/barchart/search/team/form")
@@ -90,21 +92,55 @@ public class GraphicsReportController {
 			@Valid SearchValuesPerTeamForm form) {
 
 		List<AverageValuePerTeamnResult> results = reportPerTeamAnswerRepository
-				.averagePerTeam(form.getCycleId(),form.getQuestionId());
+				.averagePerTeam(form.getCycleId(), form.getQuestionId());
 
-		return new BarChartAverageValuesPerQuestionData<AverageValuePerTeamnResult>(results,avgValue ->  {
-			return new GraphicData() {
-				
-				@Override
-				public BigDecimal getValue() {
-					return new BigDecimal(avgValue.getValue().doubleValue());
-				}
-				
-				@Override
-				public String getLabel() {
-					return avgValue.getTeam().getName();
-				}
-			};
-		});
+		return new BarChartAverageValuesPerQuestionData<AverageValuePerTeamnResult>(results,
+				avgValue -> {
+					return new GraphicData() {
+
+						@Override
+						public BigDecimal getValue() {
+							return new BigDecimal(avgValue.getValue().doubleValue());
+						}
+
+						@Override
+						public String getLabel() {
+							return avgValue.getTeam().getName();
+						}
+					};
+				});
+	}
+
+	@GetMapping("/admin/reports/feedback/values/barchart/search/count/answers")
+	public String valuesBarChartCountAnswers(Model model, Integer cycleId) {
+
+		model.addAttribute("dataUrl",
+				"/admin/reports/feedback/values/barchart/search/count/answers/data?cycleId=" + cycleId);
+
+		return "admin/reports/bar-chart-question-count-answers";
+	}
+
+	@GetMapping("/admin/reports/feedback/values/barchart/search/count/answers/data")
+	@ResponseBody
+	public BarChartAverageValuesPerQuestionData<AnswerCountPerQuestionResult> valuesBarChartCountAnswersData(
+			Integer cycleId) {
+
+		List<AnswerCountPerQuestionResult> results = reportPerTeamAnswerRepository.countPerQuestion(cycleId);
+
+		return new BarChartAverageValuesPerQuestionData<AnswerCountPerQuestionResult>(results,
+				countValue -> {
+					return new GraphicData() {
+
+						@Override
+						public BigDecimal getValue() {
+							return new BigDecimal(countValue.getValue().doubleValue());
+						}
+
+						@Override
+						public String getLabel() {
+							return countValue.getQuestion().getStatement();
+						}
+					};
+				});
 	}
 }
