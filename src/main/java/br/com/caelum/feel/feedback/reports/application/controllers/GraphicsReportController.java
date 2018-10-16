@@ -17,6 +17,7 @@ import br.com.caelum.feel.feedback.cycles.domain.repositories.CycleRepository;
 import br.com.caelum.feel.feedback.questions.domain.models.AnswerCountPerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerTeamnResult;
+import br.com.caelum.feel.feedback.questions.domain.models.CountValuePerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
 import br.com.caelum.feel.feedback.reports.application.forms.SearchValuesPerTeamForm;
@@ -115,7 +116,8 @@ public class GraphicsReportController {
 	public String valuesBarChartCountAnswers(Model model, Integer cycleId) {
 
 		model.addAttribute("dataUrl",
-				"/admin/reports/feedback/values/barchart/search/count/answers/data?cycleId=" + cycleId);
+				"/admin/reports/feedback/values/barchart/search/count/answers/data?cycleId="
+						+ cycleId);
 
 		return "admin/reports/bar-chart-question-count-answers";
 	}
@@ -125,7 +127,8 @@ public class GraphicsReportController {
 	public BarChartAverageValuesPerQuestionData<AnswerCountPerQuestionResult> valuesBarChartCountAnswersData(
 			Integer cycleId) {
 
-		List<AnswerCountPerQuestionResult> results = reportPerTeamAnswerRepository.countPerQuestion(cycleId);
+		List<AnswerCountPerQuestionResult> results = reportPerTeamAnswerRepository
+				.countPerQuestion(cycleId);
 
 		return new BarChartAverageValuesPerQuestionData<AnswerCountPerQuestionResult>(results,
 				countValue -> {
@@ -139,6 +142,54 @@ public class GraphicsReportController {
 						@Override
 						public String getLabel() {
 							return countValue.getQuestion().getStatement();
+						}
+					};
+				});
+	}
+
+	@GetMapping("/admin/reports/feedback/values/barchart/search/count/values/form")
+	public String countValuesBarChartPerQuestionSearchForm(Model model,
+			SearchValuesPerTeamForm form) {
+
+		model.addAttribute("questionList",
+				questions.findByCycleIdOrderByDueDateAsc(form.getCycleId()));
+		return "admin/reports/bar-chart-count-values-per-question";
+	}
+
+	@GetMapping("/admin/reports/feedback/values/barchart/search/count/values")
+	public String countValuesBarChartPerQuestionSearch(Model model,
+			@Valid SearchValuesPerTeamForm form, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return countValuesBarChartPerQuestionSearchForm(model, form);
+		}
+
+		model.addAttribute("dataUrl",
+				"/admin/reports/feedback/values/barchart/search/count/values/data?cycleId="
+						+ form.getCycleId() + "&questionId=" + form.getQuestionId());
+
+		return countValuesBarChartPerQuestionSearchForm(model, form);
+	}
+
+	@GetMapping("/admin/reports/feedback/values/barchart/search/count/values/data")
+	@ResponseBody
+	public BarChartAverageValuesPerQuestionData<CountValuePerQuestionResult> countValuesBarChartPerQuestionSearchData(
+			Model model, @Valid SearchValuesPerTeamForm form) {
+		List<CountValuePerQuestionResult> results = reportPerTeamAnswerRepository
+				.countValuesPerQuestion(form.getCycleId(),form.getQuestionId());
+
+		return new BarChartAverageValuesPerQuestionData<CountValuePerQuestionResult>(results,
+				countValue -> {
+					return new GraphicData() {
+
+						@Override
+						public BigDecimal getValue() {
+							return new BigDecimal(countValue.getCountValue().doubleValue());
+						}
+
+						@Override
+						public String getLabel() {
+							return countValue.getValue().toString();
 						}
 					};
 				});
