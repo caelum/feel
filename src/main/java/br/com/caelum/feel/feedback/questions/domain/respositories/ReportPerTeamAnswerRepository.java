@@ -29,6 +29,6 @@ public interface ReportPerTeamAnswerRepository extends CrudRepository<ReportPerT
 	List<AnswerCountPerQuestionResult> countPerQuestion(@Param("cycleId") Integer cycleId);
 
 	@Query("select count(r.id) as countValue, r.feedbackAnswer.value as value from ReportPerTeamAnswer r where r.cycle.id = :cycleId  and r.question.id = :questionId group by r.feedbackAnswer.value")	
-	List<CountValuePerQuestionResult> countValuesPerQuestion(Integer cycleId, Long questionId);
+	List<CountValuePerQuestionResult> countValuesPerQuestion(@Param("cycleId") Integer cycleId, @Param("questionId") Long questionId);
 
 }
