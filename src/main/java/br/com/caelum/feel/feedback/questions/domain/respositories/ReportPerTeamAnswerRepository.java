@@ -19,10 +19,10 @@ public interface ReportPerTeamAnswerRepository extends CrudRepository<ReportPerT
 	@Query("select r from ReportPerTeamAnswer r where r.cycle.id = :cycleId and r.id in (select max(r2.id) from ReportPerTeamAnswer r2 where r2.cycle.id = :cycleId and r2.team.id = r.team.id and r2.question.id = r.question.id)")
 	List<ReportPerTeamAnswer> listCurrentView(@Param("cycleId") Integer cycleId);
 	
-	@Query("select avg(r.percentValue) as value,r.question as question from ReportPerTeamAnswer r where r.cycle.id = :cycleId and r.id in (select max(r2.id) from ReportPerTeamAnswer r2 where r2.cycle.id = :cycleId and r2.team.id = r.team.id and r2.question.id = r.question.id) group by r.question.id")
+	@Query("select median(fa.value) as value,fa.question as question from FeedbackAnswer fa where fa.question.cycle.id = :cycleId group by fa.question")
 	List<AverageValuePerQuestionResult> averagePerQuestion(@Param("cycleId") Integer cycleId);
 
-	@Query("select avg(r.percentValue) as value,r.team as team from ReportPerTeamAnswer r where r.cycle.id = :cycleId and r.question.id = :questionId and r.id in (select max(r2.id) from ReportPerTeamAnswer r2 where r2.cycle.id = :cycleId and r2.team.id = r.team.id and r2.question.id = r.question.id) group by r.team.id")
+	@Query("select median(fa.value) as value,fa.team as team from FeedbackAnswer fa where fa.question.cycle.id = :cycleId and fa.question.id = :questionId group by fa.team")
 	List<AverageValuePerTeamnResult> averagePerTeam(@Param("cycleId") Integer cycleId, @Param("questionId") Long questionId);
 	
 	@Query("select sum(r.answersCount) as value,r.question as question from ReportPerTeamAnswer r where r.cycle.id = :cycleId and r.id in (select max(r2.id) from ReportPerTeamAnswer r2 where r2.cycle.id = :cycleId and r2.team.id = r.team.id and r2.question.id = r.question.id) group by r.question.id")
