@@ -19,7 +19,7 @@ public class BarChartAverageValuesPerQuestionData<T> {
 			GraphicData graphicData = mapper.apply(item);
 			labels.add(splitLabelPerLineToShowCorrect(graphicData.getLabel()));
 			values.add(graphicData.getValue());
-			colors.add(colorsOptions[i]);
+			colors.add(graphicData.getHealthColor().getHexa());
 		}
 	}
 

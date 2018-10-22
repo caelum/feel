@@ -18,6 +18,7 @@ import br.com.caelum.feel.feedback.questions.domain.models.AnswerCountPerQuestio
 import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerQuestionResult;
 import br.com.caelum.feel.feedback.questions.domain.models.AverageValuePerTeamnResult;
 import br.com.caelum.feel.feedback.questions.domain.models.CountValuePerQuestionResult;
+import br.com.caelum.feel.feedback.questions.domain.models.HealthColor;
 import br.com.caelum.feel.feedback.questions.domain.respositories.Questions;
 import br.com.caelum.feel.feedback.questions.domain.respositories.ReportPerTeamAnswerRepository;
 import br.com.caelum.feel.feedback.reports.application.forms.SearchValuesPerTeamForm;
@@ -60,6 +61,12 @@ public class GraphicsReportController {
 						@Override
 						public String getLabel() {
 							return avgQuestion.getQuestion().getStatement();
+						}
+
+						@Override
+						public HealthColor getHealthColor() {
+							return HealthColor
+									.bestGuessToAnoymousFeebackValue(getValue().doubleValue());
 						}
 					};
 				});
@@ -108,6 +115,12 @@ public class GraphicsReportController {
 						public String getLabel() {
 							return avgValue.getTeam().getName();
 						}
+
+						@Override
+						public HealthColor getHealthColor() {
+							return HealthColor
+									.bestGuessToAnoymousFeebackValue(getValue().doubleValue());
+						}
 					};
 				});
 	}
@@ -143,6 +156,11 @@ public class GraphicsReportController {
 						public String getLabel() {
 							return countValue.getQuestion().getStatement();
 						}
+
+						@Override
+						public HealthColor getHealthColor() {
+							return HealthColor.GOOD;
+						}
 					};
 				});
 	}
@@ -176,7 +194,7 @@ public class GraphicsReportController {
 	public BarChartAverageValuesPerQuestionData<CountValuePerQuestionResult> countValuesBarChartPerQuestionSearchData(
 			Model model, @Valid SearchValuesPerTeamForm form) {
 		List<CountValuePerQuestionResult> results = reportPerTeamAnswerRepository
-				.countValuesPerQuestion(form.getCycleId(),form.getQuestionId());
+				.countValuesPerQuestion(form.getCycleId(), form.getQuestionId());
 
 		return new BarChartAverageValuesPerQuestionData<CountValuePerQuestionResult>(results,
 				countValue -> {
@@ -190,6 +208,11 @@ public class GraphicsReportController {
 						@Override
 						public String getLabel() {
 							return countValue.getValue().toString();
+						}
+
+						@Override
+						public HealthColor getHealthColor() {
+							return HealthColor.GOOD;
 						}
 					};
 				});
