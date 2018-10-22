@@ -4,13 +4,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Relatório de quantidade de respostas por questão</title>
+    <title>Relatório de quantidade de notas por questão</title>
     <script src="/js/reports/Chart.min.js"></script>
     <script src="/js/reports/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <body>
 <section layout:fragment="content">
-	<h1>Relatório de quantidade de respostas por questão</h1>
+	<h1>Relatório de quantidade de notas por questão</h1>
 	<form th:action="@{/admin/reports/feedback/values/barchart/search/count/values}" th:object="${searchValuesPerTeamForm}" method="get">
 	
 	
@@ -58,7 +58,7 @@ fetch(dataUrl)
 		        },
 				plugins: {
 					datalabels: {
-						color: 'white',
+						color: 'black',
 						anchor:'end',
 						align:'start',
 						font: {

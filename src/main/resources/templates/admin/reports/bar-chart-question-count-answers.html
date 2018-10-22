@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Relatório de quantidade de respostas</title>
     <script src="/js/reports/Chart.min.js"></script>
+    <script src="/js/reports/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <body>
 <section layout:fragment="content">	
@@ -36,7 +37,17 @@ fetch(dataUrl)
 		                    beginAtZero:true
 		                }
 		            }]
-		        }
+		        },
+				plugins: {
+					datalabels: {
+						color: 'black',
+						anchor:'end',
+						align:'start',
+						font: {
+							size: 18
+						}
+					}
+				}		        
 		    }
 		});		
 	 });	
