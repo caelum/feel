@@ -159,7 +159,7 @@ public class GraphicsReportController {
 
 						@Override
 						public HealthColor getHealthColor() {
-							return HealthColor.GOOD;
+							return HealthColor.bestGuessToGlobalCountValuesPerQuestion(getValue().intValue());
 						}
 					};
 				});
@@ -212,7 +212,7 @@ public class GraphicsReportController {
 
 						@Override
 						public HealthColor getHealthColor() {
-							return HealthColor.GOOD;
+							return HealthColor.bestGuessToCountValuesPerTeamPerQuestion(countValue.getValue().intValue());
 						}
 					};
 				});

@@ -41,4 +41,44 @@ public enum HealthColor {
 		}
 	}
 
+	public static HealthColor bestGuessToGlobalCountValuesPerQuestion(int count) {
+		int bestValue = 80;
+		int distanceBetweenCurrentAndBest = bestValue - count;
+		
+		if (distanceBetweenCurrentAndBest <= 10) {
+			return EXCELENT;
+		} else {
+			if (distanceBetweenCurrentAndBest <= 20) {
+				return VERY_GOOD;
+			} else {
+				if (distanceBetweenCurrentAndBest <= 30) {
+					return GOOD;
+				} else {
+					if (distanceBetweenCurrentAndBest <= 40) {
+						return WARNING;
+					}
+
+					return DANGER;
+				}
+			}
+		}		
+	}
+
+	public static HealthColor bestGuessToCountValuesPerTeamPerQuestion(int value) {
+		switch (value) {
+		case 1:			
+			return HealthColor.DANGER;
+		case 2:			
+			return HealthColor.WARNING;
+		case 3:			
+			return HealthColor.GOOD;
+		case 4:			
+			return HealthColor.VERY_GOOD;
+		case 5:			
+			return HealthColor.EXCELENT;
+		default:
+			throw new IllegalArgumentException("O número passado deve estar entre 1 e 5");
+		}
+	}
+
 }
