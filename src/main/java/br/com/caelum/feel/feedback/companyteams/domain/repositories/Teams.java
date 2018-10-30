@@ -20,4 +20,6 @@ public interface Teams extends Repository<CompanyTeam, Long> {
     List<CompanyTeam> findAll();
 
 	List<CompanyTeam> findByLeaderLogin(String login);
+
+	List<CompanyTeam> findByEnableIsTrue();
 }

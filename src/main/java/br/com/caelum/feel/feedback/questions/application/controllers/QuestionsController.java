@@ -41,7 +41,7 @@ public class QuestionsController {
 		var optionalQuestion = questions.findByHash(uuid);
 
 		view.addAttribute("answerForm", form);
-		view.addAttribute("allTeams", teams.findAll());
+		view.addAttribute("allTeams", teams.findByEnableIsTrue());
 		view.addAttribute("question", optionalQuestion);
 
 		return "questions/form";
