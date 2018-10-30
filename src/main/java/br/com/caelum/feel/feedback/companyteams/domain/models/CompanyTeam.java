@@ -37,6 +37,8 @@ public class CompanyTeam {
 
     @NotBlank
 	private String leaderLogin;
+    
+    private boolean enable;
 
     /**
      * @deprecated frameworks only
@@ -44,16 +46,17 @@ public class CompanyTeam {
     @Deprecated(since = "1.0.0")
     CompanyTeam(){}
 
-    public CompanyTeam(String name, String leaderLogin, Integer totalExpectedPeople){
-        this.leaderLogin = leaderLogin;
+    public CompanyTeam(String name, String leaderLogin, Integer totalExpectedPeople,boolean enable){
 		Assert.hasText(name, "Name required");
         Assert.hasText(leaderLogin, "Leader login required");
         Assert.notNull(totalExpectedPeople, "Total expected people required");
         Assert.isTrue(totalExpectedPeople > 0, "Total expected people should be positive");
 
+        this.leaderLogin = leaderLogin;
         this.name = name;
         this.totalExpectedPeople = totalExpectedPeople;
         this.leaderLogin = leaderLogin;
+        this.enable = enable;
     }
 
     public String getName() {
@@ -85,7 +88,12 @@ public class CompanyTeam {
         name = form.getName();
         totalExpectedPeople = form.getTotalExpectedPeople();
         leaderLogin = form.getLeaderLogin();
+        enable = form.isEnable();
     }
+    
+    public boolean isEnable() {
+		return enable;
+	}
 
 	public String getLeaderLogin() {
 		return leaderLogin;

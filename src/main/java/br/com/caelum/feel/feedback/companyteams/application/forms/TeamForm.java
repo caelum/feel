@@ -20,6 +20,16 @@ public class TeamForm {
 	@NotBlank
 	private String leaderLogin;
 
+	private boolean enable;
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
 	public String getLeaderLogin() {
 		return leaderLogin;
 	}
@@ -57,9 +67,10 @@ public class TeamForm {
 		name = companyTeam.getName();
 		leaderLogin = companyTeam.getLeaderLogin();
 		totalExpectedPeople = companyTeam.getTotalExpectedPeople();
+		enable = companyTeam.isEnable();
 	}
 
 	public CompanyTeam toEntity() {
-		return new CompanyTeam(name,leaderLogin,totalExpectedPeople);
+		return new CompanyTeam(name, leaderLogin, totalExpectedPeople,enable);
 	}
 }
