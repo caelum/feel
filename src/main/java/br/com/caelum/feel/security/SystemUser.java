@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 @Entity
 public class SystemUser implements UserDetails {
@@ -142,6 +143,7 @@ public class SystemUser implements UserDetails {
 	}
 
 	public void addRole(Role role) {
+		Assert.notNull(role, "A role passada não pode ser nula");
 		this.roles.add(role);
 	}	
 	
