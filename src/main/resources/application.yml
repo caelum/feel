@@ -1,8 +1,8 @@
 spring:
   datasource:
     username: root
-    url: jdbc:mysql://localhost/feel_dev?createDatabaseIfNotExist=true
-    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost/feel_dev?createDatabaseIfNotExist=true&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update            
@@ -24,7 +24,7 @@ spring:
     username: root  
     password: 5cf7de5eef05d0b3aae6b11f25bdb18cb54067fcbe05c288
     url: jdbc:mysql://localhost/feel_prod?createDatabaseIfNotExist=true
-    driver-class-name: org.gjt.mm.mysql.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
