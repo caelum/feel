@@ -15,7 +15,11 @@ spring:
     
 server:
   port: 8080    
-  host-name: localhost   
+  host-name: localhost
+
+mandrill:
+  api:
+    key: ${TEST_MANDRILL_API_KEY}
 
 ---
 spring:
@@ -35,11 +39,15 @@ spring:
   devtools:
     livereload:
       enabled: false
- 
-      
+
+
 server:
   port: 80
-  host-name: people.caelum.com.br    
+  host-name: people.caelum.com.br
   
 logging:
   file: feel-prod.log        
+
+mandrill:
+  api:
+    key: ${MANDRILL_API_KEY}

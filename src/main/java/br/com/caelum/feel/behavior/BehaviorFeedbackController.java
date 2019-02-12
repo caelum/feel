@@ -2,7 +2,6 @@ package br.com.caelum.feel.behavior;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +13,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class BehaviorFeedbackController {
 
-	@Autowired
-	private BehaviorFeedbackRepository behaviorFeedbackRepository;
-	
+	private final BehaviorFeedbackRepository behaviorFeedbackRepository;
+
+	private final NewBehaviorFeedbackService newBehaviorFeedback;
+
+	public BehaviorFeedbackController(BehaviorFeedbackRepository behaviorFeedbackRepository, NewBehaviorFeedbackService newBehaviorFeedback) {
+		this.behaviorFeedbackRepository = behaviorFeedbackRepository;
+		this.newBehaviorFeedback = newBehaviorFeedback;
+	}
+
 	@GetMapping("/admin/behavior/feedbacks")
 	public String list(Model model) {
 		model.addAttribute("list",behaviorFeedbackRepository.findAll());
@@ -46,7 +51,7 @@ public class BehaviorFeedbackController {
 		}
 
 		BehaviorFeedback newFeedback = form.toBehaviorFeedback();
-		behaviorFeedbackRepository.save(newFeedback);
+		newBehaviorFeedback.save(newFeedback);
 
 		redirectAttributes.addFlashAttribute("msg", "Seu feedback foi registrado com sucesso. "
 				+ " Para que você siga essa conversa, copie o link http://people.caelum.com.br/behavior/anonimous/timeline/"

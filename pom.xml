@@ -135,6 +135,18 @@
 			<version>2.4.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.mandrillapp.wrapper.lutung/lutung -->
+		<dependency>
+			<groupId>com.mandrillapp.wrapper.lutung</groupId>
+			<artifactId>lutung</artifactId>
+			<version>0.0.8</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 

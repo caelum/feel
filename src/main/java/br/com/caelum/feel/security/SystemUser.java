@@ -31,7 +31,7 @@ public class SystemUser implements UserDetails {
 	private Integer id;
 
 	@ManyToMany
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<>();
 
 	@NotBlank
 	@Column(unique=true)
