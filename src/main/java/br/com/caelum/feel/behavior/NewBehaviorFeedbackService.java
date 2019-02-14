@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 public class NewBehaviorFeedbackService {
 
     private final BehaviorFeedbackRepository behaviorFeedbackRepository;
-    private final NewBehaviorFeedbackMail newFeedbackMail;
+    private final BehaviorFeedbackMail newFeedbackMail;
 
-    public NewBehaviorFeedbackService(BehaviorFeedbackRepository behaviorFeedbackRepository, NewBehaviorFeedbackMail newFeedbackMail) {
+    public NewBehaviorFeedbackService(BehaviorFeedbackRepository behaviorFeedbackRepository, BehaviorFeedbackMail newFeedbackMail) {
         this.behaviorFeedbackRepository = behaviorFeedbackRepository;
         this.newFeedbackMail = newFeedbackMail;
     }
@@ -16,6 +16,6 @@ public class NewBehaviorFeedbackService {
     public void save(BehaviorFeedback behaviorFeedback) {
 
         behaviorFeedbackRepository.save(behaviorFeedback);
-        newFeedbackMail.sendAsyncMail(behaviorFeedback);
+        newFeedbackMail.sendAsyncNewFeedbackMail(behaviorFeedback);
     }
 }

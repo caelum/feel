@@ -24,7 +24,6 @@ public class NewTimelineReplyForm {
 		this.comment = comment;
 	}
 
-
 	public BehaviorReply toBehaviorReply(BehaviorFeedback root) {
 		return new BehaviorReply(comment, name, root);
 	}	
