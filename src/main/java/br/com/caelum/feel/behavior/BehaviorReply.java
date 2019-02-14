@@ -60,4 +60,8 @@ public class BehaviorReply implements TimelineMessage {
 	public Integer getId() {
 		return id;
 	}
+
+	public BehaviorFeedback getRoot() {
+		return root;
+	}
 }

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BehaviorFeedbackTimelineController {
 
-	@Autowired
-	private BehaviorFeedbackRepository behaviorFeedbackRepository;
-	@Autowired
-	private BehaviorReplyRepository behaviorReplyRepository;
+	private final BehaviorFeedbackRepository behaviorFeedbackRepository;
+	private final BehaviorReplyRepository behaviorReplyRepository;
+	private final NewBehaviorReplyService newBehaviorReplyService;
+
+	public BehaviorFeedbackTimelineController(BehaviorFeedbackRepository behaviorFeedbackRepository, BehaviorReplyRepository behaviorReplyRepository,
+											  NewBehaviorReplyService newBehaviorReplyService) {
+		this.behaviorFeedbackRepository = behaviorFeedbackRepository;
+		this.behaviorReplyRepository = behaviorReplyRepository;
+		this.newBehaviorReplyService = newBehaviorReplyService;
+	}
 
 	@GetMapping("/behavior/anonimous/timeline/{hash}")
 	public String helloTimeline(Model model, @PathVariable("hash") String hash) {
@@ -56,7 +61,8 @@ public class BehaviorFeedbackTimelineController {
 
 		BehaviorFeedback root = behaviorFeedbackRepository.findByHash(hash).get();
 		BehaviorReply reply = form.toBehaviorReply(root);
-		behaviorReplyRepository.save(reply);
+
+		newBehaviorReplyService.save(reply);
 
 		return "Salvo com sucesso";
 	}
