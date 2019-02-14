@@ -16,6 +16,6 @@ public class NewBehaviorFeedbackService {
     public void save(BehaviorFeedback behaviorFeedback) {
 
         behaviorFeedbackRepository.save(behaviorFeedback);
-        newFeedbackMail.sendMail(behaviorFeedback);
+        newFeedbackMail.sendAsyncMail(behaviorFeedback);
     }
 }
