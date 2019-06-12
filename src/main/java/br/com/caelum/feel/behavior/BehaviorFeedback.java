@@ -80,6 +80,9 @@ public class BehaviorFeedback implements TimelineMessage{
 		return list;
 	}
 
+	public String getAccessLink() {
+		return "http://people.caelum.com.br/behavior/anonimous/timeline/"+this.getHash();
+	}
 	
 
 }

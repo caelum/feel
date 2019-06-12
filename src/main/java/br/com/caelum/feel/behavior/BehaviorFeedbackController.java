@@ -16,6 +16,8 @@ public class BehaviorFeedbackController {
 
 	@Autowired
 	private BehaviorFeedbackRepository behaviorFeedbackRepository;
+	@Autowired
+	private NewBehaviorFeedbackService newBehaviorFeedbackService;
 	
 	@GetMapping("/admin/behavior/feedbacks")
 	public String list(Model model) {
@@ -45,12 +47,11 @@ public class BehaviorFeedbackController {
 			return form(model, form, true);
 		}
 
-		BehaviorFeedback newFeedback = form.toBehaviorFeedback();
-		behaviorFeedbackRepository.save(newFeedback);
+		BehaviorFeedback newFeedback = form.toBehaviorFeedback();		
+		newBehaviorFeedbackService.execute(newFeedback);
 
 		redirectAttributes.addFlashAttribute("msg", "Seu feedback foi registrado com sucesso. "
-				+ " Para que você siga essa conversa, copie o link http://people.caelum.com.br/behavior/anonimous/timeline/"
-				+ newFeedback.getHash()
+				+ " Para que você siga essa conversa, copie o link "+newFeedback.getAccessLink()
 				+ ". É importante não perder esse link, pois será nosso único meio de comunicação com você.\n"
 				+ "Acesse esse endereço dentro de 2 dias úteis e a gente já vai ter um retorno inicial para você.");
 
