@@ -18,7 +18,7 @@ public class NewBehaviorFeedbackService {
 
 	public void execute(BehaviorFeedback newFeedback) {
 		behaviorFeedbackRepository.save(newFeedback);
-		List<String> emailsToSend = List.of("luisa.aguirra@caelumm.com.br","fernanda.sindeaux@caelum.com.br");
+		List<String> emailsToSend = List.of("luisa.aguirra@caelum.com.br","fernanda.sindeaux@caelum.com.br");
 		mailer.send("Nova denunca registrada","Você pode conferir a denuncia em "+newFeedback.getAccessLink(),"sistemarh@caelum.com.br","Sistema RH",emailsToSend);
 	}
 
