@@ -8,11 +8,14 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.util.StringUtils;
 
@@ -31,6 +34,9 @@ public class BehaviorFeedback implements TimelineMessage{
 	private LocalDateTime instant = LocalDateTime.now();
 	@OneToMany(mappedBy="root")
 	private List<BehaviorReply> messages = new ArrayList<>();
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private BehaviorFeedbackType feedbackType;
 
 	/**
 	 * @deprecated
@@ -39,10 +45,11 @@ public class BehaviorFeedback implements TimelineMessage{
 
 	}
 
-	public BehaviorFeedback(String name, @NotBlank String comment) {
+	public BehaviorFeedback(String name, @NotBlank String comment, BehaviorFeedbackType type) {
 		super();
 		this.name = name;
 		this.comment = comment;
+		this.feedbackType = type;
 	}
 
 	public String getHash() {
@@ -82,6 +89,10 @@ public class BehaviorFeedback implements TimelineMessage{
 
 	public String getAccessLink() {
 		return "http://people.caelum.com.br/behavior/anonimous/timeline/"+this.getHash();
+	}
+	
+	public BehaviorFeedbackType getFeedbackType() {
+		return feedbackType;
 	}
 	
 

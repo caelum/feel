@@ -47,7 +47,7 @@ public class BehaviorFeedbackController {
 			return form(model, form, true);
 		}
 
-		BehaviorFeedback newFeedback = form.toBehaviorFeedback();		
+		BehaviorFeedback newFeedback = form.toBehaviorFeedback(BehaviorFeedbackType.INTERNAL);		
 		newBehaviorFeedbackService.execute(newFeedback);
 
 		redirectAttributes.addFlashAttribute("msg", "Seu feedback foi registrado com sucesso. "

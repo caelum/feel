@@ -24,8 +24,8 @@ public class NewBehaviorFeedbackForm {
 		this.comment = comment;
 	}
 
-	public BehaviorFeedback toBehaviorFeedback() {
-		return new BehaviorFeedback(name,comment);
+	public BehaviorFeedback toBehaviorFeedback(BehaviorFeedbackType type) {
+		return new BehaviorFeedback(name,comment,type);
 	}
 
 }

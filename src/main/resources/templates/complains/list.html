@@ -16,6 +16,7 @@
         <thead>
         <th>Parte do comentário</th>
         <th>Data</th>
+        <th>Tipo</th>
         <th class="text-center">Ações</th>
         </thead>
         <tbody>
@@ -23,7 +24,8 @@
             <td style="width: 22em" th:text="${item.partOfComment(50)}">
                 comentário
             </td>
-			<td th:text="${#temporals.format(item.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>            
+			<td th:text="${#temporals.format(item.instant, 'dd/MM/yyyy kk:mm')}">05/05/2018 20:10</td>
+			<td th:text="${item.feedbackType.label}">Interna</td>			           
             <td class="d-flex flex-row justify-content-around">
             	
                 <a class="text-primary fas fa-pencil-alt"  th:href="@{/behavior/anonimous/timeline/{hash}(hash=${item.hash})}" data-toggle="tooltip" data-placement="bottom"  title="responder"></a>
