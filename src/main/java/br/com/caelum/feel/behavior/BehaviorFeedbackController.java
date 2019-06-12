@@ -18,10 +18,10 @@ public class BehaviorFeedbackController {
 	private BehaviorFeedbackRepository behaviorFeedbackRepository;
 	@Autowired
 	private NewBehaviorFeedbackService newBehaviorFeedbackService;
-	
+
 	@GetMapping("/admin/behavior/feedbacks")
 	public String list(Model model) {
-		model.addAttribute("list",behaviorFeedbackRepository.findAll());
+		model.addAttribute("list", behaviorFeedbackRepository.findAll());
 		return "complains/list";
 	}
 
@@ -40,21 +40,37 @@ public class BehaviorFeedbackController {
 		return "complains/new-form";
 	}
 
+	@GetMapping("/behavior/feedback/anonimous/external/form")
+	public String externalForm(Model model, NewBehaviorFeedbackForm form,
+			@RequestParam(required = false, defaultValue = "true") boolean info) {
+
+		form(model, form, info);
+		return "complains/new-form-external";
+	}
+
 	@PostMapping("/behavior/feedback/anonimous")
 	public String save(Model model, @Valid NewBehaviorFeedbackForm form,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			return form(model, form, true);
+			if(form.getFeedbackType().equals(BehaviorFeedbackType.INTERNAL)) {
+				return form(model, form, true);
+			} else {
+				return externalForm(model, form, true);
+			}
 		}
 
-		BehaviorFeedback newFeedback = form.toBehaviorFeedback(BehaviorFeedbackType.INTERNAL);		
+		BehaviorFeedback newFeedback = form.toBehaviorFeedback();
 		newBehaviorFeedbackService.execute(newFeedback);
 
 		redirectAttributes.addFlashAttribute("msg", "Seu feedback foi registrado com sucesso. "
-				+ " Para que você siga essa conversa, copie o link "+newFeedback.getAccessLink()
+				+ " Para que você siga essa conversa, copie o link " + newFeedback.getAccessLink()
 				+ ". É importante não perder esse link, pois será nosso único meio de comunicação com você.\n"
 				+ "Acesse esse endereço dentro de 2 dias úteis e a gente já vai ter um retorno inicial para você.");
 
-		return "redirect:/behavior/feedback/anonimous/form?info=false";
+		if (form.getFeedbackType().equals(BehaviorFeedbackType.INTERNAL)) {
+			return "redirect:/behavior/feedback/anonimous/form?info=false";
+		} else {
+			return "redirect:/behavior/feedback/anonimous/external/form?info=false";
+		}
 	}
 }

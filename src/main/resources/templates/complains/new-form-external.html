@@ -16,7 +16,7 @@
 
     <form th:action="@{/behavior/feedback/anonimous}" th:object="${newBehaviorFeedbackForm}" method="post">
     
-         <input name="feedbackType" value="INTERNAL" type="hidden"/>    
+		<input name="feedbackType" value="EXTERNAL" type="hidden"/>    
 
         <div class="form-group">
             <input id="name" class="form-control" placeholder="Seu nome(opcional)" th:field="*{name}"
