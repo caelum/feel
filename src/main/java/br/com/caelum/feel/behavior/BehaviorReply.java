@@ -1,6 +1,7 @@
 package br.com.caelum.feel.behavior;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.Entity;
@@ -59,5 +60,9 @@ public class BehaviorReply implements TimelineMessage {
 	@Override
 	public Integer getId() {
 		return id;
+	}
+
+	public List<String> getContactEmails() {
+		return root.getFeedbackType().getContactEmails();
 	}
 }

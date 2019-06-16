@@ -23,7 +23,7 @@ public class BehaviorFeedbackTimelineController {
 	@Autowired
 	private BehaviorFeedbackRepository behaviorFeedbackRepository;
 	@Autowired
-	private BehaviorReplyRepository behaviorReplyRepository;
+	private NewBehaviorReplyService behaviorReplyService; 
 
 	@GetMapping("/behavior/anonimous/timeline/{hash}")
 	public String helloTimeline(Model model, @PathVariable("hash") String hash) {
@@ -55,8 +55,8 @@ public class BehaviorFeedbackTimelineController {
 			@Valid @RequestBody NewTimelineReplyForm form) {
 
 		BehaviorFeedback root = behaviorFeedbackRepository.findByHash(hash).get();
-		BehaviorReply reply = form.toBehaviorReply(root);
-		behaviorReplyRepository.save(reply);
+		BehaviorReply reply = form.toBehaviorReply(root);		
+		behaviorReplyService.execute(reply);
 
 		return "Salvo com sucesso";
 	}
