@@ -1,7 +1,5 @@
 package br.com.caelum.feel.behavior;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +16,7 @@ public class NewBehaviorFeedbackService {
 
 	public void execute(BehaviorFeedback newFeedback) {
 		behaviorFeedbackRepository.save(newFeedback);
-		List<String> emailsToSend = List.of("luisa.aguirra@caelum.com.br","fernanda.sindeaux@caelum.com.br");
-		mailer.send("Nova denunca registrada","Você pode conferir a denuncia em "+newFeedback.getAccessLink(),"sistemarh@caelum.com.br","Sistema RH",emailsToSend);
+		mailer.send("Nova denunca registrada","O conteúdo da denuncia é: "+newFeedback.getComment()+". <br/> Você pode conferir acessando o link "+newFeedback.getAccessLink(),"sistemarh@caelum.com.br","Sistema RH",newFeedback.getFeedbackType().getContactEmails());
 	}
 
 	
